@@ -1,0 +1,21 @@
+:root {
+  font-family: "游明朝", YuMincho, "Hiragino Mincho ProN W3", "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+}
+
+button {
+  height: 1.4rem;
+  line-height: 1.2rem;
+  padding: 0.2rem 0.6rem;
+  color: white;
+  background-color: #382DFF;
+  border: none;
+  border-radius: 0.25rem;
+  margin-right: 0.6rem;
+}
+
+button:hover {
+  background-color: #5162FF;
+}
