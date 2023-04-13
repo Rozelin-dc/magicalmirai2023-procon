@@ -1,15 +1,18 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
-import PlayerControl from './PlayerControl'
+import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
 
 export default function Canvas() {
   const [player, setPlayer] = useState<Player>()
   const [app, setApp] = useState<IPlayerApp>()
-  const [char, setChar] = useState('')
+  const [isPlayed, setIsPlayed] = useState(false)
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
 
-  const div = useMemo(() => <div className='media' ref={setMediaElement} />, [])
+  const media = useMemo(
+    () => <div className='media' ref={setMediaElement} />,
+    []
+  )
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mediaElement) {
@@ -20,7 +23,7 @@ export default function Canvas() {
     const p = new Player({
       app: {
         // トークンは https://developer.textalive.jp/profile で取得したものを使う
-        token: 'T1eQwHaxqMeDptHe'
+        token: 'T1eQwHaxqMeDptHe',
       },
       mediaElement,
     })
@@ -63,6 +66,7 @@ export default function Canvas() {
           c = c.next
         }
       },
+      onPlay: () => setIsPlayed(true),
     }
     p.addListener(playerListener)
 
@@ -77,15 +81,16 @@ export default function Canvas() {
 
   return (
     <>
-      {player && app && (
-        <div className='controls'>
-          <PlayerControl disabled={app.managed} player={player} />
-        </div>
+      {!isPlayed && player && (
+        <button onClick={() => player.requestPlay()} className='play-button'>
+          <MdPlayCircleOutline />
+        </button>
       )}
       <div className='wrapper'>
         <div className='char'>{char}</div>
       </div>
       {div}
+      {media}
     </>
   )
 }

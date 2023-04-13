@@ -1,3 +1,19 @@
+.play-button {
+  font-size: 10rem;
+  height: 100%;
+  color: #382DFF;
+  background-color: transparent;
+  border: none;
+  margin: auto;
+  display: block;
+  position: relative;
+  z-index: 10;
+}
+
+.play-button:hover {
+  color: #5162FF;
+}
+
 .wrapper {
   position: absolute;
   top: 5px;
