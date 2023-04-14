@@ -46,7 +46,7 @@ export default function App() {
               repetitiveSegmentId: 2475645,
               // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FVfrl%2F20230120182855
               lyricId: 56095,
-              lyricDiffId: 9637,
+              lyricDiffId: 9651,
             },
           })
         }
@@ -63,12 +63,12 @@ export default function App() {
       },
       onTimeUpdate: (position) => {
         if (
-          lastChar.current &&
+          (lastChar.current &&
           lastChar.current.parent.parent.lastChar === lastChar.current &&
-          lastChar.current.endTime < position - 3000
+          lastChar.current.endTime < position - 2000) ||
+          p.video.endTime <= position
         ) {
-          // フレーズの最後の歌詞から3秒以上経過
-          console.log('hoge')
+          // フレーズの最後の歌詞から2秒以上経過したか曲が終わった
           resetNode(activeLyricsRef.current)
           lastChar.current = null
         }
@@ -76,7 +76,6 @@ export default function App() {
         const nowChar = p.video.findChar(position + 500)
         if (!nowChar) {
           // 歌詞が無い場合
-          lastChar.current = null
           return
         }
 
@@ -87,7 +86,6 @@ export default function App() {
 
         if (nowChar.parent.parent.firstChar === nowChar) {
           // 新しいフレーズがはじまった
-          console.log('ふが')
           resetNode(activeLyricsRef.current)
         }
 
@@ -96,6 +94,17 @@ export default function App() {
             lastChar.current ? lastChar.current.text : 'null'
           }`
         )
+
+        if (nowChar.previous && nowChar.previous.text === '「') {
+          // 前の歌詞が'「'の場合、改行されるようにdivを入れる
+          const div = document.createElement('div')
+          div.style.width = '100%'
+          activeLyricsRef.current?.appendChild(div)
+          // '「'も入れないと表示されない
+          const span = document.createElement('span')
+          span.appendChild(document.createTextNode('「'))
+          activeLyricsRef.current?.appendChild(span)
+        }
 
         lastChar.current = nowChar
         const span = document.createElement('span')
@@ -114,6 +123,10 @@ export default function App() {
       p.dispose()
     }
   }, [mediaElement])
+
+  useEffect(() => {
+    console.log(app?.status)
+  }, [app, app?.status])
 
   return (
     <div className='app'>
