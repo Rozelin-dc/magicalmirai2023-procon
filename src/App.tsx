@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo, useRef } from 'react'
-import { IChar, IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
+import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
+import { useLyrics } from './hooks/lyrics'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
@@ -10,7 +11,7 @@ export default function App() {
   const [isPlayed, setIsPlayed] = useState(false)
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const activeLyricsRef = useRef<HTMLDivElement | null>(null)
-  const lastChar = useRef<IChar | null>(null)
+  const { setLyrics } = useLyrics()
 
   const media = useMemo(
     () => <div className='media' ref={setMediaElement} />,
@@ -62,54 +63,7 @@ export default function App() {
         setIsReady(true)
       },
       onTimeUpdate: (position) => {
-        if (
-          (lastChar.current &&
-          lastChar.current.parent.parent.lastChar === lastChar.current &&
-          lastChar.current.endTime < position - 2000) ||
-          p.video.endTime <= position
-        ) {
-          // フレーズの最後の歌詞から2秒以上経過したか曲が終わった
-          resetNode(activeLyricsRef.current)
-          lastChar.current = null
-        }
-
-        const nowChar = p.video.findChar(position + 500)
-        if (!nowChar) {
-          // 歌詞が無い場合
-          return
-        }
-
-        if (nowChar === lastChar.current) {
-          // 歌詞の変化が無い場合
-          return
-        }
-
-        if (nowChar.parent.parent.firstChar === nowChar) {
-          // 新しいフレーズがはじまった
-          resetNode(activeLyricsRef.current)
-        }
-
-        console.log(
-          `now: ${nowChar.text}, last${
-            lastChar.current ? lastChar.current.text : 'null'
-          }`
-        )
-
-        if (nowChar.previous && nowChar.previous.text === '「') {
-          // 前の歌詞が'「'の場合、改行されるようにdivを入れる
-          const div = document.createElement('div')
-          div.style.width = '100%'
-          activeLyricsRef.current?.appendChild(div)
-          // '「'も入れないと表示されない
-          const span = document.createElement('span')
-          span.appendChild(document.createTextNode('「'))
-          activeLyricsRef.current?.appendChild(span)
-        }
-
-        lastChar.current = nowChar
-        const span = document.createElement('span')
-        span.appendChild(document.createTextNode(nowChar.text))
-        activeLyricsRef.current?.appendChild(span)
+        setLyrics(position, p, activeLyricsRef.current)
       },
       onPlay: () => setIsPlayed(true),
     }
@@ -142,13 +96,4 @@ export default function App() {
       {media}
     </div>
   )
-}
-
-const resetNode = (ref: HTMLDivElement | null) => {
-  if (!ref) {
-    return
-  }
-  while (ref.firstChild) {
-    ref.removeChild(ref.firstChild)
-  }
 }
