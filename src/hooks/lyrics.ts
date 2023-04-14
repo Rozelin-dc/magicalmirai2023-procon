@@ -7,8 +7,7 @@ export const useLyrics = () => {
   const setLyrics = (
     position: number,
     player: Player,
-    ref: HTMLDivElement | null,
-    isVertical: boolean
+    ref: HTMLDivElement | null
   ) => {
     if (
       (lastChar.current &&
@@ -16,7 +15,7 @@ export const useLyrics = () => {
         lastChar.current.endTime < position - 1000) ||
       player.video.endTime <= position
     ) {
-      // フレーズの最後の歌詞から1秒以上経過したか曲が終わった
+      // フレーズの最後の歌詞からある程度経過したか曲が終わった
       resetNode(ref)
       lastChar.current = null
     }
@@ -38,14 +37,9 @@ export const useLyrics = () => {
     }
 
     if (nowChar.previous && nowChar.previous.text === '「') {
-      // 前の歌詞が'「'の場合、改行されるようにdivを入れる
-      const div = document.createElement('div')
-      if (isVertical) {
-        div.style.height = '100%'
-      } else {
-        div.style.width = '100%'
-      }
-      ref?.appendChild(div)
+      // 前の歌詞が'「'の場合、フレーズが切り替わったとみなす
+      resetNode(ref)
+
       // '「'も入れないと表示されない
       const span = document.createElement('span')
       span.appendChild(document.createTextNode('「'))
