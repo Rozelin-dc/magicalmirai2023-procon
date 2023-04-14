@@ -96,6 +96,19 @@
   height: 42px;
 }
 
+.fixed-lyrics {
+  color: #01E1FF;
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+}
+
+.fixed-lyrics > span {
+  position: absolute;
+}
+
 .media {
   position: absolute;
   right: 0;

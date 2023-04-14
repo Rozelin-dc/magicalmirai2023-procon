@@ -4,12 +4,14 @@ import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
 import { useLyrics } from './hooks/lyrics'
 import { useWindow } from './hooks/window'
+import FixedLyrics from './FixedLyrics'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
   const [app, setApp] = useState<IPlayerApp>()
   const [isReady, setIsReady] = useState(false)
   const [isPlayed, setIsPlayed] = useState(false)
+  const [position, setPosition] = useState(0)
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const activeLyricsRef = useRef<HTMLDivElement | null>(null)
   const { isVertical } = useWindow()
@@ -66,6 +68,7 @@ export default function App() {
       },
       onTimeUpdate: (position) => {
         setLyrics(position, p, activeLyricsRef.current, isVertical)
+        setPosition(position)
       },
       onPlay: () => setIsPlayed(true),
     }
@@ -98,6 +101,7 @@ export default function App() {
         className={`active-lyrics${isVertical ? ' vertical' : ''}`}
         ref={activeLyricsRef}
       />
+      <FixedLyrics player={player} position={position} />
       {media}
     </div>
   )
