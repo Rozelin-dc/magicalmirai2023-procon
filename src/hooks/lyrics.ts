@@ -56,6 +56,7 @@ export const useLyrics = () => {
   return { setLyrics }
 }
 
+// ref の子要素を全て消す
 const resetNode = (ref: HTMLDivElement | null) => {
   if (!ref) {
     return
