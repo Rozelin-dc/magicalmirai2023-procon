@@ -27,7 +27,6 @@ export default function App() {
       return
     }
 
-    console.log('--- [app] create Player instance ---')
     const p = new Player({
       app: {
         // トークンは https://developer.textalive.jp/profile で取得したものを使う
@@ -38,10 +37,6 @@ export default function App() {
 
     const playerListener: PlayerListener = {
       onAppReady: (app) => {
-        console.log('--- [app] initialized as TextAlive app ---')
-        console.log('managed:', app.managed)
-        console.log('host:', app.host)
-        console.log('song url:', app.songUrl)
         if (!app.songUrl) {
           p.createFromSongUrl('https://piapro.jp/t/Vfrl/20230120182855', {
             video: {
@@ -58,12 +53,6 @@ export default function App() {
         setApp(app)
       },
       onVideoReady: () => {
-        console.log('--- [app] video is ready ---')
-        console.log('player:', p)
-        console.log('player.data.song:', p.data.song)
-        console.log('player.data.song.name:', p.data.song.name)
-        console.log('player.data.song.artist.name:', p.data.song.artist.name)
-        console.log('player.data.songMap:', p.data.songMap)
         setIsReady(true)
       },
       onTimeUpdate: (position) => {
@@ -77,15 +66,10 @@ export default function App() {
     setPlayer(p)
 
     return () => {
-      console.log('--- [app] shutdown ---')
       p.removeListener(playerListener)
       p.dispose()
     }
   }, [mediaElement])
-
-  useEffect(() => {
-    console.log(app?.status)
-  }, [app, app?.status])
 
   return (
     <div className='app'>
