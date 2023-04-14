@@ -117,8 +117,11 @@ export default function App() {
 
   return (
     <div className='app'>
-      {!isPlayed && player && isReady && (
-        <button onClick={() => player.requestPlay()} className='play-button'>
+      {player && app && isReady && (
+        <button
+          onClick={() => player.requestPlay()}
+          className={`play-button${isPlayed ? ' not-show' : ''}`}
+        >
           <MdPlayCircleOutline />
         </button>
       )}
