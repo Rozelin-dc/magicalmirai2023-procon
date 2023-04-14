@@ -1,13 +1,16 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react'
-import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
+import { useEffect, useState, useMemo, useRef } from 'react'
+import { IChar, IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
   const [app, setApp] = useState<IPlayerApp>()
+  const [isReady, setIsReady] = useState(false)
   const [isPlayed, setIsPlayed] = useState(false)
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
+  const activeLyricsRef = useRef<HTMLDivElement | null>(null)
+  const lastChar = useRef<IChar | null>(null)
 
   const media = useMemo(
     () => <div className='media' ref={setMediaElement} />,
@@ -56,15 +59,48 @@ export default function App() {
         console.log('player.data.song.name:', p.data.song.name)
         console.log('player.data.song.artist.name:', p.data.song.artist.name)
         console.log('player.data.songMap:', p.data.songMap)
-        let c = p.video.firstChar
-        while (c && c.next) {
-          c.animate = (now, u) => {
-            if (u.startTime <= now && u.endTime > now) {
-              setChar(u.text)
-            }
-          }
-          c = c.next
+        setIsReady(true)
+      },
+      onTimeUpdate: (position) => {
+        if (
+          lastChar.current &&
+          lastChar.current.parent.parent.lastChar === lastChar.current &&
+          lastChar.current.endTime < position - 3000
+        ) {
+          // フレーズの最後の歌詞から3秒以上経過
+          console.log('hoge')
+          resetNode(activeLyricsRef.current)
+          lastChar.current = null
         }
+
+        const nowChar = p.video.findChar(position + 500)
+        if (!nowChar) {
+          // 歌詞が無い場合
+          lastChar.current = null
+          return
+        }
+
+        if (nowChar === lastChar.current) {
+          // 歌詞の変化が無い場合
+          return
+        }
+
+        if (nowChar.parent.parent.firstChar === nowChar) {
+          // 新しいフレーズがはじまった
+          console.log('ふが')
+          resetNode(activeLyricsRef.current)
+        }
+
+        console.log(
+          `now: ${nowChar.text}, last${
+            lastChar.current ? lastChar.current.text : 'null'
+          }`
+        )
+
+        lastChar.current = nowChar
+        const span = document.createElement('span')
+        span.appendChild(document.createTextNode(nowChar.text))
+        activeLyricsRef.current?.appendChild(span)
       },
       onPlay: () => setIsPlayed(true),
     }
@@ -81,15 +117,22 @@ export default function App() {
 
   return (
     <div className='app'>
-      {!isPlayed && player && (
+      {!isPlayed && player && isReady && (
         <button onClick={() => player.requestPlay()} className='play-button'>
           <MdPlayCircleOutline />
         </button>
       )}
-      <div className='wrapper'>
-        <div className='char'>{char}</div>
-      </div>
+      <div className='active-lyrics' ref={activeLyricsRef} />
       {media}
     </div>
   )
+}
+
+const resetNode = (ref: HTMLDivElement | null) => {
+  if (!ref) {
+    return
+  }
+  while (ref.firstChild) {
+    ref.removeChild(ref.firstChild)
+  }
 }

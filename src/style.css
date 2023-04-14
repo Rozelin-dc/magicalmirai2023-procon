@@ -14,54 +14,41 @@
   color: #5162FF;
 }
 
-.wrapper {
+@keyframes appearHorizontal {
+  0% {
+    transform: translateY(70px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.active-lyrics {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  bottom: 5px;
-  left: 5px;
+  top: 0;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+  color: white;
   display: flex;
+  align-content: center;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  flex-wrap: wrap;
 }
 
-.wrapper .char {
-  font-weight: bold;
-}
-
-.controls {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  z-index: 100;
-}
-
-.control {
-  display: flex;
-  align-items: center;
-}
-
-.control .ui.button {
-  margin-right: 5px;
-  flex-grow: 0;
-}
-
-.control .ui.button:last-child {
-  margin-right: 0;
-}
-
-.control .seekbar {
-  flex-grow: 1;
-  padding: 0 10px;
+.active-lyrics > span {
+  animation: appearHorizontal 0.5s;
+  font-size: 40px;
+  line-height: 42px;
+  height: 42px;
 }
 
 .media {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 0;
+  bottom: 0;
   z-index: 20;
 }
