@@ -3,6 +3,7 @@ import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
 import { useLyrics } from './hooks/lyrics'
+import { useWindow } from './hooks/window'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
@@ -11,6 +12,7 @@ export default function App() {
   const [isPlayed, setIsPlayed] = useState(false)
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const activeLyricsRef = useRef<HTMLDivElement | null>(null)
+  const { isVertical } = useWindow()
   const { setLyrics } = useLyrics()
 
   const media = useMemo(
@@ -63,7 +65,7 @@ export default function App() {
         setIsReady(true)
       },
       onTimeUpdate: (position) => {
-        setLyrics(position, p, activeLyricsRef.current)
+        setLyrics(position, p, activeLyricsRef.current, isVertical)
       },
       onPlay: () => setIsPlayed(true),
     }
@@ -92,7 +94,10 @@ export default function App() {
           <MdPlayCircleOutline />
         </button>
       )}
-      <div className='active-lyrics' ref={activeLyricsRef} />
+      <div
+        className={`active-lyrics${isVertical ? ' vertical' : ''}`}
+        ref={activeLyricsRef}
+      />
       {media}
     </div>
   )
