@@ -67,7 +67,7 @@ export default function App() {
         setIsReady(true)
       },
       onTimeUpdate: (position) => {
-        setLyrics(position, p, activeLyricsRef.current, isVertical)
+        setLyrics(position, p, activeLyricsRef.current)
         setPosition(position)
       },
       onPlay: () => setIsPlayed(true),

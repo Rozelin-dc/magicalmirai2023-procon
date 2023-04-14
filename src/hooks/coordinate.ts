@@ -14,12 +14,12 @@ export const useCoordinate = (
         return [size, { x: 20, y: (height - size * 3) / 2 }]
       } else {
         const size = (height - (20 * 2 + 10 * 2)) / 3
-        return [size, { x: (width - size) / 2, y: size }]
+        return [size, { x: (width - size) / 2, y: 20 }]
       }
     }
     if (height - 20 * 2 < (width - (20 * 2 + 10 * 2)) / 3) {
       const size = height - 20 * 2
-      return [size, { x: (width - size * 3) / 2, y: size }]
+      return [size, { x: (width - size * 3) / 2, y: 20 }]
     }
 
     const size = (width - (20 * 2 + 10 * 2)) / 3
@@ -46,7 +46,7 @@ export const useCoordinate = (
             .concat(
               sha.map((v) => ({
                 x: v[0] * dotSize + beginCoordinate.x,
-                y: v[1] * dotSize + beginCoordinate.y + blockSize + 20,
+                y: v[1] * dotSize + beginCoordinate.y + blockSize * 2 + 20,
               }))
             )
         : sho
@@ -62,7 +62,7 @@ export const useCoordinate = (
             )
             .concat(
               sha.map((v) => ({
-                x: v[0] * dotSize + beginCoordinate.x + blockSize + 20,
+                x: v[0] * dotSize + beginCoordinate.x + blockSize * 2 + 20,
                 y: v[1] * dotSize + beginCoordinate.y,
               }))
             ),

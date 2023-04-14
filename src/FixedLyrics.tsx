@@ -50,8 +50,8 @@ export default function FixedLyrics({ player, position }: Props) {
             key={i}
             style={{
               fontSize: dotSize,
-              top: co.x,
-              left: co.y,
+              left: co.x,
+              top: co.y,
             }}
           >
             {v}
