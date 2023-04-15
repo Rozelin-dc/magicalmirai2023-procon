@@ -5,6 +5,7 @@ import { coordinateIdx } from './utils/coordinate'
 import { VideoCanvasProps } from './type'
 import './fixed-lyrics.css'
 import { IPhrase } from 'textalive-app-api'
+import { resetNode } from './utils/resetNode'
 
 export default function FixedLyrics({ player, position }: VideoCanvasProps) {
   const { isVertical, windowSize } = useWindow()
@@ -47,6 +48,37 @@ export default function FixedLyrics({ player, position }: VideoCanvasProps) {
     }
     nowPhrase.current = phrase
   }, [position, player])
+
+  useEffect(() => {
+    // 画面サイズの変更があったら配置し直す
+    if (!player || !player.video || !ref.current) {
+      return
+    }
+
+    resetNode(ref.current)
+
+    let p = player.video.firstPhrase
+    let i = 0
+    while (p && p.endTime < position) {
+      p.text.split('').forEach(v => {
+        const co =
+          coordinate[
+            i < coordinateIdx.length
+              ? coordinateIdx[i]
+              : coordinateIdx[i - coordinateIdx.length]
+          ]
+
+        const span = document.createElement('span')
+        span.appendChild(document.createTextNode(v))
+        span.style.fontSize = `${dotSize}px`
+        span.style.top = `${co.y}px`
+        span.style.left = `${co.x}px`
+        ref.current?.appendChild(span)
+        i += 1
+      })
+      p = p.next
+    }
+  }, [windowSize])
 
   return (
     <div ref={ref} className='fixed-lyrics' />
