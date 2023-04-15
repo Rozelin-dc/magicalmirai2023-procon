@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { IBeat } from 'textalive-app-api'
 import { VideoCanvasProps } from './type'
-import './background.css'
+import './beat-rectangle.css'
 
-export default function Background({ position, player }: VideoCanvasProps) {
+export default function BeatRectangle({ position, player }: VideoCanvasProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const nowBeat = useRef<IBeat | null>(null)
 
