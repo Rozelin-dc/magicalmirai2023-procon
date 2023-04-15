@@ -55,6 +55,10 @@ export default function ActiveLyrics({ position, player }: VideoCanvasProps) {
     lastChar.current = nowChar
     const span = document.createElement('span')
     span.appendChild(document.createTextNode(nowChar.text))
+    if (nowChar.parent.pos === 'N') {
+      // 名詞の一部なら色を変える
+      span.style.color = '#38FF00'
+    }
     ref.current.appendChild(span)
   }, [position, player])
 
