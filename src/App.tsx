@@ -44,7 +44,7 @@ export default function App() {
               repetitiveSegmentId: 2475645,
               // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FVfrl%2F20230120182855
               lyricId: 56095,
-              lyricDiffId: 9651,
+              lyricDiffId: 9637,
             },
           })
         }
