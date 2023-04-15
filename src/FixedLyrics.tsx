@@ -1,16 +1,12 @@
-import { useMemo } from 'react'
-import { Player } from 'textalive-app-api'
+import { useEffect, useRef } from 'react'
 import { useWindow } from './hooks/window'
 import { useCoordinate } from './hooks/coordinate'
 import { coordinateIdx } from './utils/coordinate'
-import './style.css'
+import { VideoCanvasProps } from './type'
+import './fixed-lyrics.css'
+import { IPhrase } from 'textalive-app-api'
 
-interface Props {
-  player?: Player
-  position: number
-}
-
-export default function FixedLyrics({ player, position }: Props) {
+export default function FixedLyrics({ player, position }: VideoCanvasProps) {
   const { isVertical, windowSize } = useWindow()
   const { dotSize, coordinate } = useCoordinate(
     windowSize.width,
@@ -18,46 +14,41 @@ export default function FixedLyrics({ player, position }: Props) {
     isVertical
   )
 
-  const lyrics = useMemo(() => {
-    if (!player || !player.video) {
-      return ''
+  const ref = useRef<HTMLDivElement | null>(null)
+  const nowPhrase = useRef<IPhrase | null>(null)
+  const nowIndex = useRef(0)
+
+  useEffect(() => {
+    if (!player || !player.video || !ref.current) {
+      return
     }
 
-    let l = ''
-    let p = player.video.firstPhrase
-    while (p && p.endTime < position) {
-      l += p.text
-      p = p.next
-    }
-    return l
-  }, [position, player])
+    const phrase = player.video.findPhrase(position)
 
-  if (!player) {
-    return null
-  }
-
-  return (
-    <div className='fixed-lyrics'>
-      {lyrics.split('').map((v, i) => {
+    if (nowPhrase.current && phrase !== nowPhrase.current) {
+      // フレーズが切り替わった
+      nowPhrase.current.text.split('').forEach(v => {
         const co =
           coordinate[
-            i < coordinateIdx.length
-              ? coordinateIdx[i]
-              : coordinateIdx[i - coordinateIdx.length]
+            nowIndex.current < coordinateIdx.length
+              ? coordinateIdx[nowIndex.current]
+              : coordinateIdx[nowIndex.current - coordinateIdx.length]
           ]
-        return (
-          <span
-            key={i}
-            style={{
-              fontSize: dotSize,
-              left: co.x,
-              top: co.y,
-            }}
-          >
-            {v}
-          </span>
-        )
-      })}
-    </div>
+
+        const span = document.createElement('span')
+        span.appendChild(document.createTextNode(v))
+        span.style.fontSize = `${dotSize}px`
+        span.style.top = `${co.y}px`
+        span.style.left = `${co.x}px`
+        ref.current?.appendChild(span)
+
+        nowIndex.current += 1
+      })
+    }
+    nowPhrase.current = phrase
+  }, [position, player])
+
+  return (
+    <div ref={ref} className='fixed-lyrics' />
   )
 }
