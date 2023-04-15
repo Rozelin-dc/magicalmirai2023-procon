@@ -56,7 +56,7 @@
   z-index: 10;
 }
 
-@keyframes blueBg {
+@keyframes growBg {
   0% {
     height: 10px;
     width: 10px;
@@ -68,7 +68,7 @@
 }
 
 .blue-bg {
-  animation: blueBg 2s linear;
+  animation: growBg 3s linear;
   height: max(200vh, 200vw);
   width: max(200vh, 200vw);
   background-color: #001CAB;
@@ -78,6 +78,47 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.white-bg {
+  animation: growBg 3s linear;
+  height: max(200vh, 200vw);
+  width: max(200vh, 200vw);
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.title {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 50px;
+  color: black;
+  opacity: 0;
+
+  transition-property: opacity;
+  transition-duration: 1s;
+}
+
+.title.show {
+  opacity: 1;
+}
+
+.title.vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 
 .media {

@@ -5,6 +5,8 @@ import { resetNode } from './utils/resetNode'
 import { useWindow } from './hooks/window'
 import './active-lyrics.css'
 
+const nounColor = '#38FF00'
+
 export default function ActiveLyrics({ position, player }: VideoCanvasProps) {
   const { isVertical } = useWindow()
   const ref = useRef<HTMLDivElement | null>(null)
@@ -34,6 +36,15 @@ export default function ActiveLyrics({ position, player }: VideoCanvasProps) {
 
     if (nowChar === lastChar.current) {
       // 歌詞の変化が無い場合
+      if (
+        player.video.lastChar.startTime < position &&
+        position - player.video.lastChar.startTime <= 765
+      ) {
+        // 最後の歌詞が発声されたらだんだん文字色を黒くする
+        const val = ((position - player.video.lastChar.startTime) / 3) % 255
+        const color = `rgb(${255 - val}, ${255 - val}, ${255 - val})`
+        ref.current.style.color = color
+      }
       return
     }
 
@@ -57,7 +68,7 @@ export default function ActiveLyrics({ position, player }: VideoCanvasProps) {
     span.appendChild(document.createTextNode(nowChar.text))
     if (nowChar.parent.pos === 'N') {
       // 名詞の一部なら色を変える
-      span.style.color = '#38FF00'
+      span.style.color = nounColor
     }
     ref.current.appendChild(span)
   }, [position, player])

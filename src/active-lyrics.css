@@ -27,7 +27,7 @@
 .active-lyrics {
   position: absolute;
   top: 0;
-  z-index: 5;
+  z-index: 7;
   padding: 20px;
   box-sizing: border-box;
   height: 100%;
