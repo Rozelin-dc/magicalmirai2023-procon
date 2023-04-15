@@ -95,10 +95,15 @@ export default function App() {
             : ''
         }
       />
-      {/* 最後の音が鳴ったらタイトルを表示 */}
+      {/* 最後のビートが終わったらタイトルを表示 */}
       <div
         className={`title${isVertical ? ' vertical' : ''}${
-          player && player.videoPosition > 197534 ? ' show' : ''
+          player &&
+          player.getBeats() &&
+          player.getBeats().length > 0 &&
+          player.getBeats().splice(-1)[0].endTime < position
+            ? ' show'
+            : ''
         }`}
       >
         {player && player.data && player.data.song ? player.data.song.name : ''}
