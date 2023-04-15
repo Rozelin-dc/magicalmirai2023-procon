@@ -56,6 +56,30 @@
   z-index: 10;
 }
 
+@keyframes blueBg {
+  0% {
+    height: 10px;
+    width: 10px;
+  }
+  100% {
+    height: max(200vh, 200vw);
+    width: max(200vh, 200vw);
+  }
+}
+
+.blue-bg {
+  animation: blueBg 2s linear;
+  height: max(200vh, 200vw);
+  width: max(200vh, 200vw);
+  background-color: #001CAB;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
 .media {
   position: absolute;
   right: 0;

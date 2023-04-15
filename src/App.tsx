@@ -83,6 +83,7 @@ export default function App() {
       <ActiveLyrics player={player} position={position} />
       <FixedLyrics player={player} position={position} />
       <Background player={player} position={position} />
+      <div className={position > 108676 ? 'blue-bg' : ''} />
       {media}
     </div>
   )
