@@ -34,6 +34,28 @@
   animation: fadeDisappear 1s;
 }
 
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: rotate 4s linear infinite;
+  font-size: 10rem;
+  height: 100%;
+  color: #01E1FF;
+  background-color: transparent;
+  border: none;
+  margin: auto;
+  display: block;
+  position: relative;
+  z-index: 10;
+}
+
 .media {
   position: absolute;
   right: 0;

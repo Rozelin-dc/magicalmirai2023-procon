@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { MdPlayCircleOutline } from 'react-icons/md'
+import { FiLoader } from 'react-icons/fi'
 import './style.css'
 import FixedLyrics from './FixedLyrics'
 import ActiveLyrics from './ActiveLyrics'
@@ -49,7 +50,7 @@ export default function App() {
         }
         setApp(app)
       },
-      onVideoReady: () => {
+      onTimerReady: () => {
         setIsReady(true)
       },
       onTimeUpdate: (position) => {
@@ -69,13 +70,15 @@ export default function App() {
 
   return (
     <div className='app'>
-      {player && app && isReady && (
+      {player && app && isReady ? (
         <button
           onClick={() => player.requestPlay()}
           className={`play-button${isPlayed ? ' not-show' : ''}`}
         >
           <MdPlayCircleOutline />
         </button>
+      ) : (
+        <FiLoader className='loading' />
       )}
       <ActiveLyrics player={player} position={position} />
       <FixedLyrics player={player} position={position} />
