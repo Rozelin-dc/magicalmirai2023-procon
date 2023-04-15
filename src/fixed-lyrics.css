@@ -9,6 +9,7 @@
 
 .fixed-lyrics > span {
   position: absolute;
+  z-index: 3;
   animation: blinkChar 0.5s linear;
 }
 

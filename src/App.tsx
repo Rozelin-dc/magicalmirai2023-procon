@@ -4,6 +4,7 @@ import { MdPlayCircleOutline } from 'react-icons/md'
 import './style.css'
 import FixedLyrics from './FixedLyrics'
 import ActiveLyrics from './ActiveLyrics'
+import Background from './Background'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
@@ -78,6 +79,7 @@ export default function App() {
       )}
       <ActiveLyrics player={player} position={position} />
       <FixedLyrics player={player} position={position} />
+      <Background player={player} position={position} />
       {media}
     </div>
   )

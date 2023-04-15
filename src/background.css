@@ -1,0 +1,34 @@
+@keyframes beatBox {
+  0% {
+    width: 10px;
+    height: 10px;
+    border-width: 0px;
+    opacity: 1;
+  }
+  100% {
+    width: max(100vh, 100vw);
+    height: max(100vh, 100vw);
+    border-width: 5px;
+    opacity: 0;
+  }
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+}
+
+.background > span {
+  animation: beatBox 2s linear;
+  position: absolute;
+  display:inline-block;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  color: transparent;
+  border-style: solid;
+}
