@@ -4,6 +4,7 @@ import { FiLoader } from 'react-icons/fi'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { IPhrase, Player } from 'textalive-app-api'
 import { SongName, songData } from '../utils/songData'
+import TimerBar from './TimerBar'
 import '../index.css'
 import './index.css'
 
@@ -131,6 +132,7 @@ export default function Game({
       <div className='game-area'>
         <div />
         <div>
+          <TimerBar position={position} nowPhrase={nowPhrase} />
           <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
           <div className='now-phrase-reading'>
             {nowPhraseReading.split('').map((v, idx) => (

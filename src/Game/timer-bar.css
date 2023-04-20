@@ -1,0 +1,10 @@
+.timer-container {
+  height: 8px;
+  width: 100%;
+  background-color: darkgray;
+}
+
+.rest-time-bar {
+  height: 100%;
+  background-color: #382DFF;
+}
