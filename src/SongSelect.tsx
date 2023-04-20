@@ -1,4 +1,4 @@
-import { SongName, songData } from './utils/songData'
+import { SongName, songNames } from './utils/songData'
 import './index.css'
 import './song-select.css'
 
@@ -7,8 +7,6 @@ interface Props {
 }
 
 export default function SongSelect({ onSelect }: Props) {
-  const songNames = Object.keys(songData) as SongName[]
-
   return (
     <div className='container'>
       <div />

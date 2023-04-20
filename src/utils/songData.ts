@@ -1,6 +1,10 @@
 import { PlayerVideoOptions } from 'textalive-app-api'
 
-export type SongName = '唱明者'
+export const songNames = [
+  '唱明者'
+] as const
+
+export type SongName = typeof songNames[number]
 
 interface SongData {
   songUrl: string
