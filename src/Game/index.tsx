@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MdPlayCircleOutline } from 'react-icons/md'
 import { FiLoader } from 'react-icons/fi'
 import { RiArrowGoBackFill } from 'react-icons/ri'
@@ -71,6 +71,35 @@ export default function Game({
       setNowPhraseReading('')
     }
   }, [isVideoReady])
+
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent) => {
+      if (
+        passedLastCharacterIndex + 1 < nowPhraseReading.length &&
+        e.key.toUpperCase() ===
+          nowPhraseReading.charAt(passedLastCharacterIndex + 1)
+      ) {
+        // 正しくタイプした
+        setPassedLastCharacterIndex((prev) => {
+          if (
+            prev + 2 < nowPhraseReading.length &&
+            nowPhraseReading.charAt(prev + 2) === ' '
+          ) {
+            // 次の文字がスペースならインデックスを2送る
+            return prev + 2
+          }
+          return prev + 1
+        })
+      }
+    },
+    [nowPhraseReading, passedLastCharacterIndex]
+  )
+
+  useEffect(() => {
+    // キー入力に反応するように
+    document.addEventListener('keypress', handleKeyPress)
+    return () => document.removeEventListener('keypress', handleKeyPress)
+  }, [handleKeyPress])
 
   if (!isVideoReady || !isTimerReady) {
     return <FiLoader className='loading' />
