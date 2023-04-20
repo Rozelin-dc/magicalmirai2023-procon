@@ -1,0 +1,129 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { MdPlayCircleOutline } from 'react-icons/md'
+import { FiLoader } from 'react-icons/fi'
+import { RiArrowGoBackFill } from 'react-icons/ri'
+import { IPhrase, Player } from 'textalive-app-api'
+import { SongName, songData } from '../utils/songData'
+import '../index.css'
+import './index.css'
+
+interface Props {
+  songName: SongName | ''
+  player?: Player
+  position: number
+  onPlay(): void
+  onStop(): void
+
+  isVideoReady: boolean
+  isTimerReady: boolean
+}
+
+export default function Game({
+  songName,
+  player,
+  position,
+  onPlay,
+  onStop,
+  isVideoReady,
+  isTimerReady,
+}: Props) {
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const songLyrics = useMemo(() => {
+    if (songName === '') {
+      return []
+    }
+
+    return songData[songName].lyricReading
+  }, [songName])
+  const [nowPhrase, setNowPhrase] = useState<IPhrase>()
+  const [nextPhrase, setNextPhrase] = useState<IPhrase>()
+  const [nowPhraseReading, setNowPhraseReading] = useState('')
+  // nowPhrase が歌詞中の何番目のフレーズか
+  const nowPhraseIndex = useRef(-1)
+
+  // nowPhraseReading の何文字目までタイプできたか
+  const [passedLastCharacterIndex, setPassedLastCharacterIndex] = useState(-1)
+
+  useEffect(() => {
+    // 再生中の処理
+    if (nowPhrase && nowPhrase.endTime < position) {
+      // フレーズの歌唱時間が終わった
+      setNowPhrase(undefined)
+      setNowPhraseReading('')
+    }
+    if (nextPhrase && nextPhrase.startTime <= position) {
+      // 次のフレーズの歌唱時間がはじまろうとしている
+      nowPhraseIndex.current += 1
+      setNowPhraseReading(songLyrics[nowPhraseIndex.current])
+      setNowPhrase(nextPhrase)
+      setNextPhrase(nextPhrase.next)
+      setPassedLastCharacterIndex(-1)
+    }
+  }, [position])
+
+  useEffect(() => {
+    // ビデオの読み込みが完了した時の初期化
+    if (isVideoReady) {
+      setNextPhrase(player?.video.firstPhrase)
+      nowPhraseIndex.current = -1
+      setPassedLastCharacterIndex(-1)
+      setNowPhraseReading('')
+    }
+  }, [isVideoReady])
+
+  if (!isVideoReady || !isTimerReady) {
+    return <FiLoader className='loading' />
+  }
+
+  if (!isPlaying) {
+    return (
+      <MdPlayCircleOutline
+        className='play-button'
+        onClick={() => {
+          setIsPlaying(true)
+          onPlay()
+        }}
+      />
+    )
+  }
+
+  return (
+    <div className='container'>
+      <button
+        className='stop-button'
+        onClick={() => {
+          onStop()
+          setIsPlaying(false)
+        }}
+      >
+        <RiArrowGoBackFill />
+      </button>
+      <div className='game-area'>
+        <div />
+        <div>
+          <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
+          <div className='now-phrase-reading'>
+            {nowPhraseReading.split('').map((v, idx) => (
+              <span
+                key={idx}
+                className={idx <= passedLastCharacterIndex ? 'is-passed' : ''}
+                // スペースは幅を指定しないとつぶれる
+                style={v === ' ' ? { width: 16 } : undefined}
+              >
+                {v}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className='next-phrase-area'>
+          <span className='next-text'>{'NEXT: '}</span>
+          <span className='next-phrase'>
+            {nextPhrase ? nextPhrase.text : ''}
+          </span>
+        </div>
+      </div>
+      <div className='score-area'></div>
+    </div>
+  )
+}
