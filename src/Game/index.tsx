@@ -5,6 +5,7 @@ import { RiArrowGoBackFill } from 'react-icons/ri'
 import { IPhrase, Player } from 'textalive-app-api'
 import { SongName, songData } from '../utils/songData'
 import TimerBar from './TimerBar'
+import Score from './Score'
 import '../index.css'
 import './index.css'
 
@@ -45,6 +46,8 @@ export default function Game({
 
   // nowPhraseReading の何文字目までタイプできたか
   const [passedLastCharacterIndex, setPassedLastCharacterIndex] = useState(-1)
+
+  const [score, setScore] = useState(0)
 
   useEffect(() => {
     // 再生中の処理
@@ -91,6 +94,8 @@ export default function Game({
           }
           return prev + 1
         })
+        // スコアの加算
+        setScore((prev) => prev + 1)
       }
     },
     [nowPhraseReading, passedLastCharacterIndex]
@@ -154,7 +159,9 @@ export default function Game({
           </span>
         </div>
       </div>
-      <div className='score-area'></div>
+      <div className='score-area'>
+        <Score songName={songName} score={score} />
+      </div>
     </div>
   )
 }
