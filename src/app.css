@@ -61,7 +61,7 @@
 
 .media {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 0;
+  bottom: 0;
   z-index: 20;
 }
