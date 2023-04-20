@@ -70,11 +70,17 @@ export default function Game({
     // ビデオの読み込みが完了した時の初期化
     if (isVideoReady) {
       setNextPhrase(player?.video.firstPhrase)
-      nowPhraseIndex.current = -1
-      setPassedLastCharacterIndex(-1)
-      setNowPhraseReading('')
     }
   }, [isVideoReady])
+
+  useEffect(() => {
+    // 楽曲が変わった際の初期化
+    setPassedLastCharacterIndex(-1)
+    nowPhraseIndex.current = -1
+    setNowPhraseReading('')
+    setNowPhrase(undefined)
+    setScore(0)
+  }, [songName])
 
   const handleKeyPress = useCallback(
     (e: KeyboardEvent) => {
