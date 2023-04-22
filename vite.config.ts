@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/magicalmirai2023-procon/',
+  build: {
+    outDir: './docs'
+  },
   server: {
     port: 2323
   },
