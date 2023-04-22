@@ -30,8 +30,6 @@ export default function Game({
   isVideoReady,
   isTimerReady,
 }: Props) {
-  const [isPlaying, setIsPlaying] = useState(false)
-
   const songLyrics = useMemo(() => {
     if (songName === '') {
       return []
@@ -147,14 +145,11 @@ export default function Game({
     return <FiLoader className='loading' />
   }
 
-  if (!isPlaying) {
+  if (!player.isPlaying) {
     return (
       <MdPlayCircleOutline
         className='play-button'
-        onClick={() => {
-          setIsPlaying(true)
-          onPlay()
-        }}
+        onClick={onPlay}
       />
     )
   }
@@ -163,10 +158,7 @@ export default function Game({
     <div className='container'>
       <button
         className='stop-button'
-        onClick={() => {
-          onStop()
-          setIsPlaying(false)
-        }}
+        onClick={onStop}
       >
         <RiArrowGoBackFill />
       </button>
