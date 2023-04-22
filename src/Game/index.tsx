@@ -98,8 +98,13 @@ export default function Game({
     setScore(0)
   }, [songName])
 
-  const handleKeyPress = useCallback(
+  const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (e.repeat) {
+        // キーが押しっぱなしになっている
+        return
+      }
+
       if (passedLastCharacterIndex + 1 >= nowPhraseReading.length) {
         // 既に全て打ちきっているか、歌唱中ではない
         return
@@ -132,9 +137,9 @@ export default function Game({
 
   useEffect(() => {
     // キー入力に反応するように
-    document.addEventListener('keypress', handleKeyPress)
-    return () => document.removeEventListener('keypress', handleKeyPress)
-  }, [handleKeyPress])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
 
   if (songName === '' || !player) {
     return null
