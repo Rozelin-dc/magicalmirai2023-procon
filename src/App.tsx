@@ -93,6 +93,7 @@ export default function App() {
 
   return (
     <div className='app'>
+      <img src='/logo.svg' className='logo' />
       {songName === '' ? (
         <SongSelect onSelect={handleSongSelect} />
       ) : (
