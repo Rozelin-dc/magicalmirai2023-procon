@@ -105,6 +105,14 @@ export default function Game({
         return
       }
 
+      if (isVideoReady && isTimerReady && player && !player.isPlaying) {
+        // 再生待機状態でエンターまたはスペースが押されたら再生
+        if (e.key === 'Enter' || e.key === ' ') {
+          onPlay()
+        }
+        return
+      }
+
       if (passedLastCharacterIndex + 1 >= nowPhraseReading.length) {
         // 既に全て打ちきっているか、歌唱中ではない
         return
@@ -132,7 +140,13 @@ export default function Game({
         setIsFail(true)
       }
     },
-    [nowPhraseReading, passedLastCharacterIndex]
+    [
+      isVideoReady,
+      isTimerReady,
+      player,
+      nowPhraseReading,
+      passedLastCharacterIndex,
+    ]
   )
 
   useEffect(() => {
@@ -150,7 +164,12 @@ export default function Game({
   }
 
   if (!player.isPlaying) {
-    return <MdPlayCircleOutline className='play-button' onClick={onPlay} />
+    return (
+      <div className='play-waiting-area'>
+        <MdPlayCircleOutline className='play-button' onClick={onPlay} />
+        <div className='description'>{'Press Enter or Space'}</div>
+      </div>
+    )
   }
 
   return (

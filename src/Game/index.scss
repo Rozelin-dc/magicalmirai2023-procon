@@ -25,17 +25,30 @@
   display: block;
 }
 
-.play-button {
-  font-size: 160px;
+.play-waiting-area {
   height: 100%;
-  color: $primary;
-  background-color: transparent;
-  border: none;
-  margin: auto;
-  display: block;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-  &:hover {
-    color: $primary-hover;
+  .play-button {
+    font-size: 160px;
+    color: $primary;
+    background-color: transparent;
+    border: none;
+    display: block;
+
+    &:hover {
+      color: $primary-hover;
+    }
+  }
+
+  .description {
+    color: $text-color;
+    font-size: 30px;
+    margin-top: 10px;
   }
 }
 
