@@ -113,6 +113,10 @@ export default function Game({
     return () => document.removeEventListener('keypress', handleKeyPress)
   }, [handleKeyPress])
 
+  if (songName === '' || !player) {
+    return null
+  }
+
   if (!isVideoReady || !isTimerReady) {
     return <FiLoader className='loading' />
   }
