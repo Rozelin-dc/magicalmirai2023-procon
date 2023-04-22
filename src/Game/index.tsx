@@ -4,6 +4,7 @@ import { FiLoader } from 'react-icons/fi'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { IPhrase, Player } from 'textalive-app-api'
 import { SongName, songData } from '../utils/songData'
+import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
 import Score from './Score'
 import '../index.css'
@@ -49,6 +50,9 @@ export default function Game({
 
   const [score, setScore] = useState(0)
 
+  const [isFail, setIsFail] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
   useEffect(() => {
     // 再生中の処理
     if (nowPhrase && nowPhrase.endTime < position) {
@@ -84,10 +88,14 @@ export default function Game({
 
   const handleKeyPress = useCallback(
     (e: KeyboardEvent) => {
+      if (passedLastCharacterIndex + 1 >= nowPhraseReading.length) {
+        // 既に全て打ちきっているか、歌唱中ではない
+        return
+      }
+
       if (
-        passedLastCharacterIndex + 1 < nowPhraseReading.length &&
         e.key.toUpperCase() ===
-          nowPhraseReading.charAt(passedLastCharacterIndex + 1)
+        nowPhraseReading.charAt(passedLastCharacterIndex + 1)
       ) {
         // 正しくタイプした
         setPassedLastCharacterIndex((prev) => {
@@ -102,6 +110,9 @@ export default function Game({
         })
         // スコアの加算
         setScore((prev) => prev + 1)
+      } else {
+        // ミスタイプした
+        setIsFail(true)
       }
     },
     [nowPhraseReading, passedLastCharacterIndex]
@@ -145,7 +156,15 @@ export default function Game({
         <RiArrowGoBackFill />
       </button>
       <div className='game-area'>
-        <div />
+        <div className='character-area'>
+          <CharacterPlaying
+            songName={songName}
+            player={player}
+            position={position}
+            isFail={isFail}
+            setIsFail={setIsFail}
+          />
+        </div>
         <div>
           <TimerBar position={position} nowPhrase={nowPhrase} />
           <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>

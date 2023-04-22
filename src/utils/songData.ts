@@ -1,8 +1,6 @@
 import { PlayerVideoOptions } from 'textalive-app-api'
 
-export const songNames = [
-  '唱明者'
-] as const
+export const songNames = ['唱明者'] as const
 
 export type SongName = typeof songNames[number]
 
@@ -14,8 +12,11 @@ interface SongData {
    * 歌詞の読みのローマ字表記(ヘボン式)がフレーズ単位で入る。
    * 読みと書きが異なる文字(「は」、「を」など)は書き準拠で表記。
    * 長音時の母音の省略もなし(書き準拠)。
-  */
+   */
   lyricReading: string[]
+
+  /** 歌唱キャラクター */
+  character: 'Miku' | 'KAITO'
 }
 
 export const songData: Record<SongName, SongData> = {
@@ -69,5 +70,6 @@ SUBETEGA BOKUTACHIDAKENO SHIONDE INORIDE
 HAZIMETENO OTOWO OBOETEIMASUKA
 KOREKARAMO KIITE KUREMASUKA
 BOKUNO IKITA AKASHIWO ZUTTO`.split('\n'),
+    character: 'KAITO',
   },
 }
