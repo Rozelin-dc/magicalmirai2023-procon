@@ -7,5 +7,12 @@ export default defineConfig({
   base: '/magicalmirai2023-procon/',
   server: {
     port: 2323
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/_variables.scss";`
+      }
+    }
   }
 })

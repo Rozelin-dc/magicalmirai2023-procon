@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { IPhrase } from 'textalive-app-api'
-import './timer-bar.css'
+import './timer-bar.scss'
 
 interface Props {
   position: number

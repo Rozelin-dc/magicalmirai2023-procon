@@ -3,7 +3,7 @@ import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { SongName, songData } from './utils/songData'
 import SongSelect from './SongSelect'
 import Game from './Game'
-import './app.css'
+import './app.scss'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()

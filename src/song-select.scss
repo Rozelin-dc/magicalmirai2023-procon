@@ -1,0 +1,38 @@
+.song-select-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  color: $text-color;
+}
+
+.title {
+  font-size: 60px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.selection {
+  padding-left: 0;
+
+  li {
+    list-style: none;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: underline;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.caption-container {
+  margin: auto 10px 40px;
+
+  .caption {
+    padding: 10px;
+    background-color: $background-secondary;
+  }
+}

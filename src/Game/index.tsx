@@ -6,8 +6,7 @@ import { IPhrase, Player } from 'textalive-app-api'
 import { SongName, songData } from '../utils/songData'
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
-import '../index.css'
-import './index.css'
+import './index.scss'
 import CharacterFinish from './CharacterFinish'
 
 interface Props {
@@ -146,20 +145,12 @@ export default function Game({
   }
 
   if (!player.isPlaying) {
-    return (
-      <MdPlayCircleOutline
-        className='play-button'
-        onClick={onPlay}
-      />
-    )
+    return <MdPlayCircleOutline className='play-button' onClick={onPlay} />
   }
 
   return (
-    <div className='container'>
-      <button
-        className='stop-button'
-        onClick={onStop}
-      >
+    <div className='game-container'>
+      <button className='stop-button' onClick={onStop}>
         <RiArrowGoBackFill />
       </button>
       {position < player.getBeats().splice(-1)[0].endTime ? (
