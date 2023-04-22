@@ -92,3 +92,11 @@
 .score-area {
   margin: 40px 10px auto;
 }
+
+.score-title {
+  font-size: 35px;
+}
+
+.score-content {
+  font-size: 30px;
+}

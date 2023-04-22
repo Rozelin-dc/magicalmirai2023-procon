@@ -6,7 +6,6 @@ import { IPhrase, Player } from 'textalive-app-api'
 import { SongName, songData } from '../utils/songData'
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
-import Score from './Score'
 import '../index.css'
 import './index.css'
 
@@ -49,9 +48,24 @@ export default function Game({
   const [passedLastCharacterIndex, setPassedLastCharacterIndex] = useState(-1)
 
   const [score, setScore] = useState(0)
+  const maxScore = useMemo(() => {
+    if (songName === '') {
+      return 0
+    }
+    let sum = 0
+    songData[songName].lyricReading.forEach(
+      (v) => (sum += v.replaceAll(' ', '').length)
+    )
+    return sum
+  }, [songName])
+  const scoreRatio = useMemo(() => {
+    if (maxScore === 0) {
+      return 0
+    }
+    return score / maxScore
+  }, [score, maxScore])
 
   const [isFail, setIsFail] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
   useEffect(() => {
     // 再生中の処理
@@ -189,7 +203,8 @@ export default function Game({
         </div>
       </div>
       <div className='score-area'>
-        <Score songName={songName} score={score} />
+        <div className='score-title'>{'Score'}</div>
+        <div className='score-content'>{`${score} / ${maxScore}`}</div>
       </div>
     </div>
   )
