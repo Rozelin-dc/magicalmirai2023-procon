@@ -8,6 +8,7 @@ import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
 import '../index.css'
 import './index.css'
+import CharacterFinish from './CharacterFinish'
 
 interface Props {
   songName: SongName | ''
@@ -169,39 +170,53 @@ export default function Game({
       >
         <RiArrowGoBackFill />
       </button>
-      <div className='game-area'>
-        <div className='character-area'>
-          <CharacterPlaying
-            songName={songName}
-            player={player}
-            position={position}
-            isFail={isFail}
-            setIsFail={setIsFail}
-          />
-        </div>
-        <div>
-          <TimerBar position={position} nowPhrase={nowPhrase} />
-          <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
-          <div className='now-phrase-reading'>
-            {nowPhraseReading.split('').map((v, idx) => (
-              <span
-                key={idx}
-                className={idx <= passedLastCharacterIndex ? 'is-passed' : ''}
-                // スペースは幅を指定しないとつぶれる
-                style={v === ' ' ? { width: 16 } : undefined}
-              >
-                {v}
-              </span>
-            ))}
+      {position < player.getBeats().splice(-1)[0].endTime ? (
+        <div className='game-area'>
+          <div className='character-area'>
+            <CharacterPlaying
+              songName={songName}
+              player={player}
+              position={position}
+              isFail={isFail}
+              setIsFail={setIsFail}
+            />
+          </div>
+          <div>
+            <TimerBar position={position} nowPhrase={nowPhrase} />
+            <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
+            <div className='now-phrase-reading'>
+              {nowPhraseReading.split('').map((v, idx) => (
+                <span
+                  key={idx}
+                  className={idx <= passedLastCharacterIndex ? 'is-passed' : ''}
+                  // スペースは幅を指定しないとつぶれる
+                  style={v === ' ' ? { width: 16 } : undefined}
+                >
+                  {v}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className='next-phrase-area'>
+            <span className='next-text'>{'NEXT: '}</span>
+            <span className='next-phrase'>
+              {nextPhrase ? nextPhrase.text : ''}
+            </span>
           </div>
         </div>
-        <div className='next-phrase-area'>
-          <span className='next-text'>{'NEXT: '}</span>
-          <span className='next-phrase'>
-            {nextPhrase ? nextPhrase.text : ''}
-          </span>
+      ) : (
+        <div className='game-finish-area'>
+          <div className='finish-character-area'>
+            <CharacterFinish
+              songName={songName}
+              isSuccess={scoreRatio >= 0.8}
+            />
+          </div>
+          <div className='result-text'>
+            {scoreRatio >= 0.8 ? 'SUCCESS!' : 'FAIL...'}
+          </div>
         </div>
-      </div>
+      )}
       <div className='score-area'>
         <div className='score-title'>{'Score'}</div>
         <div className='score-content'>{`${score} / ${maxScore}`}</div>

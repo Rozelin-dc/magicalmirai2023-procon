@@ -89,6 +89,22 @@
   text-align: center;
 }
 
+.game-finish-area {
+  display: flex;
+  flex-direction: column;
+  padding: 60px 20px;
+  gap: 20px;
+}
+
+.finish-character-area {
+  flex-grow: 1;
+}
+
+.result-text {
+  font-size: 50px;
+  text-align: center;
+}
+
 .score-area {
   margin: 40px 10px auto;
 }
