@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/magicalmirai2023-procon/',
+  base: '/magicalmirai2023-procon/', // TODO: 応募前に消す(github pagesで配信する為だけに必要な設定なので)
   build: {
     outDir: './docs'
   },
