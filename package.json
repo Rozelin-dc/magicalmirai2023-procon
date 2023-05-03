@@ -14,8 +14,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "sass": "^1.62.0",
-    "textalive-app-api": "^0.3.2",
-    "textalive-react-api": "^0.3.2"
+    "textalive-app-api": "^0.3.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
