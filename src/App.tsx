@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
+
 import { SongName, songData } from './utils/songData'
 import logo from './assets/logo.svg'
-import SongSelect from './SongSelect'
 import Game from './Game'
+import SongSelect from './SongSelect'
 import './app.scss'
 
 export default function App() {

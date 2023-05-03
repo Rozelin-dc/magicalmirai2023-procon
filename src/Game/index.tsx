@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { MdPlayCircleOutline } from 'react-icons/md'
 import { FiLoader } from 'react-icons/fi'
+import { MdPlayCircleOutline } from 'react-icons/md'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { IPhrase, Player } from 'textalive-app-api'
+
 import { SongName, songData } from '../utils/songData'
+
+import CharacterFinish from './CharacterFinish'
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
 import './index.scss'
-import CharacterFinish from './CharacterFinish'
 
 interface Props {
   songName: SongName | ''

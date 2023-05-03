@@ -7,6 +7,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -20,12 +22,18 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-no-target-blank': 'off',
-    // セミコロン省略
-    'semi': ['error', 'never', { beforeStatementContinuationChars: 'never' }],
-    'semi-spacing': ['error', { after: true, before: false }],
-    'semi-style': ['error', 'first'],
-    'no-extra-semi': 'error',
-    'no-unexpected-multiline': 'error',
-    'no-unreachable': 'error'
+    'import/default': 'off',
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        warnOnUnassignedImports: true,
+      },
+    ],
+  },
+  settings: {
+    'import/resolver': {
+      typescript: true,
+    },
   },
 }

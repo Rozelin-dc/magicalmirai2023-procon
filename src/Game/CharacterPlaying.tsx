@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { SongName, songData } from '../utils/songData'
 import { Player } from 'textalive-app-api'
+
+import { SongName, songData } from '../utils/songData'
 
 interface Props {
   songName: SongName
