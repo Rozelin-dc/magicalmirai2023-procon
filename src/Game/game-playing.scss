@@ -1,0 +1,39 @@
+.game-area {
+  display: grid;
+  grid-template-rows: 1fr 90px 1fr;
+  color: $text-color;
+}
+
+.now-phrase {
+  font-size: 40px;
+  line-height: 44px;
+  margin: 10px auto 0;
+  text-align: center;
+}
+
+.now-phrase-reading {
+  font-size: 20px;
+  line-height: 22px;
+  margin: 6px auto 0;
+  display: flex;
+  justify-content: center;
+
+  .is-passed {
+    color: $primary;
+  }
+}
+
+.next-phrase-area {
+  font-size: 16px;
+  margin-top: 30px;
+  display: flex;
+
+  .next-text {
+    margin-left: 10px;
+  }
+
+  .next-phrase {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
