@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { IPhrase, Player } from 'textalive-app-api'
 
-import { SongName, songData } from '../utils/songData'
+import { SongName, songData } from '../../utils/songData'
 
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
-import './game-playing.scss'
+import './index.scss'
 
 interface Props {
   songName: SongName
