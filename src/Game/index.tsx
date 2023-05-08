@@ -12,8 +12,8 @@ import TimerBar from './TimerBar'
 import './index.scss'
 
 interface Props {
-  songName: SongName | ''
-  player?: Player
+  songName: SongName
+  player: Player
   position: number
   onPlay(): void
   onStop(): void
@@ -31,13 +31,10 @@ export default function Game({
   isVideoReady,
   isTimerReady,
 }: Props) {
-  const lyricsReading = useMemo(() => {
-    if (songName === '') {
-      return []
-    }
-
-    return songData[songName].lyricsReading
-  }, [songName])
+  const lyricsReading = useMemo(
+    () => songData[songName].lyricsReading,
+    [songName]
+  )
   const [nowPhrase, setNowPhrase] = useState<IPhrase>()
   const [nextPhrase, setNextPhrase] = useState<IPhrase>()
   const [nowPhraseReading, setNowPhraseReading] = useState('')
@@ -49,9 +46,6 @@ export default function Game({
 
   const [score, setScore] = useState(0)
   const maxScore = useMemo(() => {
-    if (songName === '') {
-      return 0
-    }
     let sum = 0
     songData[songName].lyricsReading.forEach(
       (v) => (sum += v.replaceAll(' ', '').length)
@@ -87,7 +81,7 @@ export default function Game({
   useEffect(() => {
     // ビデオの読み込みが完了した時の初期化
     if (isVideoReady) {
-      setNextPhrase(player?.video.firstPhrase)
+      setNextPhrase(player.video.firstPhrase)
     }
   }, [isVideoReady])
 
@@ -107,7 +101,7 @@ export default function Game({
         return
       }
 
-      if (isVideoReady && isTimerReady && player && !player.isPlaying) {
+      if (isVideoReady && isTimerReady && !player.isPlaying) {
         // 再生待機状態でエンターまたはスペースが押されたら再生
         if (e.key === 'Enter' || e.key === ' ') {
           onPlay()
@@ -156,10 +150,6 @@ export default function Game({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
-
-  if (songName === '' || !player) {
-    return null
-  }
 
   if (!isVideoReady || !isTimerReady) {
     return <Loading />

@@ -5,7 +5,7 @@ import { SongName, songData } from '../utils/songData'
 
 interface Props {
   songName: SongName
-  player?: Player
+  player: Player
   position: number
   isFail: boolean
   setIsFail(newVal: boolean): void
@@ -44,10 +44,6 @@ export default function CharacterPlaying({
   }, [position])
 
   useEffect(() => {
-    if (!player) {
-      return
-    }
-
     const beat = player.findBeat(position)
     if (!beat) {
       return

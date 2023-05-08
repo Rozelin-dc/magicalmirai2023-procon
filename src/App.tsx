@@ -5,6 +5,7 @@ import { SongName, songData } from './utils/songData'
 import logo from './assets/logo.svg'
 import Game from './Game'
 import SongSelect from './SongSelect'
+import Loading from './components/Loading'
 import './app.scss'
 
 export default function App() {
@@ -96,7 +97,9 @@ export default function App() {
   return (
     <div className='app'>
       <img src={logo} className='logo' />
-      {songName === '' ? (
+      {!player ? (
+        <Loading />
+      ) : songName === '' ? (
         <SongSelect onSelect={handleSongSelect} />
       ) : (
         <Game
