@@ -73,6 +73,11 @@ export default function GamePlaying({
         return
       }
 
+      if (e.key === 'Shift') {
+        // シフトは記号入力の際に検知されるのでスキップ
+        return
+      }
+
       if (
         e.key.toUpperCase() ===
         nowPhraseReading.charAt(passedLastCharacterIndex + 1)
