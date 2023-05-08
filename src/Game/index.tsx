@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FiLoader } from 'react-icons/fi'
 import { MdPlayCircleOutline } from 'react-icons/md'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { IPhrase, Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../utils/songData'
+import Loading from '../components/Loading'
 
 import CharacterFinish from './CharacterFinish'
 import CharacterPlaying from './CharacterPlaying'
@@ -162,7 +162,7 @@ export default function Game({
   }
 
   if (!isVideoReady || !isTimerReady) {
-    return <FiLoader className='loading' />
+    return <Loading />
   }
 
   if (!player.isPlaying) {
