@@ -13,7 +13,7 @@ interface SongData {
    * 読みと書きが異なる文字(「は」、「を」など)は書き準拠で表記。
    * 長音時の母音の省略もなし(書き準拠)。
    */
-  lyricReading: string[]
+  lyricsReading: string[]
 
   /** 歌唱キャラクター */
   character: 'Miku' | 'KAITO'
@@ -33,7 +33,7 @@ export const songData: Record<SongName, SongData> = {
         lyricDiffId: 9637,
       },
     },
-    lyricReading: [
+    lyricsReading: [
       'MOSHIMO KARADAGA ARUNONARA SEKAIGOTO DAKISHIMETE',
       'ITAMIMO KURUSHIMIMO KIZUMO SUBETE IYASERUNONI',
       'KIESOWONA KOEWO MIUSHINAU MAENI',

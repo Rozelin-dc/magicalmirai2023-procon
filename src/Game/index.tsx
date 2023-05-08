@@ -31,12 +31,12 @@ export default function Game({
   isVideoReady,
   isTimerReady,
 }: Props) {
-  const songLyrics = useMemo(() => {
+  const lyricsReading = useMemo(() => {
     if (songName === '') {
       return []
     }
 
-    return songData[songName].lyricReading
+    return songData[songName].lyricsReading
   }, [songName])
   const [nowPhrase, setNowPhrase] = useState<IPhrase>()
   const [nextPhrase, setNextPhrase] = useState<IPhrase>()
@@ -53,7 +53,7 @@ export default function Game({
       return 0
     }
     let sum = 0
-    songData[songName].lyricReading.forEach(
+    songData[songName].lyricsReading.forEach(
       (v) => (sum += v.replaceAll(' ', '').length)
     )
     return sum
@@ -77,7 +77,7 @@ export default function Game({
     if (nextPhrase && nextPhrase.startTime <= position) {
       // 次のフレーズの歌唱時間がはじまろうとしている
       nowPhraseIndex.current += 1
-      setNowPhraseReading(songLyrics[nowPhraseIndex.current])
+      setNowPhraseReading(lyricsReading[nowPhraseIndex.current])
       setNowPhrase(nextPhrase)
       setNextPhrase(nextPhrase.next)
       setPassedLastCharacterIndex(-1)
