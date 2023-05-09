@@ -1,0 +1,30 @@
+.selection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 15px;
+}
+
+.radio-button-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.radio-button {
+  padding: 0;
+
+  &.checked {
+    color: $primary;
+  }
+
+  &.unchecked {
+    color: #D9D9D9;
+  }
+}
+
+.radio-button-label {
+  &:hover {
+    color: $text-color-hover;
+  }
+}
