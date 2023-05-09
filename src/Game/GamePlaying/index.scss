@@ -9,6 +9,10 @@
   line-height: 44px;
   margin: 10px auto 0;
   text-align: center;
+
+  // 歌詞が長い時のはみ出し防止の設定
+  white-space: nowrap;
+  width: 800px;
 }
 
 .now-phrase-reading {
