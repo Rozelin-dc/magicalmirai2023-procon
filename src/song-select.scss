@@ -6,6 +6,23 @@
   color: $text-color;
 }
 
+.setting-button {
+  width: 80px;
+  height: 80px;
+  font-size: 60px;
+  color: $primary;
+  color: $primary;
+  background-color: transparent;
+  border: none;
+  margin-top: auto;
+  margin-bottom: 30px;
+  margin-left: 60px;
+
+  &:hover {
+    color: $primary-hover;
+  }
+}
+
 .title {
   font-size: 60px;
   text-align: center;
