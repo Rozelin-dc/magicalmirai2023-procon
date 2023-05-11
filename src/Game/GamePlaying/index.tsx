@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { IPhrase, Player } from 'textalive-app-api'
 
-import { SongName, songData } from '../../utils/songData'
+import { SongName } from '../../utils/songData'
 
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
@@ -11,6 +11,7 @@ interface Props {
   songName: SongName
   player: Player
   position: number
+  lyricsReadingRoman: string[]
   onSuccess(): void
 }
 
@@ -18,12 +19,9 @@ export default function GamePlaying({
   songName,
   player,
   position,
+  lyricsReadingRoman,
   onSuccess,
 }: Props) {
-  const lyricsReading = useMemo(
-    () => songData[songName].lyricsReading,
-    [songName]
-  )
   const [nowPhrase, setNowPhrase] = useState<IPhrase>()
   const [nextPhrase, setNextPhrase] = useState<IPhrase>()
   const [nowPhraseReading, setNowPhraseReading] = useState('')
@@ -45,7 +43,7 @@ export default function GamePlaying({
     if (nextPhrase && nextPhrase.startTime <= position) {
       // 次のフレーズの歌唱時間がはじまろうとしている
       nowPhraseIndex.current += 1
-      setNowPhraseReading(lyricsReading[nowPhraseIndex.current])
+      setNowPhraseReading(lyricsReadingRoman[nowPhraseIndex.current])
       setNowPhrase(nextPhrase)
       setNextPhrase(nextPhrase.next)
       setPassedLastCharacterIndex(-1)

@@ -113,6 +113,7 @@ export default function App() {
           songName={songName}
           player={player}
           position={position}
+          romanType={romanType}
           onPlay={handlePlay}
           onStop={handleStop}
           isVideoReady={isVideoReady}
