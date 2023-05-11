@@ -4,6 +4,7 @@ import { RiArrowGoBackFill } from 'react-icons/ri'
 import { Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../utils/songData'
+import { RomanType, kanaToRoman } from '../utils/toRoman'
 import Loading from '../components/Loading'
 
 import CharacterFinish from './CharacterFinish'
@@ -14,6 +15,7 @@ interface Props {
   songName: SongName
   player: Player
   position: number
+  romanType: RomanType
   onPlay(): void
   onStop(): void
 
@@ -25,19 +27,24 @@ export default function Game({
   songName,
   player,
   position,
+  romanType,
   onPlay,
   onStop,
   isVideoReady,
   isTimerReady,
 }: Props) {
+  const lyricsReadingRoman = useMemo(
+    () =>
+      songData[songName].lyricsReading.map((v) => kanaToRoman(v, romanType)),
+    [songName, romanType]
+  )
+
   const [score, setScore] = useState(0)
   const maxScore = useMemo(() => {
     let sum = 0
-    songData[songName].lyricsReading.forEach(
-      (v) => (sum += v.replaceAll(' ', '').length)
-    )
+    lyricsReadingRoman.forEach((v) => (sum += v.replaceAll(' ', '').length))
     return sum
-  }, [songName])
+  }, [songName, lyricsReadingRoman])
   const scoreRatio = useMemo(() => {
     if (maxScore === 0) {
       return 0
@@ -97,6 +104,7 @@ export default function Game({
           player={player}
           position={position}
           songName={songName}
+          lyricsReadingRoman={lyricsReadingRoman}
           onSuccess={() => setScore((prev) => prev + 1)}
         />
       ) : (

@@ -1,0 +1,28 @@
+.button {
+  font-size: 15px;
+  border-radius: 5px;
+  padding: 5px 10px;
+
+  &.normal {
+    color: $text-color;
+    background-color: $background-primary;
+    border-color: $text-color;
+    border-style: solid;
+    border-width: 1px;
+
+    &:hover {
+      color: $text-color-hover;
+      border-color: $text-color-hover
+    }
+  }
+
+  &.primary {
+    color: $background-primary;
+    background-color: $primary;
+    border: none;
+
+    &:hover {
+      background-color: $primary-hover;
+    }
+  }
+}

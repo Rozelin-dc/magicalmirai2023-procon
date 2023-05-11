@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 
 import { SongName, songData } from './utils/songData'
+import { RomanType } from './utils/toRoman'
 import logo from './assets/logo.svg'
 import Game from './Game'
 import SongSelect from './SongSelect'
@@ -11,12 +12,14 @@ import './app.scss'
 export default function App() {
   const [player, setPlayer] = useState<Player>()
   const [app, setApp] = useState<IPlayerApp>()
+
   const [songName, setSongName] = useState<SongName | ''>('')
+  const [romanType, setRomanType] = useState<RomanType>('ヘボン式')
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [isTimerReady, setIsTimerReady] = useState(false)
   const [position, setPosition] = useState(-1)
-  const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
 
+  const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const media = useMemo(
     () => <div className='media' ref={setMediaElement} />,
     []
@@ -100,12 +103,17 @@ export default function App() {
       {!player ? (
         <Loading />
       ) : songName === '' ? (
-        <SongSelect onSelect={handleSongSelect} />
+        <SongSelect
+          romanType={romanType}
+          onChangeRomanType={setRomanType}
+          onSelect={handleSongSelect}
+        />
       ) : (
         <Game
           songName={songName}
           player={player}
           position={position}
+          romanType={romanType}
           onPlay={handlePlay}
           onStop={handleStop}
           isVideoReady={isVideoReady}
