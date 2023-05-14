@@ -2,6 +2,38 @@ import { useEffect, useMemo, useState } from 'react'
 import { Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../../utils/songData'
+import mikuRunningA from '../../assets/Miku/running-a.webp'
+import mikuRunningB from '../../assets/Miku/running-b.webp'
+import mikuRunningC from '../../assets/Miku/running-c.webp'
+import mikuRunningD from '../../assets/Miku/running-d.webp'
+import mikuTrip from '../../assets/Miku/trip.webp'
+import kaitoRunningA from '../../assets/KAITO/running-a.webp'
+import kaitoRunningB from '../../assets/KAITO/running-b.webp'
+import kaitoRunningC from '../../assets/KAITO/running-c.webp'
+import kaitoRunningD from '../../assets/KAITO/running-d.webp'
+import kaitoTrip from '../../assets/KAITO/trip.webp'
+import '../character-img.scss'
+
+const imgSrc = {
+  Miku: {
+    running: {
+      a: mikuRunningA,
+      b: mikuRunningB,
+      c: mikuRunningC,
+      d: mikuRunningD,
+    },
+    trip: mikuTrip,
+  },
+  KAITO: {
+    running: {
+      a: kaitoRunningA,
+      b: kaitoRunningB,
+      c: kaitoRunningC,
+      d: kaitoRunningD,
+    },
+    trip: kaitoTrip,
+  },
+}
 
 interface Props {
   songName: SongName
@@ -49,10 +81,10 @@ export default function CharacterPlaying({
       return
     }
     // 拍に合わせて1秒に1回程度走るようにする
-    const timesRunInBeat = Math.max(1, Math.round(beat.duration / 1000))
+    const timesRunInBeat = Math.max(1, Math.round(beat.duration / 500))
     const duration = beat.duration / timesRunInBeat
     const relativePosition = (position - beat.startTime) % duration
-    if (relativePosition < (duration / 2)) {
+    if (relativePosition < duration / 2) {
       if (runningState === 'b') {
         setRunningState('c')
       } else if (runningState === 'd') {
@@ -68,6 +100,15 @@ export default function CharacterPlaying({
   }, [player, position])
 
   return (
-    <>{`${nowState}: ${runningState}`}</>
+    <div className='character-img-container'>
+      {nowState === 'running' ? (
+        <img
+          src={imgSrc[character].running[runningState]}
+          className='character-img'
+        />
+      ) : (
+        <img src={imgSrc[character].trip} className='character-img' />
+      )}
+    </div>
   )
 }
