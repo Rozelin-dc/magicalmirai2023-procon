@@ -28,7 +28,7 @@ export default function CharacterFinish({ songName, isSuccess }: Props) {
   const character = useMemo(() => songData[songName].character, [songName])
 
   return (
-    <div className='character-img-container'>
+    <div className='character-img-container' style={{ flex: 1 }}>
       {isSuccess ? (
         <img src={imgSrc[character].success} className='character-img' />
       ) : (

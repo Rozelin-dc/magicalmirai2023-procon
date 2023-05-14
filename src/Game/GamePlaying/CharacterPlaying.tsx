@@ -100,7 +100,7 @@ export default function CharacterPlaying({
   }, [player, position])
 
   return (
-    <div className='character-img-container' style={{contain: 'strict'}}>
+    <div className='character-img-container'>
       {nowState === 'running' ? (
         <img
           src={imgSrc[character].running[runningState]}

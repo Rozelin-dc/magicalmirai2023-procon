@@ -109,12 +109,7 @@ export default function Game({
         />
       ) : (
         <div className='game-finish-area'>
-          <div className='finish-character-area'>
-            <CharacterFinish
-              songName={songName}
-              isSuccess={scoreRatio >= 0.8}
-            />
-          </div>
+          <CharacterFinish songName={songName} isSuccess={scoreRatio >= 0.8} />
           <div className='result-text'>
             {scoreRatio >= 0.8 ? 'SUCCESS!' : 'FAIL...'}
           </div>
