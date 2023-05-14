@@ -2,6 +2,7 @@
   display: grid;
   grid-template-rows: 1fr 90px 1fr;
   color: $text-color;
+  height: 100%;
 }
 
 .now-phrase {
@@ -29,7 +30,8 @@
 
 .next-phrase-area {
   font-size: 16px;
-  margin-top: 30px;
+  padding-top: 30px;
+  contain: strict;
   display: flex;
 
   .next-text {

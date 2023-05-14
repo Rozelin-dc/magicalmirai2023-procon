@@ -109,15 +109,13 @@ export default function GamePlaying({
 
   return (
     <div className='game-area'>
-      <div className='character-area'>
-        <CharacterPlaying
-          songName={songName}
-          player={player}
-          position={position}
-          isFail={isFail}
-          setIsFail={setIsFail}
-        />
-      </div>
+      <CharacterPlaying
+        songName={songName}
+        player={player}
+        position={position}
+        isFail={isFail}
+        setIsFail={setIsFail}
+      />
       <div>
         <TimerBar position={position} nowPhrase={nowPhrase} />
         <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
