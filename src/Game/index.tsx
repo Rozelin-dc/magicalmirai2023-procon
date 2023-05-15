@@ -4,7 +4,7 @@ import { RiArrowGoBackFill } from 'react-icons/ri'
 import { Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../utils/songData'
-import { RomanType, kanaToRoman } from '../utils/toRoman'
+import { RomanType, kanaToRoman } from '../utils/roman'
 import { getHighScore, setHighScore } from '../utils/individualScore'
 import Loading from '../components/Loading'
 

@@ -2,6 +2,18 @@ export const romanTypes = ['ヘボン式', '訓令式'] as const
 
 export type RomanType = (typeof romanTypes)[number]
 
+export const getRomanSetting = () => {
+  const setting = localStorage.getItem('roman-setting')
+  if (setting) {
+    return setting as RomanType
+  }
+  return undefined
+}
+
+export const setRomanSetting = (romanType: RomanType) => {
+  localStorage.setItem('roman-setting', romanType)
+}
+
 /**
  * ひらがなからローマ字への変換マップ
  */

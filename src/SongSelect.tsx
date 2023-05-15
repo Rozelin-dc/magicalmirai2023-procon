@@ -3,7 +3,7 @@ import { MdSettings } from 'react-icons/md'
 import { IoMdTrophy } from 'react-icons/io'
 
 import { SongName, songNames } from './utils/songData'
-import { RomanType, romanTypes } from './utils/toRoman'
+import { RomanType, romanTypes } from './utils/roman'
 import Dialog from './components/Dialog'
 import RadioSelection from './components/RadioSelection'
 import './song-select.scss'

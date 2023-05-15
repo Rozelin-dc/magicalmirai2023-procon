@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 
 import { SongName, songData } from './utils/songData'
-import { RomanType } from './utils/toRoman'
+import { RomanType, getRomanSetting, setRomanSetting } from './utils/roman'
 import logo from './assets/logo.svg'
 import IndividualScore from './IndividualScore'
 import Game from './Game'
@@ -15,7 +15,9 @@ export default function App() {
   const [app, setApp] = useState<IPlayerApp>()
 
   const [songName, setSongName] = useState<SongName | ''>('')
-  const [romanType, setRomanType] = useState<RomanType>('ヘボン式')
+  const [romanType, setRomanType] = useState<RomanType>(
+    getRomanSetting() ?? 'ヘボン式'
+  )
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [isTimerReady, setIsTimerReady] = useState(false)
   const [position, setPosition] = useState(-1)
@@ -65,6 +67,11 @@ export default function App() {
     }
   }, [mediaElement])
 
+  const handleChangeRomanType = useCallback((romanType: RomanType) => {
+    setRomanType(romanType)
+    setRomanSetting(romanType)
+  }, [])
+
   const handleSongSelect = useCallback(
     (songName: SongName) => {
       if (!player) {
@@ -110,7 +117,7 @@ export default function App() {
       ) : songName === '' ? (
         <SongSelect
           romanType={romanType}
-          onChangeRomanType={setRomanType}
+          onChangeRomanType={handleChangeRomanType}
           onSelect={handleSongSelect}
           showIndividualScore={() => setShowIndividualScore(true)}
         />
