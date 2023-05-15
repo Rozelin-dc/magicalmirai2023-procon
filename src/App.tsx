@@ -4,6 +4,7 @@ import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
 import { SongName, songData } from './utils/songData'
 import { RomanType } from './utils/toRoman'
 import logo from './assets/logo.svg'
+import IndividualScore from './IndividualScore'
 import Game from './Game'
 import SongSelect from './SongSelect'
 import Loading from './components/Loading'
@@ -18,6 +19,8 @@ export default function App() {
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [isTimerReady, setIsTimerReady] = useState(false)
   const [position, setPosition] = useState(-1)
+
+  const [showIndividualScore, setShowIndividualScore] = useState(false)
 
   const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const media = useMemo(
@@ -100,13 +103,16 @@ export default function App() {
   return (
     <div className='app'>
       <img src={logo} className='logo' />
-      {!player ? (
+      {showIndividualScore ? (
+        <IndividualScore onBack={() => setShowIndividualScore(false)} />
+      ) : !player ? (
         <Loading />
       ) : songName === '' ? (
         <SongSelect
           romanType={romanType}
           onChangeRomanType={setRomanType}
           onSelect={handleSongSelect}
+          showIndividualScore={() => setShowIndividualScore(true)}
         />
       ) : (
         <Game

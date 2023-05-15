@@ -6,28 +6,27 @@
   color: $text-color;
 }
 
-.setting-button {
-  width: 80px;
-  height: 80px;
-  font-size: 60px;
-  color: $primary;
-  color: $primary;
-  background-color: transparent;
-  border: none;
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-top: auto;
   margin-bottom: 30px;
   margin-left: 60px;
 
-  &:hover {
-    color: $primary-hover;
-  }
-}
+  .button {
+    width: 80px;
+    height: 80px;
+    font-size: 60px;
+    color: $primary;
+    color: $primary;
+    background-color: transparent;
+    border: none;
 
-.title {
-  font-size: 60px;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
+    &:hover {
+      color: $primary-hover;
+    }
+  }
 }
 
 .selection {

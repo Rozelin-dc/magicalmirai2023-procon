@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { MdSettings } from 'react-icons/md'
+import { IoMdTrophy } from 'react-icons/io'
 
 import { SongName, songNames } from './utils/songData'
 import { RomanType, romanTypes } from './utils/toRoman'
@@ -11,12 +12,14 @@ interface Props {
   romanType: RomanType
   onChangeRomanType(val: RomanType): void
   onSelect(songName: SongName): void
+  showIndividualScore(): void
 }
 
 export default function SongSelect({
   romanType,
   onChangeRomanType,
   onSelect,
+  showIndividualScore,
 }: Props) {
   const [unsavedRomanType, setUnsavedRomanType] = useState(romanType)
   const [showSettingModal, setShowSettingModal] = useState(false)
@@ -32,12 +35,14 @@ export default function SongSelect({
   return (
     <>
       <div className='song-select-container'>
-        <button
-          onClick={() => setShowSettingModal(true)}
-          className='setting-button'
-        >
-          <MdSettings />
-        </button>
+        <div className='button-container'>
+          <button onClick={showIndividualScore} className='button'>
+            <IoMdTrophy />
+          </button>
+          <button onClick={() => setShowSettingModal(true)} className='button'>
+            <MdSettings />
+          </button>
+        </div>
         <div>
           <div className='title'>{'Select Song'}</div>
           <ul className='selection'>
