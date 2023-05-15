@@ -58,8 +58,12 @@
 }
 
 .score-area {
-  margin: 40px 10px auto;
+  padding: 40px 10px 0;
   color: $text-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 
   .score-title {
     font-size: 35px;
@@ -67,5 +71,11 @@
 
   .score-content {
     font-size: 30px;
+  }
+
+  .update-high-score {
+    font-size: 35px;
+    color: $primary;
+    text-align: center;
   }
 }

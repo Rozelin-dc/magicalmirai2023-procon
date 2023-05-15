@@ -5,6 +5,7 @@ import { Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../utils/songData'
 import { RomanType, kanaToRoman } from '../utils/toRoman'
+import { getHighScore, setHighScore } from '../utils/individualScore'
 import Loading from '../components/Loading'
 
 import CharacterFinish from './CharacterFinish'
@@ -38,6 +39,7 @@ export default function Game({
       songData[songName].lyricsReading.map((v) => kanaToRoman(v, romanType)),
     [songName, romanType]
   )
+  const highScore = useMemo(() => getHighScore(songName) ?? -1, [songName])
 
   const [score, setScore] = useState(0)
   const maxScore = useMemo(() => {
@@ -51,6 +53,25 @@ export default function Game({
     }
     return score / maxScore
   }, [score, maxScore])
+
+  const isFinish = useMemo(
+    () =>
+      player.getBeats()
+        ? position >= player.getBeats().splice(-1)[0].endTime
+        : false,
+    [position]
+  )
+  const isHighScore = useMemo(
+    () => isFinish && score > highScore,
+    [isFinish, score]
+  )
+
+  useEffect(() => {
+    // ハイスコア更新時の処理
+    if (isHighScore) {
+      setHighScore(songName, score)
+    }
+  }, [isHighScore])
 
   useEffect(() => {
     // 楽曲が変わった際の初期化
@@ -99,7 +120,14 @@ export default function Game({
       <button className='stop-button' onClick={onStop}>
         <RiArrowGoBackFill />
       </button>
-      {position < player.getBeats().splice(-1)[0].endTime ? (
+      {isFinish ? (
+        <div className='game-finish-area'>
+          <CharacterFinish songName={songName} isSuccess={scoreRatio >= 0.8} />
+          <div className='result-text'>
+            {scoreRatio >= 0.8 ? 'SUCCESS!' : 'FAIL...'}
+          </div>
+        </div>
+      ) : (
         <GamePlaying
           player={player}
           position={position}
@@ -107,17 +135,15 @@ export default function Game({
           lyricsReadingRoman={lyricsReadingRoman}
           onSuccess={() => setScore((prev) => prev + 1)}
         />
-      ) : (
-        <div className='game-finish-area'>
-          <CharacterFinish songName={songName} isSuccess={scoreRatio >= 0.8} />
-          <div className='result-text'>
-            {scoreRatio >= 0.8 ? 'SUCCESS!' : 'FAIL...'}
-          </div>
-        </div>
       )}
       <div className='score-area'>
-        <div className='score-title'>{'Score'}</div>
-        <div className='score-content'>{`${score} / ${maxScore}`}</div>
+        <div>
+          <div className='score-title'>{'Score'}</div>
+          <div className='score-content'>{`${score} / ${maxScore}`}</div>
+        </div>
+        {isHighScore && (
+          <div className='update-high-score'>{'High Score!'}</div>
+        )}
       </div>
     </div>
   )
