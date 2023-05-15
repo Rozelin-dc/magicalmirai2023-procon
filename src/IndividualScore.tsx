@@ -24,7 +24,7 @@ export default function IndividualScore({ onBack }: Props) {
             ))}
           </div>
           <div className='song-scores'>
-            <div className='subtitle'>{'Heigh Score'}</div>
+            <div className='subtitle'>{'High Score'}</div>
             {songNames.map((v) => (
               <div key={v}>{getHighScore(v) ?? '-'}</div>
             ))}
