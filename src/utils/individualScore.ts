@@ -1,7 +1,7 @@
 import { SongName } from './songData'
 
 export const getHighScore = (songName: SongName) => {
-  const data = localStorage.getItem(songName)
+  const data = localStorage.getItem(`${songName}#TypingLyrics`)
   if (data) {
     return Number(data)
   } else {
@@ -10,5 +10,5 @@ export const getHighScore = (songName: SongName) => {
 }
 
 export const setHighScore = (songName: SongName, score: number) => {
-  localStorage.setItem(songName, `${score}`)
+  localStorage.setItem(`${songName}#TypingLyrics`, `${score}`)
 }

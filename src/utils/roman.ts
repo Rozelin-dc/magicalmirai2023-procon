@@ -3,7 +3,7 @@ export const romanTypes = ['ヘボン式', '訓令式'] as const
 export type RomanType = (typeof romanTypes)[number]
 
 export const getRomanSetting = () => {
-  const setting = localStorage.getItem('roman-setting')
+  const setting = localStorage.getItem('roman-setting#TypingLyrics')
   if (setting) {
     return setting as RomanType
   }
@@ -11,7 +11,7 @@ export const getRomanSetting = () => {
 }
 
 export const setRomanSetting = (romanType: RomanType) => {
-  localStorage.setItem('roman-setting', romanType)
+  localStorage.setItem('roman-setting#TypingLyrics', romanType)
 }
 
 /**
