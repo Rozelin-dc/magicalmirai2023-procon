@@ -54,6 +54,7 @@ export default function Game({
     return score / maxScore
   }, [score, maxScore])
 
+  const [started, setStarted] = useState(false)
   const isFinish = useMemo(
     () =>
       player.getBeats()
@@ -76,7 +77,13 @@ export default function Game({
   useEffect(() => {
     // 楽曲が変わった際の初期化
     setScore(0)
+    setStarted(false)
   }, [songName])
+
+  const handlePlay = useCallback(() => {
+    onPlay()
+    setStarted(true)
+  }, [])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -88,12 +95,12 @@ export default function Game({
       if (isVideoReady && isTimerReady && !player.isPlaying) {
         // 再生待機状態でエンターまたはスペースが押されたら再生
         if (e.key === 'Enter' || e.key === ' ') {
-          onPlay()
+          handlePlay()
         }
         return
       }
     },
-    [isVideoReady, isTimerReady, player]
+    [isVideoReady, isTimerReady, player, handlePlay]
   )
 
   useEffect(() => {
@@ -106,10 +113,10 @@ export default function Game({
     return <Loading />
   }
 
-  if (!player.isPlaying) {
+  if (!player.isPlaying && !started) {
     return (
       <div className='play-waiting-area'>
-        <MdPlayCircleOutline className='play-button' onClick={onPlay} />
+        <MdPlayCircleOutline className='play-button' onClick={handlePlay} />
         <div className='description'>{'Press Enter or Space'}</div>
       </div>
     )
