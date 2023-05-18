@@ -1,4 +1,6 @@
 .button {
+  // HACK: root でフォントは指定しているがここにも書かないとボタンだけフォントが変わってしまう
+  font-family: 'DotGothic16', sans-serif;
   font-size: 15px;
   border-radius: 5px;
   padding: 5px 10px;
