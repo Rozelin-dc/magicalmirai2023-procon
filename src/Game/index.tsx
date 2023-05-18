@@ -144,7 +144,8 @@ export default function Game({
         />
       )}
       <div className='score-area'>
-        <div>
+        <div className='song-name'>{`♪${songName}`}</div>
+        <div className='score-container'>
           <div className='score-title'>{'Score'}</div>
           <div className='score-content'>{`${score} / ${maxScore}`}</div>
         </div>
