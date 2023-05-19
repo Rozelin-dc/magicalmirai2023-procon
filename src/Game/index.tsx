@@ -129,9 +129,14 @@ export default function Game({
       </button>
       {isFinish ? (
         <div className='game-finish-area'>
-          <CharacterFinish songName={songName} isSuccess={scoreRatio >= 0.8} />
+          <CharacterFinish
+            songName={songName}
+            isSuccess={scoreRatio >= songData[songName].successRatio}
+          />
           <div className='result-text'>
-            {scoreRatio >= 0.8 ? 'SUCCESS!' : 'FAIL...'}
+            {scoreRatio >= songData[songName].successRatio
+              ? 'SUCCESS!'
+              : 'FAIL...'}
           </div>
         </div>
       ) : (

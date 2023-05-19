@@ -22,6 +22,9 @@ interface SongData {
 
   /** 歌唱キャラクター */
   character: Character
+
+  /** 成功演出が見られるスコアの割合 */
+  successRatio: number
 }
 
 export const songData: Record<SongName, SongData> = {
@@ -106,6 +109,7 @@ export const songData: Record<SongName, SongData> = {
       '1 2 3 4 5 6 7 8 9 10 AND',
     ],
     character: 'Miku',
+    successRatio: 0.35,
   },
   生きること: {
     songUrl: 'https://piapro.jp/t/fnhJ/20230131212038',
@@ -152,6 +156,7 @@ export const songData: Record<SongName, SongData> = {
       'それがたぶん いきることなんだね',
     ],
     character: 'Miku',
+    successRatio: 0.5,
   },
   唱明者: {
     songUrl: 'https://piapro.jp/t/Vfrl/20230120182855',
@@ -206,6 +211,7 @@ export const songData: Record<SongName, SongData> = {
       'ぼくのいきた あかしを ずっと',
     ],
     character: 'KAITO',
+    successRatio: 0.5,
   },
   ネオンライトの海を往く: {
     songUrl: 'https://piapro.jp/t/fyxI/20230203003935',
@@ -264,6 +270,7 @@ export const songData: Record<SongName, SongData> = {
       'りそうを うたって うたって うたって',
     ],
     character: 'Miku',
+    successRatio: 0.7,
   },
   ミュウテイション: {
     songUrl: 'https://piapro.jp/t/Wk83/20230203141007',
@@ -318,6 +325,7 @@ export const songData: Record<SongName, SongData> = {
       'わたしのもの',
     ],
     character: 'Miku',
+    successRatio: 0.5,
   },
   'Entrust via 39': {
     songUrl: 'https://piapro.jp/t/Ya0_/20230201235034',
@@ -369,5 +377,6 @@ export const songData: Record<SongName, SongData> = {
       'すべてのひとの そばにそえて',
     ],
     character: 'Miku',
+    successRatio: 0.6,
   },
 }
