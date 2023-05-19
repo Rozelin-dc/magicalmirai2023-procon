@@ -92,7 +92,7 @@ export default function Game({
         return
       }
 
-      if (isVideoReady && isTimerReady && !player.isPlaying) {
+      if (isVideoReady && isTimerReady && !player.isPlaying && !started) {
         // 再生待機状態でエンターまたはスペースが押されたら再生
         if (e.key === 'Enter' || e.key === ' ') {
           handlePlay()
@@ -100,7 +100,7 @@ export default function Game({
         return
       }
     },
-    [isVideoReady, isTimerReady, player, handlePlay]
+    [isVideoReady, isTimerReady, started, player, handlePlay]
   )
 
   useEffect(() => {
