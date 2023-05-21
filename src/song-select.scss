@@ -6,29 +6,6 @@
   color: $text-color;
 }
 
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: auto;
-  margin-bottom: 30px;
-  margin-left: 60px;
-
-  .button {
-    width: 80px;
-    height: 80px;
-    font-size: 60px;
-    color: $primary;
-    color: $primary;
-    background-color: transparent;
-    border: none;
-
-    &:hover {
-      color: $primary-hover;
-    }
-  }
-}
-
 .selection {
   padding-left: 0;
   display: flex;
@@ -48,7 +25,7 @@
 }
 
 .caption-container {
-  margin: auto 10px 40px;
+  margin: auto 10px 60px;
 
   .caption {
     padding: 10px;

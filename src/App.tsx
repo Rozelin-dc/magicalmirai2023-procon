@@ -8,6 +8,7 @@ import IndividualScore from './IndividualScore'
 import Game from './Game'
 import SongSelect from './SongSelect'
 import Loading from './components/Loading'
+import RightButtons from './RightButtons'
 import './app.scss'
 
 export default function App() {
@@ -110,17 +111,12 @@ export default function App() {
   return (
     <div className='app'>
       <img src={logo} className='logo' />
-      {showIndividualScore ? (
-        <IndividualScore onBack={() => setShowIndividualScore(false)} />
-      ) : !player ? (
+      {!player ? (
         <Loading />
+      ) : showIndividualScore ? (
+        <IndividualScore onBack={() => setShowIndividualScore(false)} />
       ) : songName === '' ? (
-        <SongSelect
-          romanType={romanType}
-          onChangeRomanType={handleChangeRomanType}
-          onSelect={handleSongSelect}
-          showIndividualScore={() => setShowIndividualScore(true)}
-        />
+        <SongSelect onSelect={handleSongSelect} />
       ) : (
         <Game
           songName={songName}
@@ -131,6 +127,14 @@ export default function App() {
           onStop={handleStop}
           isVideoReady={isVideoReady}
           isTimerReady={isTimerReady}
+        />
+      )}
+      {player && (
+        <RightButtons
+          romanType={romanType}
+          onChangeRomanType={handleChangeRomanType}
+          isSongSelectPage={!showIndividualScore && songName === ''}
+          toIndividualScorePage={() => setShowIndividualScore(true)}
         />
       )}
       {media}
