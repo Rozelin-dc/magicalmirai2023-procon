@@ -7,11 +7,13 @@
 }
 
 .back-button {
-  font-size: 60px;
+  width: 60px;
+  height: 60px;
+  font-size: 50px;
   color: $primary;
   background-color: transparent;
   border: none;
-  margin: auto 10px 60px;
+  margin: auto auto 40px;
 
   &:hover {
     color: $primary-hover;
