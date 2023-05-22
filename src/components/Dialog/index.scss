@@ -28,8 +28,15 @@
   flex-wrap: wrap;
   font-size: 20px;
 
-  .close-button:hover {
-    color: $text-color-hover;
+  .close-button {
+    border: none;
+    background-color: transparent;
+    color: $text-color;
+    font-size: 20px;
+
+    &:hover {
+      color: $text-color-hover;
+    }
   }
 }
 

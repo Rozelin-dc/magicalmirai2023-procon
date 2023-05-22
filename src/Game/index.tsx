@@ -116,7 +116,9 @@ export default function Game({
   if (!player.isPlaying && !started) {
     return (
       <div className='play-waiting-area'>
-        <MdPlayCircleOutline className='play-button' onClick={handlePlay} />
+        <button className='play-button' onClick={handlePlay}>
+          <MdPlayCircleOutline />
+        </button>
         <div className='description'>{'Press Enter or Space'}</div>
       </div>
     )

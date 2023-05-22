@@ -29,7 +29,9 @@ export default function Dialog({
       <div onClick={(e) => e.stopPropagation()} className='dialog'>
         <div className='header'>
           {title}
-          <MdClose onClick={onClose} className='close-button' />
+          <button onClick={onClose} className='close-button'>
+            <MdClose />
+          </button>
         </div>
         {children}
         <div className='footer'>
