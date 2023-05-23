@@ -10,6 +10,22 @@
   align-items: center;
   gap: 5px;
   cursor: pointer;
+
+  &:hover {
+    .radio-button {
+      &.checked {
+        color: $primary-hover;
+      }
+
+      &.unchecked {
+        color: $text-color-hover;
+      }
+    }
+
+    .radio-button-label {
+      color: $text-color-hover;
+    }
+  }
 }
 
 .radio-button {
@@ -20,12 +36,10 @@
   }
 
   &.unchecked {
-    color: #D9D9D9;
+    color: $text-color;
   }
 }
 
 .radio-button-label {
-  &:hover {
-    color: $text-color-hover;
-  }
+  color: $text-color;
 }
