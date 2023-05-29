@@ -101,14 +101,39 @@ export default function CharacterPlaying({
 
   return (
     <div className='character-img-container'>
-      {nowState === 'running' ? (
-        <img
-          src={imgSrc[character].running[runningState]}
-          className='character-img'
-        />
-      ) : (
-        <img src={imgSrc[character].trip} className='character-img' />
-      )}
+      <img
+        src={imgSrc[character].running.a}
+        className='character-img'
+        style={{
+          width: nowState === 'running' && runningState === 'a' ? undefined : 0,
+        }}
+      />
+      <img
+        src={imgSrc[character].running.b}
+        className='character-img'
+        style={{
+          width: nowState === 'running' && runningState === 'b' ? undefined : 0,
+        }}
+      />
+      <img
+        src={imgSrc[character].running.c}
+        className='character-img'
+        style={{
+          width: nowState === 'running' && runningState === 'c' ? undefined : 0,
+        }}
+      />
+      <img
+        src={imgSrc[character].running.d}
+        className='character-img'
+        style={{
+          width: nowState === 'running' && runningState === 'd' ? undefined : 0,
+        }}
+      />
+      <img
+        src={imgSrc[character].trip}
+        className='character-img'
+        style={{ width: nowState === 'fail' ? undefined : 0 }}
+      />
     </div>
   )
 }
