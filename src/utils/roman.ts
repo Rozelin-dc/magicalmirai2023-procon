@@ -65,7 +65,6 @@ const romanMap: Record<string, string | Record<RomanType, string>> = {
   ゐ: 'WI',
   ゑ: 'WE',
   を: 'WO',
-  ん: 'NN',
   が: 'GA',
   ぎ: 'GI',
   ぐ: 'GU',
@@ -177,6 +176,8 @@ export const kanaToRoman = (str: string, type: RomanType) => {
   // str の何文字目まで変換が完了しているか
   let convertFinishIndex = -1
   let result = ''
+  // 前の文字が「ん」かどうか
+  let beforeN = false
   while (convertFinishIndex < str.length) {
     let target = str.charAt(convertFinishIndex + 1)
     // 「っ」から始まるかどうか
@@ -195,7 +196,16 @@ export const kanaToRoman = (str: string, type: RomanType) => {
       convertFinishIndex += 1
     }
 
-    if (str.charAt(convertFinishIndex + 1).match(/^[ぁぃぅぇぉゃゅょ]$/)) {
+    if (target === 'ん') {
+      if (convertFinishIndex === str.length) {
+        // 最後の文字の場合
+        result += 'N'
+      } else {
+        beforeN = true
+      }
+      continue
+    }
+
       // 次の文字が「っ」以外の小文字の場合
       target += str.charAt(convertFinishIndex + 1)
       convertFinishIndex += 1
@@ -210,6 +220,22 @@ export const kanaToRoman = (str: string, type: RomanType) => {
 
     if (beginWithXtu) {
       result += res.charAt(0)
+    }
+
+    if (beforeN) {
+      if (
+        type === 'ヘボン式' &&
+        target.charAt(0).match(/^[まみむめもぱぴぷぺぽ]$/)
+      ) {
+        // 口を閉じる発音の前の「ん」はヘボン式では 'M' になる
+        result += 'M'
+      } else if (target.charAt(0).match(/^[あいうえお]$/)) {
+        // 母音の直前の「ん」は 'NN'
+        result += 'NN'
+      } else {
+        result += 'N'
+      }
+      beforeN = false
     }
 
     result += res
