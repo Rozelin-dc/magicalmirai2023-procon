@@ -173,13 +173,13 @@ const romanMap: Record<string, string | Record<RomanType, string>> = {
 }
 
 export const kanaToRoman = (str: string, type: RomanType) => {
-  // str の何文字目まで変換が完了しているか
-  let convertFinishIndex = -1
+  // str の何文字目まで変換が完了しているか (1-index)
+  let convertFinishIndex = 0
   let result = ''
   // 前の文字が「ん」かどうか
   let beforeN = false
   while (convertFinishIndex < str.length) {
-    let target = str.charAt(convertFinishIndex + 1)
+    let target = str.charAt(convertFinishIndex)
     // 「っ」から始まるかどうか
     let beginWithXtu = false
     convertFinishIndex += 1
@@ -192,7 +192,7 @@ export const kanaToRoman = (str: string, type: RomanType) => {
 
     if (target === 'っ') {
       beginWithXtu = true
-      target = str.charAt(convertFinishIndex + 1)
+      target = str.charAt(convertFinishIndex)
       convertFinishIndex += 1
     }
 
@@ -206,8 +206,9 @@ export const kanaToRoman = (str: string, type: RomanType) => {
       continue
     }
 
+    if (str.charAt(convertFinishIndex).match(/^[ぁぃぅぇぉゃゅょ]$/)) {
       // 次の文字が「っ」以外の小文字の場合
-      target += str.charAt(convertFinishIndex + 1)
+      target += str.charAt(convertFinishIndex)
       convertFinishIndex += 1
     }
 
@@ -219,6 +220,7 @@ export const kanaToRoman = (str: string, type: RomanType) => {
     }
 
     if (beginWithXtu) {
+      // 「っ」は次の文字入力の最初の一文字を繰り返す
       result += res.charAt(0)
     }
 
