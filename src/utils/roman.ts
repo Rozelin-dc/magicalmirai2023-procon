@@ -4,10 +4,15 @@ export type RomanType = (typeof romanTypes)[number]
 
 export const getRomanSetting = () => {
   const setting = localStorage.getItem('roman-setting#TypingLyrics')
-  if (setting) {
+  if (!setting) {
+    return undefined
+  } else if ((romanTypes as readonly string[]).includes(setting)) {
     return setting as RomanType
+  } else {
+    // 不正な値が入っていた場合
+    localStorage.removeItem('roman-setting#TypingLyrics')
+    return undefined
   }
-  return undefined
 }
 
 export const setRomanSetting = (romanType: RomanType) => {
