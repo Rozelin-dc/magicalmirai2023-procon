@@ -1,6 +1,6 @@
-import { describe, expect, test } from 'vitest'
+import { beforeEach, describe, expect, test } from 'vitest'
 
-import { kanaToRoman } from './roman'
+import { getRomanSetting, kanaToRoman, setRomanSetting } from './roman'
 
 describe('kanaToRoman', () => {
   test('ヘボン式と訓令式で結果が同じになる変換', () => {
@@ -41,5 +41,22 @@ describe('kanaToRoman', () => {
   test('母音の直前の「ん」が正しく変換できる', () => {
     expect(kanaToRoman('あんい', 'ヘボン式')).toEqual('ANNI')
     expect(kanaToRoman('あんい', '訓令式')).toEqual('ANNI')
+  })
+})
+
+describe('getRomanSetting, setRomanSetting', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  test('正しい値が出し入れできる', () => {
+    setRomanSetting('ヘボン式')
+    expect(getRomanSetting()).toEqual('ヘボン式')
+  })
+
+  test('不正な値が入っていた場合', () => {
+    localStorage.setItem('roman-setting#TypingLyrics', 'hoge')
+    expect(getRomanSetting()).toEqual(undefined)
+    expect(localStorage.getItem('roman-setting#TypingLyrics')).toEqual(null)
   })
 })
