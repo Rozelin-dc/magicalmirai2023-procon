@@ -65,6 +65,7 @@ export default function CharacterPlaying({
       setLastActionPosition(position)
       setIsFail(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFail])
 
   useEffect(() => {
@@ -73,6 +74,7 @@ export default function CharacterPlaying({
       setLastActionPosition(undefined)
       setNowState('running')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position])
 
   useEffect(() => {
@@ -97,6 +99,7 @@ export default function CharacterPlaying({
         setRunningState('d')
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, position])
 
   return (

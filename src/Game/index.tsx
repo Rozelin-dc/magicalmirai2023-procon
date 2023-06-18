@@ -46,7 +46,7 @@ export default function Game({
     let sum = 0
     lyricsReadingRoman.forEach((v) => (sum += v.replaceAll(' ', '').length))
     return sum
-  }, [songName, lyricsReadingRoman])
+  }, [lyricsReadingRoman])
   const scoreRatio = useMemo(() => {
     if (maxScore === 0) {
       return 0
@@ -60,11 +60,11 @@ export default function Game({
       player.getBeats()
         ? position >= player.getBeats().splice(-1)[0].endTime
         : false,
-    [position]
+    [player, position]
   )
   const isHighScore = useMemo(
     () => isFinish && score > highScore,
-    [isFinish, score]
+    [highScore, isFinish, score]
   )
 
   useEffect(() => {
@@ -72,6 +72,7 @@ export default function Game({
     if (isHighScore) {
       setHighScore(songName, score)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHighScore])
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function Game({
   const handlePlay = useCallback(() => {
     onPlay()
     setStarted(true)
-  }, [])
+  }, [onPlay])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

@@ -30,7 +30,7 @@ export default function RightButtons({
   const handleConfirmSetting = useCallback(() => {
     onChangeRomanType(unsavedRomanType)
     setShowSettingModal(false)
-  }, [unsavedRomanType])
+  }, [onChangeRomanType, unsavedRomanType])
 
   const fullscreenEle = document.getElementById('root')
   const [isFullscreen, setIsFullscreen] = useState(false)

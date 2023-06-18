@@ -48,6 +48,7 @@ export default function GamePlaying({
       setNextPhrase(nextPhrase.next)
       setPassedLastCharacterIndex(-1)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position])
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function GamePlaying({
     setNowPhraseReading('')
     setNowPhrase(undefined)
     setNextPhrase(player.video.firstPhrase)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songName])
 
   const handleKeyDown = useCallback(
@@ -98,7 +100,7 @@ export default function GamePlaying({
         setIsFail(true)
       }
     },
-    [nowPhraseReading, passedLastCharacterIndex]
+    [nowPhraseReading, onSuccess, passedLastCharacterIndex]
   )
 
   useEffect(() => {
