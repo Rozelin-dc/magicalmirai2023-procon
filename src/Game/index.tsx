@@ -127,7 +127,7 @@ export default function Game({
 
   return (
     <div className='game-container'>
-      <button className='stop-button' onClick={onStop}>
+      <button className='icon-button stop-button' onClick={onStop}>
         <RiArrowGoBackFill />
       </button>
       {isFinish ? (

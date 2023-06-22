@@ -7,17 +7,7 @@
 }
 
 .back-button {
-  width: 60px;
-  height: 60px;
-  font-size: 50px;
-  color: $primary;
-  background-color: transparent;
-  border: none;
   margin: auto auto 40px;
-
-  &:hover {
-    color: $primary-hover;
-  }
 }
 
 .score-container {

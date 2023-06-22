@@ -12,18 +12,4 @@
   padding: 40px 0;
   justify-content: flex-end;
   align-items: center;
-
-  .button {
-    width: 60px;
-    height: 60px;
-    font-size: 50px;
-    color: $primary;
-    color: $primary;
-    background-color: transparent;
-    border: none;
-
-    &:hover {
-      color: $primary-hover;
-    }
-  }
 }

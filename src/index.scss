@@ -35,3 +35,17 @@ button {
   margin-top: 20px;
   margin-bottom: 30px;
 }
+
+.icon-button {
+  width: 60px;
+  height: 60px;
+  font-size: 50px;
+  color: $primary;
+  color: $primary;
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: $primary-hover;
+  }
+}

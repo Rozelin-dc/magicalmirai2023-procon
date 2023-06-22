@@ -63,18 +63,18 @@ export default function RightButtons({
       <div className='button-container'>
         {isSongSelectPage && (
           <>
-            <button onClick={toIndividualScorePage} className='button'>
+            <button onClick={toIndividualScorePage} className='icon-button'>
               <IoMdTrophy />
             </button>
             <button
               onClick={() => setShowSettingModal(true)}
-              className='button'
+              className='icon-button'
             >
               <MdSettings />
             </button>
           </>
         )}
-        <button onClick={handleChangeScreenMode} className='button'>
+        <button onClick={handleChangeScreenMode} className='icon-button'>
           {isFullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
         </button>
       </div>

@@ -11,7 +11,7 @@ interface Props {
 export default function IndividualScore({ onBack }: Props) {
   return (
     <div className='individual-score-container'>
-      <button className='back-button' onClick={onBack}>
+      <button className='icon-button back-button' onClick={onBack}>
         <RiArrowGoBackFill />
       </button>
       <div>
