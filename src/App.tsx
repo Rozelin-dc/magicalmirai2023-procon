@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
+import { Toaster } from 'react-hot-toast'
 
 import { SongName, songData } from './utils/songData'
 import { RomanType, getRomanSetting, setRomanSetting } from './utils/roman'
@@ -102,11 +103,14 @@ export default function App() {
     }
 
     player.requestStop()
+    setPosition(-1)
+  }, [player])
+
+  const resetSong = useCallback(() => {
     setIsVideoReady(false)
     setIsTimerReady(false)
     setSongName('')
-    setPosition(-1)
-  }, [player])
+  }, [])
 
   return (
     <div className='app'>
@@ -125,6 +129,7 @@ export default function App() {
           romanType={romanType}
           onPlay={handlePlay}
           onStop={handleStop}
+          onBack={resetSong}
           isVideoReady={isVideoReady}
           isTimerReady={isTimerReady}
         />
@@ -138,6 +143,31 @@ export default function App() {
         />
       )}
       {media}
+      <Toaster
+        position='top-center'
+        reverseOrder={false}
+        gutter={5}
+        toastOptions={{
+          icon: '',
+          duration: 3000,
+          style: {
+            fontSize: '20px',
+            color: '#ffffff',
+            background: '#006477',
+            borderRadius: 0,
+            borderWidth: 2,
+            borderStyle: 'solid',
+            borderColor: '#00fff9',
+            padding: '10px 0',
+          },
+          error: {
+            style: {
+              backgroundColor: '#a32600',
+              borderColor: '#ff8f8f',
+            },
+          },
+        }}
+      />
     </div>
   )
 }

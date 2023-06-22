@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { MdPlayCircleOutline } from 'react-icons/md'
+import { MdPlayCircleOutline, MdRestartAlt, MdShare } from 'react-icons/md'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { Player } from 'textalive-app-api'
+// eslint-disable-next-line import/no-named-as-default
+import toast from 'react-hot-toast'
 
 import { SongName, songData } from '../utils/songData'
 import { RomanType, kanaToRoman } from '../utils/roman'
@@ -19,6 +21,7 @@ interface Props {
   romanType: RomanType
   onPlay(): void
   onStop(): void
+  onBack(): void
 
   isVideoReady: boolean
   isTimerReady: boolean
@@ -31,6 +34,7 @@ export default function Game({
   romanType,
   onPlay,
   onStop,
+  onBack,
   isVideoReady,
   isTimerReady,
 }: Props) {
@@ -72,7 +76,7 @@ export default function Game({
     if (isHighScore) {
       setHighScore(songName, score)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHighScore])
 
   useEffect(() => {
@@ -85,6 +89,17 @@ export default function Game({
     onPlay()
     setStarted(true)
   }, [onPlay])
+
+  const handleRestart = useCallback(() => {
+    onStop()
+    setScore(0)
+    setStarted(false)
+  }, [onStop])
+
+  const handleBack = useCallback(() => {
+    onStop()
+    onBack()
+  }, [onBack, onStop])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -103,6 +118,18 @@ export default function Game({
     },
     [isVideoReady, isTimerReady, started, player, handlePlay]
   )
+
+  const copyShareText = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `${romanType}ローマ字で${songName}に挑戦し、${score}点獲得しました！\n#TypingLyrics`
+      )
+      toast('シェア用テキストをクリップボードにコピーしました')
+    } catch (e) {
+      toast.error('シェア用テキストのコピーに失敗しました')
+      console.log(JSON.stringify(e))
+    }
+  }, [romanType, score, songName])
 
   useEffect(() => {
     // キー入力に反応するように
@@ -127,7 +154,7 @@ export default function Game({
 
   return (
     <div className='game-container'>
-      <button className='icon-button stop-button' onClick={onStop}>
+      <button className='icon-button stop-button' onClick={handleBack}>
         <RiArrowGoBackFill />
       </button>
       {isFinish ? (
@@ -140,6 +167,14 @@ export default function Game({
             {scoreRatio >= songData[songName].successRatio
               ? 'SUCCESS!'
               : 'FAIL...'}
+          </div>
+          <div className='finish-button-area'>
+            <button className='icon-button' onClick={handleRestart}>
+              <MdRestartAlt />
+            </button>
+            <button className='icon-button' onClick={copyShareText}>
+              <MdShare />
+            </button>
           </div>
         </div>
       ) : (
