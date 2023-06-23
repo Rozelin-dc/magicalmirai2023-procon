@@ -19,9 +19,7 @@ export const setRomanSetting = (romanType: RomanType) => {
   localStorage.setItem('roman-setting#TypingLyrics', romanType)
 }
 
-/**
- * ひらがなからローマ字への変換マップ
- */
+/** ひらがなからローマ字への変換マップ */
 const romanMap: Record<string, string | Record<RomanType, string>> = {
   あ: 'A',
   い: 'I',
