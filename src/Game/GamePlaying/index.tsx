@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { IPhrase, Player } from 'textalive-app-api'
 
 import { SongName } from '../../utils/songData'
+import { formatPhraseText } from '../../utils/formatPhraseText'
 
 import CharacterPlaying from './CharacterPlaying'
 import TimerBar from './TimerBar'
@@ -28,6 +29,13 @@ export default function GamePlaying({
   // nowPhrase が歌詞中の何番目のフレーズか
   const nowPhraseIndex = useRef(-1)
 
+  // 表示用のフレーズの歌詞
+  const [nowPhraseText, setNowPhraseText] = useState('')
+  const nextPhraseText = useMemo(
+    () => (nextPhrase ? formatPhraseText(nextPhrase) : ''),
+    [nextPhrase]
+  )
+
   // nowPhraseReading の何文字目までタイプできたか
   const [passedLastCharacterIndex, setPassedLastCharacterIndex] = useState(-1)
 
@@ -39,16 +47,18 @@ export default function GamePlaying({
       // フレーズの歌唱時間が終わった
       setNowPhrase(undefined)
       setNowPhraseReading('')
+      setNowPhraseText('')
     }
     if (nextPhrase && nextPhrase.startTime <= position) {
       // 次のフレーズの歌唱時間がはじまろうとしている
       nowPhraseIndex.current += 1
       setNowPhraseReading(lyricsReadingRoman[nowPhraseIndex.current])
       setNowPhrase(nextPhrase)
+      setNowPhraseText(nextPhraseText)
       setNextPhrase(nextPhrase.next)
       setPassedLastCharacterIndex(-1)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position])
 
   useEffect(() => {
@@ -58,7 +68,7 @@ export default function GamePlaying({
     setNowPhraseReading('')
     setNowPhrase(undefined)
     setNextPhrase(player.video.firstPhrase)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songName])
 
   const handleKeyDown = useCallback(
@@ -120,7 +130,7 @@ export default function GamePlaying({
       />
       <div>
         <TimerBar position={position} nowPhrase={nowPhrase} />
-        <div className='now-phrase'>{nowPhrase ? nowPhrase.text : ''}</div>
+        <div className='now-phrase'>{nowPhraseText}</div>
         <div className='now-phrase-reading'>
           {nowPhraseReading.split('').map((v, idx) => (
             <span
@@ -136,7 +146,7 @@ export default function GamePlaying({
       </div>
       <div className='next-phrase-area'>
         <span className='next-text'>{'NEXT: '}</span>
-        <span className='next-phrase'>{nextPhrase ? nextPhrase.text : ''}</span>
+        <span className='next-phrase'>{nextPhraseText}</span>
       </div>
     </div>
   )
