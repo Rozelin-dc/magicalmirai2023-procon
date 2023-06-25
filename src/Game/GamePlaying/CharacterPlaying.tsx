@@ -120,16 +120,18 @@ export default function CharacterPlaying({
       return
     }
 
-    if (Math.random() < 0.4) {
+    if (Math.random() < 0.3) {
       // そのままだと線の数が多すぎるので適当に間引く
       return
     }
 
     const span = document.createElement('span')
+    const hex = Math.random() * 360
     span.className = 'line'
     span.style.top = `${Math.random() * 100}%`
     span.style.width = `${30 + Math.random() * 30}px`
-    span.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`
+    span.style.backgroundColor = `hsl(${hex}, 100%, 70%)`
+    span.style.boxShadow = `0 0 12px hsl(${hex}, 100%, 85%)`
     span.style.animationDuration = `${backgroundLineSpeed}ms`
     span.addEventListener('animationend', () => {
       backgroundRef.current?.removeChild(span)
