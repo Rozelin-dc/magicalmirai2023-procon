@@ -83,8 +83,8 @@ export default function GamePlaying({
         return
       }
 
-      if (e.key === 'Shift') {
-        // シフトは記号入力の際に検知されるのでスキップ
+      if (!e.key.match(/^[a-zA-Z0-9'-]$/)) {
+        // タイピング対象は英数字とシングルクォート、ハイフンのみなので、それ以外はスキップ
         return
       }
 
