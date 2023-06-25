@@ -1,6 +1,8 @@
 .game-area {
   display: grid;
   grid-template-rows: 1fr 90px 1fr;
+  gap: 20px;
+  padding: 20px 0;
   color: $text-color;
   height: 100%;
 }
@@ -30,7 +32,6 @@
 
 .next-phrase-area {
   font-size: 16px;
-  padding-top: 30px;
   contain: strict;
   display: flex;
 

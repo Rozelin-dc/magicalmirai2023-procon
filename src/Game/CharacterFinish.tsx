@@ -6,7 +6,7 @@ import mikuSuccess from '../assets/Miku/success.webp'
 import kaitoFail from '../assets/KAITO/fail.webp'
 import kaitoSuccess from '../assets/KAITO/success.webp'
 
-import './character-img.scss'
+import './character-finish.scss'
 
 const imgSrc = {
   Miku: {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Player } from 'textalive-app-api'
 
 import { SongName, songData } from '../../utils/songData'
@@ -12,7 +12,8 @@ import kaitoRunningB from '../../assets/KAITO/running-b.webp'
 import kaitoRunningC from '../../assets/KAITO/running-c.webp'
 import kaitoRunningD from '../../assets/KAITO/running-d.webp'
 import kaitoTrip from '../../assets/KAITO/trip.webp'
-import '../character-img.scss'
+
+import './character-playing.scss'
 
 const imgSrc = {
   Miku: {
@@ -58,6 +59,14 @@ export default function CharacterPlaying({
 
   const character = useMemo(() => songData[songName].character, [songName])
 
+  const backgroundRef = useRef<HTMLDivElement | null>(null)
+  const [backgroundLineSpeed, setBackgroundLineSpeed] = useState(0)
+
+  const isChorus = useMemo(
+    () => player.findChorus(position) !== null,
+    [player, position]
+  )
+
   useEffect(() => {
     if (isFail) {
       // ミスタイプした
@@ -65,7 +74,7 @@ export default function CharacterPlaying({
       setLastActionPosition(position)
       setIsFail(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFail])
 
   useEffect(() => {
@@ -74,7 +83,7 @@ export default function CharacterPlaying({
       setLastActionPosition(undefined)
       setNowState('running')
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position])
 
   useEffect(() => {
@@ -82,6 +91,9 @@ export default function CharacterPlaying({
     if (!beat) {
       return
     }
+
+    setBackgroundLineSpeed(beat.duration * 2)
+
     // 拍に合わせて1秒に1回程度走るようにする
     const timesRunInBeat = Math.max(1, Math.round(beat.duration / 500))
     const duration = beat.duration / timesRunInBeat
@@ -99,44 +111,85 @@ export default function CharacterPlaying({
         setRunningState('d')
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, position])
 
+  // サビで背景に光の線がランダムに表示されるように
+  useEffect(() => {
+    if (!isChorus || !backgroundRef.current) {
+      return
+    }
+
+    if (Math.random() < 0.4) {
+      // そのままだと線の数が多すぎるので適当に間引く
+      return
+    }
+
+    const span = document.createElement('span')
+    span.className = 'line'
+    span.style.top = `${Math.random() * 100}%`
+    span.style.width = `${30 + Math.random() * 30}px`
+    span.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`
+    span.style.animationDuration = `${backgroundLineSpeed}ms`
+    span.addEventListener('animationend', () => {
+      backgroundRef.current?.removeChild(span)
+    })
+    backgroundRef.current.appendChild(span)
+  }, [backgroundLineSpeed, isChorus, position])
+
   return (
-    <div className='character-img-container'>
-      <img
-        src={imgSrc[character].running.a}
-        className='character-img'
+    <div style={{ contain: 'strict' }}>
+      <div
+        ref={backgroundRef}
+        className='full-container'
         style={{
-          width: nowState === 'running' && runningState === 'a' ? undefined : 0,
+          zIndex: 0,
         }}
       />
-      <img
-        src={imgSrc[character].running.b}
-        className='character-img'
+      <div
+        className='character-img-container full-container'
         style={{
-          width: nowState === 'running' && runningState === 'b' ? undefined : 0,
+          zIndex: 1,
         }}
-      />
-      <img
-        src={imgSrc[character].running.c}
-        className='character-img'
-        style={{
-          width: nowState === 'running' && runningState === 'c' ? undefined : 0,
-        }}
-      />
-      <img
-        src={imgSrc[character].running.d}
-        className='character-img'
-        style={{
-          width: nowState === 'running' && runningState === 'd' ? undefined : 0,
-        }}
-      />
-      <img
-        src={imgSrc[character].trip}
-        className='character-img'
-        style={{ width: nowState === 'fail' ? undefined : 0 }}
-      />
+      >
+        <img
+          src={imgSrc[character].running.a}
+          className='character-img'
+          style={{
+            width:
+              nowState === 'running' && runningState === 'a' ? undefined : 0,
+          }}
+        />
+        <img
+          src={imgSrc[character].running.b}
+          className='character-img'
+          style={{
+            width:
+              nowState === 'running' && runningState === 'b' ? undefined : 0,
+          }}
+        />
+        <img
+          src={imgSrc[character].running.c}
+          className='character-img'
+          style={{
+            width:
+              nowState === 'running' && runningState === 'c' ? undefined : 0,
+          }}
+        />
+        <img
+          src={imgSrc[character].running.d}
+          className='character-img'
+          style={{
+            width:
+              nowState === 'running' && runningState === 'd' ? undefined : 0,
+          }}
+        />
+        <img
+          src={imgSrc[character].trip}
+          className='character-img'
+          style={{ width: nowState === 'fail' ? undefined : 0 }}
+        />
+      </div>
     </div>
   )
 }
