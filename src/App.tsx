@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
-import { Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 
 import { SongName, songData } from './utils/songData'
 import { RomanType, getRomanSetting, setRomanSetting } from './utils/roman'
@@ -75,16 +75,22 @@ export default function App() {
   }, [])
 
   const handleSongSelect = useCallback(
-    (songName: SongName) => {
+    async (songName: SongName) => {
       if (!player) {
         return
       }
-
-      player.createFromSongUrl(
-        songData[songName].songUrl,
-        songData[songName].songUrlOptions
-      )
       setSongName(songName)
+
+      try {
+        await player.createFromSongUrl(
+          songData[songName].songUrl,
+          songData[songName].songUrlOptions
+        )
+      } catch (e) {
+        toast.error('楽曲情報の読み込みに失敗しました')
+        console.log(JSON.stringify(e))
+        setSongName('')
+      }
     },
     [player]
   )
