@@ -122,7 +122,7 @@ export default function Game({
   const copyShareText = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(
-        `${romanType}ローマ字で${songName}に挑戦し、${score}点獲得しました！\n#TypingLyrics\n${window.location.href}`
+        `${romanType}ローマ字で『${songName}』に挑戦し、${score}点獲得しました！\n#TypingLyrics\n${window.location.href}`
       )
       toast('シェア用テキストをクリップボードにコピーしました')
     } catch (e) {
