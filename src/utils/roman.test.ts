@@ -42,6 +42,16 @@ describe('kanaToRoman', () => {
     expect(kanaToRoman('あんい', 'ヘボン式')).toEqual('ANNI')
     expect(kanaToRoman('あんい', '訓令式')).toEqual('ANNI')
   })
+
+  test('空白が含まれていても正しく変換できる', () => {
+    expect(kanaToRoman('あん あった しゃ', 'ヘボン式')).toEqual('AN ATTA SHA')
+    expect(kanaToRoman('あん あった しゃ', '訓令式')).toEqual('AN ATTA SYA')
+  })
+
+  test('「ん」の直後に小文字を含む文字列があってもが正しく変換できる', () => {
+    expect(kanaToRoman('かんしゃ', 'ヘボン式')).toEqual('KANSHA')
+    expect(kanaToRoman('かんしゃ', '訓令式')).toEqual('KANSYA')
+  })
 })
 
 describe('getRomanSetting, setRomanSetting', () => {

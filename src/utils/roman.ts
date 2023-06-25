@@ -200,8 +200,11 @@ export const kanaToRoman = (str: string, type: RomanType) => {
     }
 
     if (target === 'ん') {
-      if (convertFinishIndex === str.length) {
-        // 最後の文字の場合
+      if (
+        convertFinishIndex === str.length ||
+        str.charAt(convertFinishIndex) === ' '
+      ) {
+        // 最後の文字か空白の前の場合
         result += 'N'
       } else {
         beforeN = true
