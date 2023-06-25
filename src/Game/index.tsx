@@ -2,8 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { MdPlayCircleOutline, MdRestartAlt, MdShare } from 'react-icons/md'
 import { RiArrowGoBackFill } from 'react-icons/ri'
 import { Player } from 'textalive-app-api'
-// eslint-disable-next-line import/no-named-as-default
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 import { SongName, songData } from '../utils/songData'
 import { RomanType, kanaToRoman } from '../utils/roman'
