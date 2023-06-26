@@ -9,18 +9,10 @@ interface Props {
 }
 
 export default function TimerBar({ position, nowPhrase }: Props) {
-  const duration = useMemo(() => {
-    if (!nowPhrase) {
-      return 0
-    }
-    return nowPhrase.endTime - nowPhrase.startTime
-  }, [nowPhrase])
-  const ratio = useMemo(() => {
-    if (!nowPhrase || duration === 0) {
-      return 1
-    }
-    return (nowPhrase.endTime - position) / duration
-  }, [nowPhrase, duration, position])
+  const ratio = useMemo(
+    () => (nowPhrase ? 1 - nowPhrase.progress(position) : 1),
+    [nowPhrase, position]
+  )
 
   if (!nowPhrase) {
     return null
