@@ -179,24 +179,18 @@ export const kanaToRoman = (str: string, type: RomanType) => {
   // str の何文字目まで変換が完了しているか (1-index)
   let convertFinishIndex = 0
   let result = ''
-  // 前の文字が「ん」かどうか
-  let beforeN = false
   while (convertFinishIndex < str.length) {
     let target = str.charAt(convertFinishIndex)
     // 「っ」から始まるかどうか
     let beginWithXtu = false
+    // 前の文字が「ん」かどうか
+    let beforeN = false
     convertFinishIndex += 1
 
     if (!target.match(/^([\u3040-\u309F]|ー)$/)) {
       // 対象の文字がひらがな以外(英数字または記号)の場合
       result += target.toUpperCase()
       continue
-    }
-
-    if (target === 'っ') {
-      beginWithXtu = true
-      target = str.charAt(convertFinishIndex)
-      convertFinishIndex += 1
     }
 
     if (target === 'ん') {
@@ -206,10 +200,19 @@ export const kanaToRoman = (str: string, type: RomanType) => {
       ) {
         // 最後の文字か空白の前の場合
         result += 'N'
+        continue
       } else {
         beforeN = true
+        target = str.charAt(convertFinishIndex)
+        convertFinishIndex += 1
       }
-      continue
+    }
+
+
+    if (target === 'っ') {
+      beginWithXtu = true
+      target = str.charAt(convertFinishIndex)
+      convertFinishIndex += 1
     }
 
     if (str.charAt(convertFinishIndex).match(/^[ぁぃぅぇぉゃゅょ]$/)) {
@@ -223,11 +226,6 @@ export const kanaToRoman = (str: string, type: RomanType) => {
       res = romanMap[target] as string
     } else {
       res = (romanMap[target] as Record<RomanType, string>)[type]
-    }
-
-    if (beginWithXtu) {
-      // 「っ」は次の文字入力の最初の一文字を繰り返す
-      result += res.charAt(0)
     }
 
     if (beforeN) {
@@ -244,6 +242,11 @@ export const kanaToRoman = (str: string, type: RomanType) => {
         result += 'N'
       }
       beforeN = false
+    }
+
+    if (beginWithXtu) {
+      // 「っ」は次の文字入力の最初の一文字を繰り返す
+      result += res.charAt(0)
     }
 
     result += res

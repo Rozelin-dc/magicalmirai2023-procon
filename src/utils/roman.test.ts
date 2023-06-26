@@ -52,6 +52,11 @@ describe('kanaToRoman', () => {
     expect(kanaToRoman('かんしゃ', 'ヘボン式')).toEqual('KANSHA')
     expect(kanaToRoman('かんしゃ', '訓令式')).toEqual('KANSYA')
   })
+
+  test('「ん」の直後に「っ」があってもが正しく変換できる', () => {
+    expect(kanaToRoman('わんって', 'ヘボン式')).toEqual('WANTTE')
+    expect(kanaToRoman('わんって', '訓令式')).toEqual('WANTTE')
+  })
 })
 
 describe('getRomanSetting, setRomanSetting', () => {
