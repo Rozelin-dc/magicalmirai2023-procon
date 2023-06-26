@@ -92,8 +92,6 @@ export default function CharacterPlaying({
       return
     }
 
-    setBackgroundLineSpeed(beat.duration * 2)
-
     // 拍に合わせて1秒に1回程度走るようにする
     const timesRunInBeat = Math.max(1, Math.round(beat.duration / 500))
     const duration = beat.duration / timesRunInBeat
@@ -111,6 +109,9 @@ export default function CharacterPlaying({
         setRunningState('d')
       }
     }
+
+    // 走るスピードと後ろの光のスピードを合わせる
+    setBackgroundLineSpeed(duration * 2)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, position])
 
