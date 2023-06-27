@@ -1,0 +1,93 @@
+.game-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 800px 1fr;
+}
+
+.play-waiting-area {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .play-button {
+    font-size: 160px;
+    height: 170px;
+    color: $primary;
+    background-color: transparent;
+    border: none;
+    display: block;
+
+    &:hover {
+      color: $primary-hover;
+    }
+  }
+
+  .description {
+    color: $text-color;
+    font-size: 30px;
+  }
+}
+
+.stop-button {
+  margin: auto auto 40px;
+}
+
+.game-finish-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 0;
+  gap: 20px;
+  color: $text-color;
+}
+
+.result-text {
+  font-size: 50px;
+  text-align: center;
+}
+
+.finish-button-area {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.score-area {
+  padding: 40px 10px 0;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .song-name {
+    font-size: 25px;
+    text-align: center;
+  }
+
+  .score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    background-color: $background-secondary;
+
+    .score-title {
+      font-size: 35px;
+    }
+
+    .score-content {
+      font-size: 30px;
+    }
+  }
+
+  .update-high-score {
+    font-size: 35px;
+    color: $primary;
+    text-align: center;
+  }
+}

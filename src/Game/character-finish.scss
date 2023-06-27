@@ -1,0 +1,11 @@
+.character-img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  contain: strict;
+}
+
+.character-img {
+  max-width: 100%;
+  max-height: 100%;
+}

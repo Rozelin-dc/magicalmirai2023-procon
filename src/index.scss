@@ -1,0 +1,51 @@
+#root {
+  font-family: 'DotGothic16', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: $background-primary;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.title {
+  font-size: 60px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.icon-button {
+  width: 60px;
+  height: 60px;
+  font-size: 50px;
+  color: $primary;
+  color: $primary;
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: $primary-hover;
+  }
+}

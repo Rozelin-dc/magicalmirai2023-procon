@@ -1,0 +1,46 @@
+.game-area {
+  display: grid;
+  grid-template-rows: 1fr 90px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  color: $text-color;
+  height: 100%;
+}
+
+.now-phrase {
+  font-size: 40px;
+  line-height: 44px;
+  margin: 10px auto 0;
+  text-align: center;
+
+  // 歌詞が長い時のはみ出し防止の設定
+  white-space: nowrap;
+  width: 800px;
+}
+
+.now-phrase-reading {
+  font-size: 20px;
+  line-height: 22px;
+  margin: 6px auto 0;
+  display: flex;
+  justify-content: center;
+
+  .is-passed {
+    color: $primary;
+  }
+}
+
+.next-phrase-area {
+  font-size: 16px;
+  contain: strict;
+  display: flex;
+
+  .next-text {
+    margin-left: 10px;
+  }
+
+  .next-phrase {
+    flex-grow: 1;
+    text-align: center;
+  }
+}

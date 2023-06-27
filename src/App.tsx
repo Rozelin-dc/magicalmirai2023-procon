@@ -1,16 +1,32 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { IPlayerApp, Player, PlayerListener } from 'textalive-app-api'
-import { MdPlayCircleOutline } from 'react-icons/md'
-import './style.css'
+import { Toaster, toast } from 'react-hot-toast'
+
+import { SongName, songData } from './utils/songData'
+import { RomanType, getRomanSetting, setRomanSetting } from './utils/roman'
+import logo from './assets/logo.svg'
+import IndividualScore from './IndividualScore'
+import Game from './Game'
+import SongSelect from './SongSelect'
+import Loading from './components/Loading'
+import RightButtons from './RightButtons'
+import './app.scss'
 
 export default function App() {
   const [player, setPlayer] = useState<Player>()
   const [app, setApp] = useState<IPlayerApp>()
-  const [isPlayed, setIsPlayed] = useState(false)
-  const [isReady, setIsReady] = useState(false)
-  const [position, setPosition] = useState(-1)
-  const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
 
+  const [songName, setSongName] = useState<SongName | ''>('')
+  const [romanType, setRomanType] = useState<RomanType>(
+    getRomanSetting() ?? 'ヘボン式'
+  )
+  const [isVideoReady, setIsVideoReady] = useState(false)
+  const [isTimerReady, setIsTimerReady] = useState(false)
+  const [position, setPosition] = useState(-1)
+
+  const [showIndividualScore, setShowIndividualScore] = useState(false)
+
+  const [mediaElement, setMediaElement] = useState<HTMLDivElement | null>(null)
   const media = useMemo(
     () => <div className='media' ref={setMediaElement} />,
     []
@@ -31,28 +47,17 @@ export default function App() {
 
     const playerListener: PlayerListener = {
       onAppReady: (app) => {
-        if (!app.songUrl) {
-          p.createFromSongUrl('https://piapro.jp/t/Vfrl/20230120182855', {
-            video: {
-              // 音楽地図訂正履歴: https://songle.jp/songs/2427950/history
-              beatId: 4267334,
-              chordId: 2405059,
-              repetitiveSegmentId: 2475645,
-              // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FVfrl%2F20230120182855
-              lyricId: 56095,
-              lyricDiffId: 9637,
-            },
-          })
-        }
         setApp(app)
       },
+      onVideoReady: () => {
+        setIsVideoReady(true)
+      },
       onTimerReady: () => {
-        setIsReady(true)
+        setIsTimerReady(true)
       },
       onTimeUpdate: (position) => {
         setPosition(position)
       },
-      onPlay: () => setIsPlayed(true),
     }
     p.addListener(playerListener)
 
@@ -64,17 +69,111 @@ export default function App() {
     }
   }, [mediaElement])
 
+  const handleChangeRomanType = useCallback((romanType: RomanType) => {
+    setRomanType(romanType)
+    setRomanSetting(romanType)
+  }, [])
+
+  const handleSongSelect = useCallback(
+    async (songName: SongName) => {
+      if (!player) {
+        return
+      }
+      setSongName(songName)
+
+      try {
+        await player.createFromSongUrl(
+          songData[songName].songUrl,
+          songData[songName].songUrlOptions
+        )
+      } catch (e) {
+        toast.error('楽曲情報の読み込みに失敗しました')
+        console.log(JSON.stringify(e))
+        setSongName('')
+      }
+    },
+    [player]
+  )
+
+  const handlePlay = useCallback(() => {
+    if (!player) {
+      return
+    }
+
+    player.requestPlay()
+  }, [player])
+
+  const handleStop = useCallback(() => {
+    if (!player) {
+      return
+    }
+
+    player.requestStop()
+    setPosition(-1)
+  }, [player])
+
+  const resetSong = useCallback(() => {
+    setIsVideoReady(false)
+    setIsTimerReady(false)
+    setSongName('')
+  }, [])
+
   return (
     <div className='app'>
-      {!isPlayed && player && (
-        <button onClick={() => player.requestPlay()} className='play-button'>
-          <MdPlayCircleOutline />
-        </button>
+      <img src={logo} className='logo' />
+      {!player ? (
+        <Loading />
+      ) : showIndividualScore ? (
+        <IndividualScore onBack={() => setShowIndividualScore(false)} />
+      ) : songName === '' ? (
+        <SongSelect onSelect={handleSongSelect} />
+      ) : (
+        <Game
+          songName={songName}
+          player={player}
+          position={position}
+          romanType={romanType}
+          onPlay={handlePlay}
+          onStop={handleStop}
+          onBack={resetSong}
+          isVideoReady={isVideoReady}
+          isTimerReady={isTimerReady}
+        />
       )}
-      <div className='wrapper'>
-        <div className='char'>{char}</div>
-      </div>
+      {player && (
+        <RightButtons
+          romanType={romanType}
+          onChangeRomanType={handleChangeRomanType}
+          isSongSelectPage={!showIndividualScore && songName === ''}
+          toIndividualScorePage={() => setShowIndividualScore(true)}
+        />
+      )}
       {media}
+      <Toaster
+        position='top-center'
+        reverseOrder={false}
+        gutter={5}
+        toastOptions={{
+          icon: '',
+          duration: 3000,
+          style: {
+            fontSize: '20px',
+            color: '#ffffff',
+            background: '#006477',
+            borderRadius: 0,
+            borderWidth: 2,
+            borderStyle: 'solid',
+            borderColor: '#00fff9',
+            padding: '10px 0',
+          },
+          error: {
+            style: {
+              backgroundColor: '#a32600',
+              borderColor: '#ff8f8f',
+            },
+          },
+        }}
+      />
     </div>
   )
 }
