@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/magicalmirai2023-procon/', // TODO: 応募前に消す(github pagesで配信する為だけに必要な設定なので)
+  // github pagesでの配信用設定 base: '/magicalmirai2023-procon/',
   build: {
     outDir: './docs'
   },
