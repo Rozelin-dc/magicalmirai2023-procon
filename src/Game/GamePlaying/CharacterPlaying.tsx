@@ -147,6 +147,7 @@ export default function CharacterPlaying({
         className='full-container'
         style={{
           zIndex: 0,
+          visibility: nowState === 'fail' ? 'hidden' : undefined, // 転倒中は背景の演出は隠す
         }}
       />
       <div
