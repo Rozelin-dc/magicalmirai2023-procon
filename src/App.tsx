@@ -95,21 +95,28 @@ export default function App() {
     [player]
   )
 
+  /** 楽曲の再生処理を行う。成否を返す */
   const handlePlay = useCallback(() => {
     if (!player) {
-      return
+      return false
     }
 
-    player.requestPlay()
+    return player.requestPlay()
   }, [player])
 
+  /** 楽曲の停止処理を行う。成否を返す */
   const handleStop = useCallback(() => {
     if (!player) {
-      return
+      return false
     }
 
-    player.requestStop()
+    const res = player.requestStop()
+    if (!res) {
+      return false
+    }
+
     setPosition(-1)
+    return true
   }, [player])
 
   const resetSong = useCallback(() => {

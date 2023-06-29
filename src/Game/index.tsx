@@ -18,8 +18,8 @@ interface Props {
   player: Player
   position: number
   romanType: RomanType
-  onPlay(): void
-  onStop(): void
+  onPlay(): boolean
+  onStop(): boolean
   onBack(): void
 
   isVideoReady: boolean
@@ -86,18 +86,33 @@ export default function Game({
   }, [songName])
 
   const handlePlay = useCallback(() => {
-    onPlay()
+    const res = onPlay()
+    if (!res) {
+      toast.error('楽曲の再生に失敗しました')
+      return
+    }
+
     setStarted(true)
   }, [onPlay])
 
   const handleRestart = useCallback(() => {
-    onStop()
+    const res = onStop()
+    if (!res) {
+      toast.error('楽曲の停止に失敗しました')
+      return
+    }
+
     setScore(0)
     setStarted(false)
   }, [onStop])
 
   const handleBack = useCallback(() => {
-    onStop()
+    const res = onStop()
+    if (!res) {
+      toast.error('楽曲の停止に失敗しました')
+      return
+    }
+
     onBack()
   }, [onBack, onStop])
 
