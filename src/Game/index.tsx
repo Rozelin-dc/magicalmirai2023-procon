@@ -60,10 +60,11 @@ export default function Game({
   const [started, setStarted] = useState(false)
   const isFinish = useMemo(
     () =>
-      player.getBeats()
-        ? position >= player.getBeats().splice(-1)[0].endTime
+      started
+        ? position >= player.getBeats().splice(-1)[0].endTime &&
+          position >= player.video.lastPhrase.endTime // ビートが無くなっても歌唱時間は終わっていない曲があるので
         : false,
-    [player, position]
+    [player, position, started]
   )
   const isHighScore = useMemo(
     () => isFinish && score > highScore,
