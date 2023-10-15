@@ -20,7 +20,8 @@ export default defineConfig({
     }
   },
   test: {
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'ui-test/**/*.test.ts'],
+    testTimeout: 10000,
     environment: 'jsdom'
   }
 })
