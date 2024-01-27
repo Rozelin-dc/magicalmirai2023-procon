@@ -35,3 +35,15 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
+  const innerFn = originalFn.apply(this, args)
+
+  return (subject) => {
+    const el = innerFn(subject)
+
+    console.info(`Command: get\nquery: ${args[0]}\noptions: ${args}\nElement class: ${el[0].className}\nElement data-test: ${el[0].dataset?.test}`)
+
+    return el
+  }
+})
