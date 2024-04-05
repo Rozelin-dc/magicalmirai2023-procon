@@ -35,3 +35,34 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
+  const innerFn = originalFn.apply(this, args)
+
+  return (subject) => {
+    const el = innerFn(subject)
+
+    const testIds: string[] = []
+    // const elData: string[] = []
+    for (let i = 0; i < el.length; i++) {
+      // elData.push(JSON.stringify(el[i], undefined, 2))
+      const testId = el[i].dataset['test']
+      if (testId) {
+        testIds.push(testId)
+      }
+    }
+
+    Cypress.log({
+      name: 'get',
+      message: `get command run\nlocator: ${args[0]}\ntest ids: ${testIds.join(
+        ', '
+      )}`,
+      $el: el,
+    })
+    // cy.log(`get command run: ${args[0]}\nreturnd element: ${el}`)
+
+    // console.info('get element: ', JSON.stringify(el))
+
+    return el
+  }
+})

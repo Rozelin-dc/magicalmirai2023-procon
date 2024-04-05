@@ -3,7 +3,7 @@ describe('Select Song', () => {
     cy.visit('/')
     cy.contains('Select Song')
 
-    const lis = cy.get('li')
+    const lis = cy.get('.selection').find('li')
     lis.its('length').should('eq', 6)
     // let songName = ''
     // lis.then(($li) => (songName = Cypress.$($li).text()))
