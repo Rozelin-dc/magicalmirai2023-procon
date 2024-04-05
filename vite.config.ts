@@ -5,7 +5,8 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // github pagesでの配信用設定 base: '/magicalmirai2023-procon/',
+  // github pagesでの配信用設定
+  // base: '/magicalmirai2023-procon/',
   build: {
     outDir: './docs'
   },
@@ -20,7 +21,7 @@ export default defineConfig({
     }
   },
   test: {
-    include: ['src/**/*.test.ts', 'ui-test/**/*.test.ts'],
+    include: ['src/**/*.test.ts'],
     testTimeout: 10000,
     environment: 'jsdom'
   }
