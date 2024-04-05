@@ -12,6 +12,9 @@
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test dev http://localhost:2323 cy:run"
   },
+  "workspaces": [
+    "cypress-plugins/*"
+  ],
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
