@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -25,25 +24,56 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
+
+// Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
+//   const innerFn = originalFn.apply(this, args)
+
+//   return (subject) => {
+//     const el = innerFn(subject)
+
+//     console.info(`Command: get\nquery: ${args[0]}\noptions: ${args}\nElement class: ${el[0].className}\nElement data-test: ${el[0].dataset?.test}`)
+
+//     return el
 //   }
-// }
+// })
 
-Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
-  const innerFn = originalFn.apply(this, args)
+Cypress.Commands.add('logElementInfo', (method: keyof (typeof cy), locator: string) => {
+  // @ts-ignore
+  cy[method](locator).then((element: { attributes: { name: string, value: unknown }[] }[]) => {
+    const parent = {
+      index: 'parent',
+      // @ts-ignore
+      text: element.text(),
+      // @ts-ignore
+      html: element.html(),
+      method,
+      locator,
+      len: element.length
+    }
+    cy.writeFile('./log.txt', parent, { flag: 'a' });
+    // if (!Array.isArray(element)) {
+    //   element = [element];
+    // }
+    for (let idx = 0; idx < element.length; idx++) {
+      const el = element[idx];
+      const attributes = Array.from(el.attributes).reduce((acc: Record<string, unknown>, attr) => {
+        acc[attr.name] = attr.value;
+        return acc;
+      }, {});
+      const elementInfo = {
+        index: idx,
+        // @ts-ignore
+        text: el.text,
+        // @ts-ignore
+        html: el.html,
+        attributes: attributes,
+        method,
+        locator,
+      };
+      cy.writeFile('./log.txt', elementInfo, { flag: 'a' });
+    }
+  });
 
-  return (subject) => {
-    const el = innerFn(subject)
-
-    console.info(`Command: get\nquery: ${args[0]}\noptions: ${args}\nElement class: ${el[0].className}\nElement data-test: ${el[0].dataset?.test}`)
-
-    return el
-  }
-})
+  // @ts-ignore
+  return cy[method](locator)
+});

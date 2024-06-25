@@ -31,6 +31,7 @@ module.exports = {
         warnOnUnassignedImports: true,
       },
     ],
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   settings: {
     'import/resolver': {

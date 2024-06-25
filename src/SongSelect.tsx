@@ -19,7 +19,7 @@ export default function SongSelect({
       </div>
       <div>
         <div className='title'>{'Select Song'}</div>
-        <ul className='selection'>
+        <ul className='selection' data-test='song-select-list'>
           {songNames.map((v) => (
             <li key={v} onClick={() => onSelect(v)}>
               {v}
