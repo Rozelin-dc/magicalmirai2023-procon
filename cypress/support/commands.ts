@@ -37,43 +37,54 @@
 //   }
 // })
 
-Cypress.Commands.add('logElementInfo', (method: keyof (typeof cy), locator: string) => {
-  // @ts-ignore
-  cy[method](locator).then((element: { attributes: { name: string, value: unknown }[] }[]) => {
-    const parent = {
-      index: 'parent',
-      // @ts-ignore
-      text: element.text(),
-      // @ts-ignore
-      html: element.html(),
-      method,
-      locator,
-      len: element.length
-    }
-    cy.writeFile('./log.txt', parent, { flag: 'a' });
-    // if (!Array.isArray(element)) {
-    //   element = [element];
-    // }
-    for (let idx = 0; idx < element.length; idx++) {
-      const el = element[idx];
-      const attributes = Array.from(el.attributes).reduce((acc: Record<string, unknown>, attr) => {
-        acc[attr.name] = attr.value;
-        return acc;
-      }, {});
-      const elementInfo = {
-        index: idx,
-        // @ts-ignore
-        text: el.text,
-        // @ts-ignore
-        html: el.html,
-        attributes: attributes,
-        method,
-        locator,
-      };
-      cy.writeFile('./log.txt', elementInfo, { flag: 'a' });
-    }
-  });
+let commandIndex = 0
 
-  // @ts-ignore
-  return cy[method](locator)
-});
+Cypress.Commands.add(
+  'logElementInfo',
+  (method: keyof typeof cy, locator: string) => {
+    // @ts-ignore
+    cy[method](locator).then(
+      (element: { attributes: { name: string; value: unknown }[] }[]) => {
+        const parent = {
+          index: 'parent',
+          // @ts-ignore
+          text: element.text(),
+          // @ts-ignore
+          html: element.html(),
+          method,
+          locator,
+          commandIndex,
+          len: element.length,
+        }
+        cy.writeFile('./log.txt', parent, { flag: 'a' })
+        for (let idx = 0; idx < element.length; idx++) {
+          const el = element[idx]
+          const attributes = Array.from(el.attributes).reduce(
+            (acc: Record<string, unknown>, attr) => {
+              acc[attr.name] = attr.value
+              return acc
+            },
+            {}
+          )
+          const elementInfo = {
+            index: idx,
+            // @ts-ignore
+            text: el.innerText,
+            // @ts-ignore
+            html: el.outerHTML,
+            attributes: attributes,
+            method,
+            locator,
+            commandIndex,
+          }
+          cy.writeFile('./log.txt', elementInfo, { flag: 'a' })
+        }
+      }
+    )
+
+    commandIndex += 1
+
+    // @ts-ignore
+    return cy[method](locator)
+  }
+)
