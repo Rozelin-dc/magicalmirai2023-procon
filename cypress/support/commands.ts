@@ -37,26 +37,50 @@
 //   }
 // })
 
+interface ElementInfo {
+  commandIndex: number
+  text: string
+  html: string
+  method: keyof typeof cy
+  locator: string
+  len: number
+  elements: {
+    index: number
+    text: string
+    html: string
+    attributes: Record<string, unknown>
+  }[]
+}
+
 let commandIndex = 0
+let testName = ''
+
+Cypress.on('test:before:run', (_atr, test) => {
+  commandIndex = 0
+  testName = test.title
+})
 
 Cypress.Commands.add(
   'logElementInfo',
   (method: keyof typeof cy, locator: string) => {
+    if (commandIndex === 0) {
+      cy.writeFile(`./${testName}.log.json`, '', { flag: 'w' })
+    }
+
     // @ts-ignore
     cy[method](locator).then(
       (element: { attributes: { name: string; value: unknown }[] }[]) => {
-        const parent = {
-          index: 'parent',
+        const elementInfo: ElementInfo = {
+          commandIndex,
           // @ts-ignore
           text: element.text(),
           // @ts-ignore
           html: element.html(),
           method,
           locator,
-          commandIndex,
           len: element.length,
+          elements: []
         }
-        cy.writeFile('./log.txt', parent, { flag: 'a' })
         for (let idx = 0; idx < element.length; idx++) {
           const el = element[idx]
           const attributes = Array.from(el.attributes).reduce(
@@ -66,19 +90,16 @@ Cypress.Commands.add(
             },
             {}
           )
-          const elementInfo = {
+          elementInfo.elements.push({
             index: idx,
             // @ts-ignore
             text: el.innerText,
             // @ts-ignore
             html: el.outerHTML,
             attributes: attributes,
-            method,
-            locator,
-            commandIndex,
-          }
-          cy.writeFile('./log.txt', elementInfo, { flag: 'a' })
+          })
         }
+        cy.writeFile(`./${testName}.log.json`, JSON.stringify(elementInfo, null, 2) + ',\n', { flag: 'a' })
       }
     )
 
