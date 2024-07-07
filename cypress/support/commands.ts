@@ -52,10 +52,12 @@ interface ElementInfo {
   }[]
 }
 
+let commands: ElementInfo[] = []
 let commandIndex = 0
 let testName = ''
 
 Cypress.on('test:before:run', (_atr, test) => {
+  commands = []
   commandIndex = 0
   testName = test.title
 })
@@ -63,18 +65,12 @@ Cypress.on('test:before:run', (_atr, test) => {
 Cypress.Commands.add(
   'logElementInfo',
   (method: keyof typeof cy, locator: string) => {
-    if (commandIndex === 0) {
-      cy.writeFile(`./${testName}.log.json`, '', { flag: 'w' })
-    }
-
     // @ts-ignore
     cy[method](locator).then(
-      (element: { attributes: { name: string; value: unknown }[] }[]) => {
+      (element: JQuery<HTMLElement>) => {
         const elementInfo: ElementInfo = {
           commandIndex,
-          // @ts-ignore
           text: element.text(),
-          // @ts-ignore
           html: element.html(),
           method,
           locator,
@@ -84,7 +80,7 @@ Cypress.Commands.add(
         for (let idx = 0; idx < element.length; idx++) {
           const el = element[idx]
           const attributes = Array.from(el.attributes).reduce(
-            (acc: Record<string, unknown>, attr) => {
+            (acc: Record<string, string>, attr) => {
               acc[attr.name] = attr.value
               return acc
             },
@@ -92,18 +88,16 @@ Cypress.Commands.add(
           )
           elementInfo.elements.push({
             index: idx,
-            // @ts-ignore
             text: el.innerText,
-            // @ts-ignore
             html: el.outerHTML,
             attributes: attributes,
           })
         }
-        cy.writeFile(`./${testName}.log.json`, JSON.stringify(elementInfo, null, 2) + ',\n', { flag: 'a' })
+        commands.push(elementInfo)
+
+        cy.writeFile(`${testName}.log.json`, JSON.stringify(commands, null, 2), { flag: 'w' })
       }
     )
-
-    commandIndex += 1
 
     // @ts-ignore
     return cy[method](locator)
