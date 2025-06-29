@@ -38,18 +38,8 @@ git fetch origin "$head_branch:refs/heads/head_branch"
 
 files=$(git diff --name-only base_branch..head_branch | grep "^$target_dir")
 
-max_jobs=4
-job_count=0
-
 for file in $files; do
-  diff_match "$file" &
-  ((job_count++))
-
-  if ((job_count >= max_jobs)); then
-    wait
-    job_count=0
-  fi
+  diff_match "$file"
 done
 
-wait
 echo "Finish diff-match."
