@@ -22,6 +22,7 @@ diff_match() {
     # If $file is TSX, JSX, or SVG file, do diff match.
     git config --local difftool.gumtree-docker.cmd "docker run -v \$REMOTE:/diff/left -v \$LOCAL:/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path"
     git difftool -d --no-symlinks -y -t gumtree-docker base_branch head_branch > $map_file_path.diff.xml
+    rm -rf /tmp/git-difftool.*
 
     node ./scripts/diff-match/main.mjs --file $map_file_path
   fi
