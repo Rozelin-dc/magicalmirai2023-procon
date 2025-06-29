@@ -19,7 +19,7 @@ diff_match() {
 
     # If $file is TSX, JSX, or SVG file, do diff match.
     git config --local difftool.gumtree-docker.cmd "docker run -v \$REMOTE:/diff/left -v \$LOCAL:/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path"
-    git difftool -d --no-symlinks -t gumtree-docker @{u} > $map_file_path.diff.xml
+    git difftool -d --no-symlinks -t gumtree-docker base_branch head_branch > $map_file_path.diff.xml
 
     node ./scripts/diff-match/main.mjs --file $map_file_path
   fi
@@ -31,10 +31,10 @@ base_branch="$1"
 head_branch="$2"
 target_dir="src/"
 
-git fetch origin "$base_branch":"origin/$base_branch"
-git fetch origin "$head_branch":"origin/$head_branch"
+git fetch origin "$base_branch:refs/heads/base_branch"
+git fetch origin "$head_branch:refs/heads/head_branch"
 
-files=$(git diff --name-only origin/"$base_branch"..origin/"$head_branch" | grep "^$target_dir")
+files=$(git diff --name-only base_branch..head_branch | grep "^$target_dir")
 
 max_jobs=4
 job_count=0
