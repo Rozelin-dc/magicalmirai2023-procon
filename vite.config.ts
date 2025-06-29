@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: './docs'
   },
   server: {
-    port: 2323
+    port: 1123
   },
   css: {
     preprocessorOptions: {
