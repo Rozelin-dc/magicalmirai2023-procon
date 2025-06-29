@@ -22,6 +22,9 @@ diff_match() {
     left_tmp="/tmp/diff-left"
     right_tmp="/tmp/diff-right"
 
+    mkdir -p "$(dirname "$left_tmp/$file_path")"
+    mkdir -p "$(dirname "$right_tmp/$file_path")"
+
     git show base_branch:"$file" > "$left_tmp/$file_path"
     git show head_branch:"$file" > "$right_tmp/$file_path"
 
