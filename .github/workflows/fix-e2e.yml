@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Download gumtree
+        run: docker pull rozelin/gumtree:latest
+
       - name: Set branch environment variables
         run: |
           echo "REMOTE=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
