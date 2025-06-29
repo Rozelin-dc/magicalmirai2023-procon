@@ -17,7 +17,7 @@ diff_match() {
     file_path=${file#./}
     map_file_path=${project_root_dir%/}/${map_file_dir%/}/$file_path
 
-    echo "Processing file: $file_path"
+    echo "Processing file: $file_path, map file: $map_file_path"
 
     # If $file is TSX, JSX, or SVG file, do diff match.
     git config --local difftool.gumtree-docker.cmd "docker run -v \$REMOTE:/diff/left -v \$LOCAL:/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path"
