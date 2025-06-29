@@ -1,0 +1,64 @@
+{
+  "1887": {
+    "position": 1887,
+    "id": "2ec7fa29-1d41-45d0-8209-f1a3aedf57c7"
+  },
+  "1978": {
+    "position": 1978,
+    "id": "cf9197a4-8209-486c-adf3-1716e03a16e2"
+  },
+  "1986": {
+    "position": 1986,
+    "propName": "onClick",
+    "parentNodeId": "cf9197a4-8209-486c-adf3-1716e03a16e2",
+    "prevParentNodeId": "cf9197a4-8209-486c-adf3-1716e03a16e2"
+  },
+  "2057": {
+    "position": 2057,
+    "id": "865a956b-da39-4f8d-99a2-ef950b3ee832"
+  },
+  "2106": {
+    "position": 2106,
+    "id": "79f310b7-28d0-4e02-804b-d7f3353958d3"
+  },
+  "2128": {
+    "position": 2128,
+    "propName": "onClick",
+    "parentNodeId": "79f310b7-28d0-4e02-804b-d7f3353958d3",
+    "prevParentNodeId": "79f310b7-28d0-4e02-804b-d7f3353958d3"
+  },
+  "2236": {
+    "position": 2236,
+    "id": "b6306d3d-4626-4e43-96b4-f89bece23d41"
+  },
+  "2306": {
+    "position": 2306,
+    "id": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
+  },
+  "2311": {
+    "position": 2311,
+    "propName": "onClick",
+    "parentNodeId": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea",
+    "prevParentNodeId": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
+  },
+  "2355": {
+    "position": 2355,
+    "id": "663a3c62-27a9-4389-bc88-26df8158e3b5"
+  },
+  "2416": {
+    "position": 2416,
+    "id": "43b60bf1-1963-4342-a5e0-874354b94d5c"
+  },
+  "2439": {
+    "position": 2439,
+    "id": "affefd04-180a-449e-90b1-9c38b8b06bf9"
+  },
+  "2512": {
+    "position": 2512,
+    "id": "ff7020b8-0570-45b3-a250-084b460c69f8"
+  },
+  "2677": {
+    "position": 2677,
+    "id": "2e7e5daf-161f-4b2d-ab44-dfd37cc69e0d"
+  }
+}
