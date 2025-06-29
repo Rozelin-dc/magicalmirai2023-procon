@@ -51,14 +51,10 @@ jobs:
         run: |
           npm run dev &
           echo $! > server.pid
-          sleep 60
+          sleep 30
 
       - name: Run e2e tests
-        run: |
-          sudo apt-get install -y xvfb
-          sudo Xvfb :99 -ac &
-          export DISPLAY=:99
-          node --test
+        run: node --test
 
       - name: Stop server
         run: |
