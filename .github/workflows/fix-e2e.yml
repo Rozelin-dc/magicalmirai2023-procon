@@ -54,7 +54,7 @@ jobs:
         run: |
           npm run dev &
           echo $! > server.pid
-          wait-on http://localhost:1123
+          wait-on http://127.0.0.1:1123
         env:
           CI: true
 
