@@ -1,9 +1,9 @@
 /// <reference path="../util/type.mjs" />
 
-import { XMLParser } from 'fast-xml-parser';
-import yargs from 'yargs';
-import { RECORD_ACTION_PROP_NAMES } from '../util/constant.mjs';
-import { readFile, writeFile } from '../util/file.mjs';
+import { XMLParser } from 'fast-xml-parser'
+import yargs from 'yargs'
+import { RECORD_ACTION_PROP_NAMES } from '../util/constant.mjs'
+import { readFile, writeFile } from '../util/file.mjs'
 
 /**
  * @typedef {object} DiffXml
@@ -27,22 +27,26 @@ const argv = await yargs(process.argv.slice(2))
     demandOption: true,
     string: true,
   })
-  .parse();
+  .parse()
 
-const fileName = argv.file;
+const fileName = argv.file
 
-const rawXml = await readFile(`${fileName}.diff.xml`);
+const rawXml = await readFile(`${fileName}.diff.xml`)
+
+console.log(`Processing file: ${fileName}.diff.xml`)
+console.log('file content:', rawXml.slice(0, 100) + '...') // Log first 100 characters for debugging
+
 /** @type {DiffXml} */
 const xml = new XMLParser({
   ignoreAttributes: false,
   ignoreDeclaration: true,
-}).parse(rawXml);
+}).parse(rawXml)
 
-const rawIdMap = await readFile(`${fileName}.id-map.json`);
+const rawIdMap = await readFile(`${fileName}.id-map.json`)
 /** @type {IdMap} */
-const idMap = JSON.parse(rawIdMap);
+const idMap = JSON.parse(rawIdMap)
 /** @type {IdMap} */
-const newIdMap = {};
+const newIdMap = {}
 
 /**
  * @param {DiffNode} xml
@@ -53,63 +57,63 @@ const runXml = (xml, parent) => {
   switch (xml['@_type']) {
     case 'JSXAttribute': {
       if (!Array.isArray(xml.tree)) {
-        throw new Error('JSXAttribute should have children.');
+        throw new Error('JSXAttribute should have children.')
       }
       if (!parent) {
-        throw new Error('Parent is missing.');
+        throw new Error('Parent is missing.')
       }
 
-      const identifier = xml.tree[0];
+      const identifier = xml.tree[0]
       if (identifier['@_type'] !== 'JSXIdentifier') {
-        throw new Error('JSXAttribute should have identifier.');
+        throw new Error('JSXAttribute should have identifier.')
       }
       if (!identifier['@_label']) {
-        throw new Error('JSXIdentifier should have label.');
+        throw new Error('JSXIdentifier should have label.')
       }
 
       if (!xml['@_other_pos']) {
         // Added node.
-        break;
+        break
       }
 
-      const afterPos = parseInt(xml['@_pos']);
-      const beforePos = parseInt(xml['@_other_pos']);
+      const afterPos = parseInt(xml['@_pos'])
+      const beforePos = parseInt(xml['@_other_pos'])
       if (RECORD_ACTION_PROP_NAMES[identifier['@_label']]) {
-        const parentPos = parseInt(parent['@_pos']);
+        const parentPos = parseInt(parent['@_pos'])
 
         newIdMap[afterPos] = {
           position: afterPos,
           propName: identifier['@_label'],
           parentNodeId: newIdMap[parentPos].id,
           prevParentNodeId: idMap[beforePos].parentNodeId,
-        };
+        }
       }
-      break;
+      break
     }
     case 'JSXOpeningElement': {
       if (!xml['@_other_pos']) {
         // Added node.
-        break;
+        break
       }
 
-      const afterPos = parseInt(xml['@_pos']);
-      const beforePos = parseInt(xml['@_other_pos']);
+      const afterPos = parseInt(xml['@_pos'])
+      const beforePos = parseInt(xml['@_other_pos'])
 
-      newIdMap[afterPos] = { ...idMap[beforePos], position: afterPos };
-      break;
+      newIdMap[afterPos] = { ...idMap[beforePos], position: afterPos }
+      break
     }
   }
 
   // record children data
   if (xml.tree) {
     if (Array.isArray(xml.tree)) {
-      xml.tree.forEach((node) => runXml(node, xml));
+      xml.tree.forEach((node) => runXml(node, xml))
     } else {
-      runXml(xml.tree, xml);
+      runXml(xml.tree, xml)
     }
   }
-};
+}
 
-runXml(xml.root);
+runXml(xml.root)
 
-writeFile(`${fileName}.id-map.json`, JSON.stringify(newIdMap, null, 2));
+writeFile(`${fileName}.id-map.json`, JSON.stringify(newIdMap, null, 2))
