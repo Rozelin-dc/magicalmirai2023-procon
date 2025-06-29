@@ -51,7 +51,7 @@ jobs:
         run: |
           npm run dev &
           echo $! > server.pid
-          npx wait-on http://localhost:2323
+          npx wait-on http://localhost:1123
         env:
           CI: true
 
