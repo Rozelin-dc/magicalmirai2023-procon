@@ -47,11 +47,14 @@ jobs:
       - name: Install ChromeDriver
         uses: nanasess/setup-chromedriver@v2
 
+      - name: Install wait-on
+        run: npm install -g wait-on
+
       - name: Start server
         run: |
           npm run dev &
           echo $! > server.pid
-          npx wait-on http://localhost:1123
+          wait-on http://localhost:1123
         env:
           CI: true
 
