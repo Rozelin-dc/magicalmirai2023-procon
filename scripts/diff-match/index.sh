@@ -29,7 +29,7 @@ diff_match() {
     git show head_branch:"$file" > "$right_tmp/$file_path"
 
     # If $file is TSX, JSX, or SVG file, do diff match.
-    docker run -v $left_temp:/diff/left -v $right_temp:/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path > "$map_file_path.diff.xml"
+    docker run -v "$left_temp":/diff/left -v "$right_temp":/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path > "$map_file_path.diff.xml"
 
     node ./scripts/diff-match/main.mjs --file $map_file_path
   fi
