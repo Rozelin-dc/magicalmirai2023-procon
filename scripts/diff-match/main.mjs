@@ -34,7 +34,7 @@ const fileName = argv.file
 const rawXml = await readFile(`${fileName}.diff.xml`)
 
 console.log(`Processing file: ${fileName}.diff.xml`)
-console.log('file content:', rawXml.slice(0, 100) + '...') // Log first 100 characters for debugging
+console.log('file content:', rawXml)
 
 /** @type {DiffXml} */
 const xml = new XMLParser({
