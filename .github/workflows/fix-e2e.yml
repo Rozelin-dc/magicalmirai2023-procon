@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -24,6 +26,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set branch environment variables
+        run: |
+          echo "REMOTE=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "LOCAL=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+
+      - name: Diff matching
+        run: |
+          chmod +x ./scripts/diff-match/index.sh
+          ./scripts/diff-match/index.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
+
       - name: ID embedding
         run: |
           chmod +x ./scripts/id-embedding/index.sh
@@ -31,9 +43,6 @@ jobs:
 
       - name: Install ChromeDriver
         uses: nanasess/setup-chromedriver@v2
-
-      # - name: Build for test
-      #   run: yarn build:test:ga
 
       - name: Start server
         run: |

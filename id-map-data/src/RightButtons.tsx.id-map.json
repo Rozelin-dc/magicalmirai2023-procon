@@ -41,21 +41,42 @@
     "parentNodeId": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea",
     "prevParentNodeId": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
   },
+  "2314": {
+    "position": 2314,
+    "propName": "onClick",
+    "parentNodeId": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
+  },
   "2355": {
     "position": 2355,
     "id": "663a3c62-27a9-4389-bc88-26df8158e3b5"
+  },
+  "2398": {
+    "position": 2398,
+    "id": "a81061ce-4b05-431a-8d19-8f73098f1d87"
   },
   "2416": {
     "position": 2416,
     "id": "43b60bf1-1963-4342-a5e0-874354b94d5c"
   },
+  "2421": {
+    "position": 2421,
+    "id": "5b46d482-c7aa-43d5-b244-acbd83ceb596"
+  },
   "2439": {
     "position": 2439,
     "id": "affefd04-180a-449e-90b1-9c38b8b06bf9"
   },
+  "2477": {
+    "position": 2477,
+    "id": "bbd529e9-bbca-4ee6-805e-1e35196bafc0"
+  },
   "2512": {
     "position": 2512,
     "id": "ff7020b8-0570-45b3-a250-084b460c69f8"
+  },
+  "2642": {
+    "position": 2642,
+    "id": "f0b7a600-60a7-42b4-a81d-4cbe7f909e81"
   },
   "2677": {
     "position": 2677,
