@@ -8,6 +8,10 @@ on:
       - 'id-map-data/**'
       - 'output/old/**'
 
+permissions:
+  packages: read
+  contents: write
+
 jobs:
   generate-and-commit:
     runs-on: ubuntu-latest
