@@ -1,7 +1,7 @@
 {
   "testName": "get caption",
   "edges": [
-    "{\"id\":\"51e5c6d7-4ba5-4a06-8b78-38e47840fa89\",\"eventId\":0,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"findElement\",\"codeLine\":\"0\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[\"BY:css selector:.caption\"]}",
-    "{\"id\":\"b6e4cd32-0794-412b-99a7-fa3ea57b314e\",\"eventId\":1,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"getText\",\"codeLine\":\"1\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[]}"
+    "{\"id\":\"16140878-e027-4d2d-9c4a-a4ebbde4ce08\",\"eventId\":0,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"findElement\",\"codeLine\":\"0\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[\"BY:css selector:.caption\"]}",
+    "{\"id\":\"769951d4-c5c6-4b97-836f-fe54e729196e\",\"eventId\":1,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"getText\",\"codeLine\":\"1\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[]}"
   ]
 }

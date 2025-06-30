@@ -67,7 +67,8 @@
   },
   {
     "attributes": {
-      "class": "app"
+      "class": "app",
+      "data-test-id": "c4d40ac8-4a30-4699-bd58-75c32e8ab657"
     },
     "elementId": 2,
     "id": "",
@@ -109,7 +110,8 @@
   {
     "attributes": {
       "src": "/src/assets/logo.svg",
-      "class": "logo"
+      "class": "logo",
+      "data-test-id": "36b87186-f717-428a-8e80-e2c1f1652209"
     },
     "elementId": 3,
     "id": "",
@@ -120,8 +122,8 @@
     "linkText": "",
     "x": 10,
     "y": 20,
-    "width": 208,
-    "height": 98,
+    "width": 16,
+    "height": 16,
     "isEnable": false,
     "isDisplayed": true,
     "isSelected": false,
@@ -138,7 +140,8 @@
   },
   {
     "attributes": {
-      "class": "song-select-container"
+      "class": "song-select-container",
+      "data-test-id": "c274a566-d3f1-4d35-a95c-bc63207a3d73"
     },
     "elementId": 4,
     "id": "",
@@ -175,7 +178,8 @@
   },
   {
     "attributes": {
-      "class": "caption-container"
+      "class": "caption-container",
+      "data-test-id": "646ff973-5794-453b-a2c9-b7a770c92e32"
     },
     "elementId": 5,
     "id": "",
@@ -208,7 +212,8 @@
   },
   {
     "attributes": {
-      "class": "caption"
+      "class": "caption",
+      "data-test-id": "7a984606-3bb5-42d2-bd9a-9ca7f4860fa3"
     },
     "elementId": 6,
     "id": "",
@@ -236,7 +241,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "92e66320-be0c-4990-837c-4a5b7f023ced"
+    },
     "elementId": 7,
     "id": "",
     "name": "",
@@ -270,7 +277,8 @@
   },
   {
     "attributes": {
-      "class": "title"
+      "class": "title",
+      "data-test-id": "844ec704-7042-46ea-9945-2dd5ea61f91b"
     },
     "elementId": 8,
     "id": "",
@@ -299,7 +307,8 @@
   },
   {
     "attributes": {
-      "class": "selection"
+      "class": "selection",
+      "data-test-id": "70f12388-9d46-4b3e-8ef9-035fd5a9e742"
     },
     "elementId": 9,
     "id": "",
@@ -341,7 +350,9 @@
     "isLeaf": false
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 10,
     "id": "",
     "name": "",
@@ -368,7 +379,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 11,
     "id": "",
     "name": "",
@@ -395,7 +408,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 12,
     "id": "",
     "name": "",
@@ -422,7 +437,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 13,
     "id": "",
     "name": "",
@@ -449,7 +466,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 14,
     "id": "",
     "name": "",
@@ -476,7 +495,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "elementId": 15,
     "id": "",
     "name": "",
@@ -503,7 +524,9 @@
     "isLeaf": true
   },
   {
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "6a738339-f920-44f5-9db8-13035acad04d"
+    },
     "elementId": 16,
     "id": "",
     "name": "",
@@ -531,7 +554,8 @@
   },
   {
     "attributes": {
-      "class": "button-container"
+      "class": "button-container",
+      "data-test-id": "2ec7fa29-1d41-45d0-8209-f1a3aedf57c7"
     },
     "elementId": 17,
     "id": "",
@@ -568,7 +592,9 @@
   },
   {
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "cf9197a4-8209-486c-adf3-1716e03a16e2",
+      "data-test-id-for-action-click": "cf9197a4-8209-486c-adf3-1716e03a16e2"
     },
     "elementId": 18,
     "id": "",
@@ -603,6 +629,7 @@
       "fill": "currentColor",
       "stroke-width": "0",
       "viewBox": "0 0 512 512",
+      "data-test-id": "865a956b-da39-4f8d-99a2-ef950b3ee832",
       "height": "1em",
       "width": "1em",
       "xmlns": "http://www.w3.org/2000/svg"
@@ -634,7 +661,9 @@
   },
   {
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "79f310b7-28d0-4e02-804b-d7f3353958d3",
+      "data-test-id-for-action-click": "79f310b7-28d0-4e02-804b-d7f3353958d3"
     },
     "elementId": 20,
     "id": "",
@@ -669,6 +698,7 @@
       "fill": "currentColor",
       "stroke-width": "0",
       "viewBox": "0 0 24 24",
+      "data-test-id": "b6306d3d-4626-4e43-96b4-f89bece23d41",
       "height": "1em",
       "width": "1em",
       "xmlns": "http://www.w3.org/2000/svg"
@@ -700,7 +730,8 @@
   },
   {
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
     },
     "elementId": 22,
     "id": "",
@@ -735,6 +766,7 @@
       "fill": "currentColor",
       "stroke-width": "0",
       "viewBox": "0 0 24 24",
+      "data-test-id": "5b46d482-c7aa-43d5-b244-acbd83ceb596",
       "height": "1em",
       "width": "1em",
       "xmlns": "http://www.w3.org/2000/svg"
@@ -766,7 +798,8 @@
   },
   {
     "attributes": {
-      "class": "media"
+      "class": "media",
+      "data-test-id": "0aa2fe8a-4c37-4e80-bb12-92b807d5fbb9"
     },
     "elementId": 24,
     "id": "",
@@ -1364,7 +1397,7 @@
   {
     "attributes": {
       "type": "module",
-      "src": "/src/main.tsx"
+      "src": "/src/main.tsx?t=1751246323752"
     },
     "elementId": 43,
     "id": "",

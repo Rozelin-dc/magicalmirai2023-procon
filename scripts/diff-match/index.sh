@@ -15,11 +15,21 @@ diff_match() {
 
   if [[ $file =~ $target_file_pattern ]]; then
     file_path=${file#./}
-    map_file_path=${project_root_dir%/}${map_file_dir%/}/$file_path
+    map_file_path=${project_root_dir%/}/${map_file_dir%/}/$file_path
+
+    echo "Processing file: $file_path, map file: $map_file_path"
+
+    left_tmp="/tmp/diff-left"
+    right_tmp="/tmp/diff-right"
+
+    mkdir -p "$(dirname "$left_tmp/$file_path")"
+    mkdir -p "$(dirname "$right_tmp/$file_path")"
+
+    git show base_branch:"$file" > "$left_tmp/$file_path"
+    git show head_branch:"$file" > "$right_tmp/$file_path"
 
     # If $file is TSX, JSX, or SVG file, do diff match.
-    git config --local difftool.gumtree-docker.cmd "docker run -v \$REMOTE:/diff/left -v \$LOCAL:/diff/right -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path"
-    git difftool -d --no-symlinks -t gumtree-docker @{u} > $map_file_path.diff.xml
+    docker run --rm -v "$left_tmp:/diff/left" -v "$right_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path > "$map_file_path.diff.xml"
 
     node ./scripts/diff-match/main.mjs --file $map_file_path
   fi
@@ -31,23 +41,18 @@ base_branch="$1"
 head_branch="$2"
 target_dir="src/"
 
-git fetch origin "$base_branch":"origin/$base_branch"
-git fetch origin "$head_branch":"origin/$head_branch"
+git fetch origin "$base_branch:refs/heads/base_branch"
+git fetch origin "$head_branch:refs/heads/head_branch"
 
-files=$(git diff --name-only origin/"$base_branch"..origin/"$head_branch" | grep "^$target_dir")
+files=$(git diff --name-only base_branch..head_branch | grep "^$target_dir" || true)
 
-max_jobs=4
-job_count=0
+if [ -z "$files" ]; then
+  echo "No files changed in $target_dir. Skipping diff-match."
+  exit 0
+fi
 
 for file in $files; do
-  diff_match "$file" &
-  ((job_count++))
-
-  if ((job_count >= max_jobs)); then
-    wait
-    job_count=0
-  fi
+  diff_match "$file"
 done
 
-wait
 echo "Finish diff-match."
