@@ -1,0 +1,57 @@
+{
+  "1887": {
+    "position": 1887,
+    "id": "fa304476-c341-42ae-aa1d-ebbef9b13cc0"
+  },
+  "1978": {
+    "position": 1978,
+    "id": "c7d49437-c67d-45dc-9dba-281f3a3c1e26"
+  },
+  "1986": {
+    "position": 1986,
+    "propName": "onClick",
+    "parentNodeId": "c7d49437-c67d-45dc-9dba-281f3a3c1e26"
+  },
+  "2057": {
+    "position": 2057,
+    "id": "763dfe81-440e-41df-a65d-7713fa110c29"
+  },
+  "2106": {
+    "position": 2106,
+    "id": "dcf7cf15-8ee3-4ad1-af9c-d41c6f22cddb"
+  },
+  "2128": {
+    "position": 2128,
+    "propName": "onClick",
+    "parentNodeId": "dcf7cf15-8ee3-4ad1-af9c-d41c6f22cddb"
+  },
+  "2236": {
+    "position": 2236,
+    "id": "37b5bace-b811-408b-9641-708e78c92577"
+  },
+  "2306": {
+    "position": 2306,
+    "id": "df1c38a2-ea83-4fe9-84eb-55a746de79cd"
+  },
+  "2314": {
+    "position": 2314,
+    "propName": "onClick",
+    "parentNodeId": "df1c38a2-ea83-4fe9-84eb-55a746de79cd"
+  },
+  "2398": {
+    "position": 2398,
+    "id": "23c6ce0e-a3dd-4099-a18d-d49a0802cb9e"
+  },
+  "2421": {
+    "position": 2421,
+    "id": "b0d14b4c-44cc-4158-8cb7-4474154b68d8"
+  },
+  "2477": {
+    "position": 2477,
+    "id": "9e2b80c9-07f1-4d32-957a-738666677891"
+  },
+  "2642": {
+    "position": 2642,
+    "id": "7b129bbe-28c2-4f13-8d13-bd0ff1536e8b"
+  }
+}

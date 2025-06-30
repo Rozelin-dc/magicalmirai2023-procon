@@ -1,0 +1,7 @@
+{
+  "testName": "get caption",
+  "edges": [
+    "{\"id\":\"b0c41475-cd1a-4f59-89d1-11d1c33e524f\",\"eventId\":0,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"findElement\",\"codeLine\":\"0\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[\"BY:css selector:.caption\"]}",
+    "{\"id\":\"9882fc0a-e461-4870-bd17-3fcbac4818a4\",\"eventId\":1,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"getText\",\"codeLine\":\"1\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[]}"
+  ]
+}

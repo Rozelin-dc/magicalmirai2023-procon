@@ -1,0 +1,39 @@
+{
+  "217": {
+    "position": 217,
+    "id": "e17b4e62-c1df-4cb4-b72a-0f3898418dc9"
+  },
+  "263": {
+    "position": 263,
+    "id": "e302ef90-4e9f-4560-9a42-f364aa58767d"
+  },
+  "307": {
+    "position": 307,
+    "id": "dfd38148-9a7a-406b-9055-ca588236eb87"
+  },
+  "531": {
+    "position": 531,
+    "id": "70b1efc9-8872-46ee-b917-8c0b30e6ef6e"
+  },
+  "545": {
+    "position": 545,
+    "id": "b1ebb52d-036e-47c4-bd09-0cf3a82822c2"
+  },
+  "598": {
+    "position": 598,
+    "id": "8c3fec58-2558-42ec-966f-4fe65dbd3f55"
+  },
+  "671": {
+    "position": 671,
+    "id": "768be0ab-e31c-4463-95d1-4f96fb5ae538"
+  },
+  "683": {
+    "position": 683,
+    "propName": "onClick",
+    "parentNodeId": "768be0ab-e31c-4463-95d1-4f96fb5ae538"
+  },
+  "795": {
+    "position": 795,
+    "id": "16752d3b-0728-4a40-91e7-9e5cbbf034f3"
+  }
+}
