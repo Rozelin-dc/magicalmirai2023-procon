@@ -57,8 +57,7 @@ jobs:
         run: node --test
 
       - name: Stop server
-        run: |
-          kill $(cat server.pid)
+        run: kill $(cat server.pid)
 
   comment-files:
     runs-on: ubuntu-latest
