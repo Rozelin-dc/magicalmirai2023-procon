@@ -102,7 +102,8 @@
     "elementId": 3,
     "attributes": {
       "src": "/src/assets/logo.svg",
-      "class": "logo"
+      "class": "logo",
+      "data-test-id": "36b87186-f717-428a-8e80-e2c1f1652209"
     },
     "presentId": 3,
     "id": "",
@@ -113,8 +114,8 @@
     "linkText": "",
     "x": 10,
     "y": 20,
-    "width": 208,
-    "height": 98,
+    "width": 16,
+    "height": 16,
     "isEnable": false,
     "isDisplayed": true,
     "isSelected": false,
@@ -134,7 +135,8 @@
     "newElementId": 3,
     "elementId": 4,
     "attributes": {
-      "class": "song-select-container"
+      "class": "song-select-container",
+      "data-test-id": "c274a566-d3f1-4d35-a95c-bc63207a3d73"
     },
     "presentId": 4,
     "id": "",
@@ -180,7 +182,8 @@
     "newElementId": 4,
     "elementId": 5,
     "attributes": {
-      "class": "caption-container"
+      "class": "caption-container",
+      "data-test-id": "646ff973-5794-453b-a2c9-b7a770c92e32"
     },
     "presentId": 6,
     "id": "",
@@ -212,7 +215,9 @@
   {
     "newElementId": 5,
     "elementId": 7,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "92e66320-be0c-4990-837c-4a5b7f023ced"
+    },
     "presentId": 7,
     "id": "",
     "name": "",
@@ -255,7 +260,8 @@
     "newElementId": 6,
     "elementId": 8,
     "attributes": {
-      "class": "title"
+      "class": "title",
+      "data-test-id": "844ec704-7042-46ea-9945-2dd5ea61f91b"
     },
     "presentId": 8,
     "id": "",
@@ -289,7 +295,8 @@
     "newElementId": 7,
     "elementId": 9,
     "attributes": {
-      "class": "selection"
+      "class": "selection",
+      "data-test-id": "70f12388-9d46-4b3e-8ef9-035fd5a9e742"
     },
     "presentId": 9,
     "id": "",
@@ -336,7 +343,9 @@
   {
     "newElementId": 8,
     "elementId": 10,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 10,
     "id": "",
     "name": "",
@@ -369,7 +378,9 @@
   {
     "newElementId": 9,
     "elementId": 11,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 11,
     "id": "",
     "name": "",
@@ -402,7 +413,9 @@
   {
     "newElementId": 10,
     "elementId": 12,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 12,
     "id": "",
     "name": "",
@@ -435,7 +448,9 @@
   {
     "newElementId": 11,
     "elementId": 13,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 13,
     "id": "",
     "name": "",
@@ -468,7 +483,9 @@
   {
     "newElementId": 12,
     "elementId": 14,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 14,
     "id": "",
     "name": "",
@@ -501,7 +518,9 @@
   {
     "newElementId": 13,
     "elementId": 15,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "ddfd3cf7-0642-415d-98e7-356a9ce29d70"
+    },
     "presentId": 15,
     "id": "",
     "name": "",
@@ -534,7 +553,9 @@
   {
     "newElementId": 14,
     "elementId": 16,
-    "attributes": {},
+    "attributes": {
+      "data-test-id": "6a738339-f920-44f5-9db8-13035acad04d"
+    },
     "presentId": 16,
     "id": "",
     "name": "",
@@ -566,7 +587,8 @@
     "newElementId": 15,
     "elementId": 17,
     "attributes": {
-      "class": "button-container"
+      "class": "button-container",
+      "data-test-id": "2ec7fa29-1d41-45d0-8209-f1a3aedf57c7"
     },
     "presentId": 17,
     "id": "",
@@ -606,7 +628,9 @@
     "newElementId": 16,
     "elementId": 18,
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "cf9197a4-8209-486c-adf3-1716e03a16e2",
+      "data-test-id-for-action-click": "cf9197a4-8209-486c-adf3-1716e03a16e2"
     },
     "presentId": 18,
     "id": "",
@@ -639,7 +663,9 @@
     "newElementId": 17,
     "elementId": 20,
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "79f310b7-28d0-4e02-804b-d7f3353958d3",
+      "data-test-id-for-action-click": "79f310b7-28d0-4e02-804b-d7f3353958d3"
     },
     "presentId": 20,
     "id": "",
@@ -672,7 +698,8 @@
     "newElementId": 18,
     "elementId": 22,
     "attributes": {
-      "class": "icon-button"
+      "class": "icon-button",
+      "data-test-id": "999e0617-aea2-4e0a-b647-0fc2c22ec5ea"
     },
     "presentId": 22,
     "id": "",
@@ -705,7 +732,8 @@
     "newElementId": 19,
     "elementId": 24,
     "attributes": {
-      "class": "media"
+      "class": "media",
+      "data-test-id": "0aa2fe8a-4c37-4e80-bb12-92b807d5fbb9"
     },
     "presentId": 24,
     "id": "",
