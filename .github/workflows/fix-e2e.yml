@@ -66,11 +66,11 @@ jobs:
           DIR="result"
           OUTPUT=""
 
-          for FILE in $(find "$DIR" -maxdepth 1 -type f); do
+          while IFS= read -r -d '' FILE; do
             echo "Processing $FILE"
             CONTENT=$(cat "$FILE")
             OUTPUT+="### Contents of \`$(basename "$FILE")\`\n\n\`\`\`\n$CONTENT\n\`\`\`\n\n"
-          done
+          done < <(find "$DIR" -maxdepth 1 -type f -print0)
 
           echo -e "$OUTPUT" > comment.txt
 
