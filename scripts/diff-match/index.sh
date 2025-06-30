@@ -44,7 +44,12 @@ target_dir="src/"
 git fetch origin "$base_branch:refs/heads/base_branch"
 git fetch origin "$head_branch:refs/heads/head_branch"
 
-files=$(git diff --name-only base_branch..head_branch | grep "^$target_dir")
+files=$(git diff --name-only base_branch..head_branch | grep "^$target_dir" || true)
+
+if [ -z "$files" ]; then
+  echo "No files changed in $target_dir. Skipping diff-match."
+  exit 0
+fi
 
 for file in $files; do
   diff_match "$file"
