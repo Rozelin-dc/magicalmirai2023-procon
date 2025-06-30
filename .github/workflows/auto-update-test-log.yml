@@ -1,0 +1,62 @@
+name: Generate and Commit IdMap files and test log files
+
+on:
+  push:
+    branches:
+      - selenium-auto-update
+    paths-ignore:
+      - 'id-map-data/**'
+      - 'output/old/**'
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PACKAGES_NPM_READ_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: ID embedding
+        run: |
+          chmod +x ./scripts/id-embedding/index.sh
+          ./scripts/id-embedding/index.sh
+
+      - name: Set test config
+        run: sed -i 's/version=new/version=old/g' config.properties
+
+      - name: Start server
+        run: |
+          npm run dev &
+          echo $! > server.pid
+          sleep 30
+
+      - name: Run e2e tests
+        run: node --test
+
+      - name: Stop server
+        run: kill $(cat server.pid)
+
+      - name: Commit only IdMap files and test log files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add id-map-data/*
+          git add output/old/*
+          if ! git diff --cached --quiet; then
+            git commit -m "generate: generate IdMap files and test log files"
+            git push
+          else
+            echo "No changes to commit."
+          fi
