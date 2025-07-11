@@ -50,7 +50,9 @@ for commit in $commits; do
     fi
   done
 
-  # Do diff matching
-  docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$commit.tsx right/$commit.tsx > "$map_file_tmp_dir/$commit.diff.xml"
-  node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$commit.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
+  if [ "${#actual_files[@]}" -ge 2 ]; then
+    # Do diff matching
+    docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$commit.tsx right/$commit.tsx > "$map_file_tmp_dir/$commit.diff.xml"
+    node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$commit.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
+  fi
 done
