@@ -114,6 +114,9 @@ const normalizePos = (type, pos) => {
     }
     centerFile = posMap[center]
   }
+
+  console.log(`Found position ${pos} in ${type} map:`, centerFile)
+
   return {
     fileName: centerFile.fileName,
     position: pos - centerFile.startPos,
