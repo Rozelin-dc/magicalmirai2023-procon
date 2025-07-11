@@ -61,6 +61,7 @@ done
 
 echo "Found ${#actual_file_groups[@]} groups of files to process."
 
+i=0
 for group_files in "${actual_file_groups[@]}"; do
   echo "Processing group $i: ${group_files}"
 
@@ -68,7 +69,7 @@ for group_files in "${actual_file_groups[@]}"; do
 
   actual_files="["
 
-  for file in "${group_files}"; do
+  for file in $group_files; do
     mkdir -p "$(dirname "$before_tmp/$file")"
     mkdir -p "$(dirname "$after_tmp/$file")"
     mkdir -p "$map_file_tmp_dir"
@@ -90,4 +91,6 @@ for group_files in "${actual_file_groups[@]}"; do
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
   node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
+
+  ((i++))
 done
