@@ -57,14 +57,25 @@ for commit in $commits; do
     actual_file_groups+=("$(IFS=" "; echo "${current_files[*]}")")
     group_keys+=("$(IFS=" "; echo "${current_files[*]}")")
   else
-    existing=(${group_keys[$matched_group_index]})
-    merged=("${existing[@]}")
+    # split group_keys[matched_group_index] into an array
+    read -r -a existing <<< "${group_keys[$matched_group_index]}"
+
+    # create an associative set of existing files
+    declare -A seen
+    for file in "${existing[@]}"; do
+      seen["$file"]=1
+    done
+
+    # add new files if not already present
     for file in "${current_files[@]}"; do
-      if [[ ! " ${existing[*]} " =~ " $file " ]]; then
-        merged+=("$file")
+      if [[ -z "${seen[$file]}" ]]; then
+        existing+=("$file")
+        seen["$file"]=1
       fi
     done
-    group_keys[$matched_group_index]="$(IFS=" "; echo "${merged[*]}")"
+
+    # rebuild group_keys and actual_file_groups with merged list
+    group_keys[$matched_group_index]="$(IFS=$'\n'; echo "${existing[*]}")"
     actual_file_groups[$matched_group_index]="${group_keys[$matched_group_index]}"
   fi
 done
