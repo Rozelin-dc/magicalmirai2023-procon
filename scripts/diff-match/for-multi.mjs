@@ -153,16 +153,11 @@ const runXml = (xml, parent) => {
         const normalizedAfter = normalizePos('after', afterPos)
         const normalizedParent = normalizePos('after', parentPos)
 
-        if (!idMap[normalizedBefore.fileName][normalizedBefore.position]) {
-          break
-        }
-
         newIdMap[normalizedAfter.fileName][normalizedAfter.position] = {
           position: normalizedAfter.position,
           propName: identifier['@_label'],
           parentNodeId:
-            newIdMap[normalizedParent.fileName][normalizedParent.position].id ??
-            idMap[normalizedParent.fileName][normalizedParent.position].id,
+            newIdMap[normalizedParent.fileName][normalizedParent.position].id,
           prevParentNodeId:
             idMap[normalizedBefore.fileName][normalizedBefore.position]
               .parentNodeId,

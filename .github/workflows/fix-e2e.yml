@@ -35,10 +35,10 @@ jobs:
           echo "REMOTE=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
           echo "LOCAL=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
 
-      - name: Diff matching
-        run: |
-          chmod +x ./scripts/diff-match/index.sh
-          ./scripts/diff-match/index.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
+      # - name: Diff matching
+      #   run: |
+      #     chmod +x ./scripts/diff-match/index.sh
+      #     ./scripts/diff-match/index.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
 
       - name: Diff matching for multi files
         run: |
