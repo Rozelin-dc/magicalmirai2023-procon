@@ -46,7 +46,7 @@ for commit in $commits; do
       cat "$before_tmp/$file" >> "$before_tmp/$commit.tsx"
       cat "$after_tmp/$file" >> "$after_tmp/$commit.tsx"
 
-      actual_files+= ("$file")
+      actual_files+=("$file")
     fi
   done
 
