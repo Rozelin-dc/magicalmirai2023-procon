@@ -21,7 +21,6 @@ commits=$(gh pr view "$pr_number" --json commits --jq '.commits[].oid')
 echo "Fetching changed files under '$target_dir' for each commit in PR #$pr_number..."
 
 actual_file_groups=()
-group_keys=()
 
 for commit in $commits; do
   echo "Commit: $commit"
@@ -44,39 +43,22 @@ for commit in $commits; do
   fi
 
   matched_group_index=""
-  for i in "${!group_keys[@]}"; do
+  for i in "${!actual_file_groups[@]}"; do
+    group_files=(${actual_file_groups[$i]})
     for file in "${current_files[@]}"; do
-      if [[ " ${group_keys[$i]} " == *" $file "* ]]; then
+      if [[ "$group_files" == *"$file"* ]]; then
         matched_group_index=$i
         break 2
       fi
     done
   done
 
-  if [ -z "$matched_group_index" ]; then
-    actual_file_groups+=("$(IFS=" "; echo "${current_files[*]}")")
-    group_keys+=("$(IFS=" "; echo "${current_files[*]}")")
+  if [ -n "$matched_group_index" ]; then
+    echo "  Adding files to existing group $matched_group_index"
+    actual_file_groups[$matched_group_index]+=" ${current_files[*]}"
   else
-    # split group_keys[matched_group_index] into an array
-    read -r -a existing <<< "${group_keys[$matched_group_index]}"
-
-    # create an associative set of existing files
-    declare -A seen
-    for file in "${existing[@]}"; do
-      seen["$file"]=1
-    done
-
-    # add new files if not already present
-    for file in "${current_files[@]}"; do
-      if [[ -z "${seen[$file]}" ]]; then
-        existing+=("$file")
-        seen["$file"]=1
-      fi
-    done
-
-    # rebuild group_keys and actual_file_groups with merged list
-    group_keys[$matched_group_index]="$(IFS=$'\n'; echo "${existing[*]}")"
-    actual_file_groups[$matched_group_index]="${group_keys[$matched_group_index]}"
+    echo "  Creating new group for files: ${current_files[*]}"
+    actual_file_groups+=("$(IFS=' '; echo "${current_files[*]}")")
   fi
 done
 
@@ -87,6 +69,8 @@ for i in "${!actual_file_groups[@]}"; do
   echo "Processing group $i: ${group_files[*]}"
 
   tmp_id="group_$i"
+
+  actual_files=()
 
   for file in "${group_files[@]}"; do
     mkdir -p "$(dirname "$before_tmp/$file")"
@@ -101,9 +85,11 @@ for i in "${!actual_file_groups[@]}"; do
 
     cat "$before_tmp/$file" >> "$before_tmp/$tmp_id.tsx"
     cat "$after_tmp/$file" >> "$after_tmp/$tmp_id.tsx"
+
+    actual_files+=("$file")
   done
 
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
-  node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles "${group_files[@]}" --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
+  node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
 done
