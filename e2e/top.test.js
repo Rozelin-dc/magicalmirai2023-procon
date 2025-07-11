@@ -39,4 +39,12 @@ describe('test typing-lyrics top page', () => {
     const captionText = await captionElement.getText()
     assert.equal(captionText.includes('UTAWO UTAOU'), true)
   })
+
+  it('get caption container', async () => {
+    const captionElement = await driver.findElement(
+      selenium.By.className('caption-container')
+    )
+    const visible = await captionElement.isDisplayed()
+    assert.equal(visible, true)
+  })
 })
