@@ -8,6 +8,10 @@ target_dir="src/"
 map_file_dir="id-map-data"
 target_file_pattern="^.+\.((t|j)sx|svg|component\.js)$"
 
+before_tmp="/tmp/diff-before"
+after_tmp="/tmp/diff-after"
+map_file_tmp_dir="/tmp/diff-map"
+
 git fetch origin "$base_branch:refs/heads/base_branch"
 git fetch origin "$head_branch:refs/heads/head_branch"
 
@@ -29,13 +33,9 @@ for commit in $commits; do
 
   for file in $files; do
     if [[ $file =~ $target_file_pattern ]]; then
-      before_tmp="/tmp/diff-before"
-      after_tmp="/tmp/diff-after"
-      map_file_tmp_dir="/tmp/diff-map"
-
       mkdir -p "$(dirname "$before_tmp/$file")"
       mkdir -p "$(dirname "$after_tmp/$file")"
-      mkdir -p "$map_file_dir"
+      mkdir -p "$map_file_tmp_dir"
 
       git show base_branch:"$file" > "$before_tmp/$file"
       git show head_branch:"$file" > "$after_tmp/$file"
