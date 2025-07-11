@@ -69,6 +69,8 @@ for commit in $commits; do
   fi
 done
 
+echo "Found ${#actual_file_groups[@]} groups of files to process."
+
 for i in "${!actual_file_groups[@]}"; do
   group_files=(${actual_file_groups[$i]})
   echo "Processing group $i: ${group_files[*]}"
@@ -83,8 +85,8 @@ for i in "${!actual_file_groups[@]}"; do
     git show base_branch:"$file" > "$before_tmp/$file"
     git show head_branch:"$file" > "$after_tmp/$file"
 
-    echo "\n" >> "$before_tmp/$tmp_id.tsx"
-    echo "\n" >> "$after_tmp/$tmp_id.tsx"
+    printf '\n' >> "$before_tmp/$tmp_id.tsx"
+    printf '\n' >> "$after_tmp/$tmp_id.tsx"
 
     cat "$before_tmp/$file" >> "$before_tmp/$tmp_id.tsx"
     cat "$after_tmp/$file" >> "$after_tmp/$tmp_id.tsx"
@@ -92,5 +94,5 @@ for i in "${!actual_file_groups[@]}"; do
 
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
-  node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
+  node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles "${group_files[@]}" --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
 done
