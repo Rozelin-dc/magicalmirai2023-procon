@@ -39,18 +39,18 @@ for commit in $commits; do
   done
 
   if [ "${#current_files[@]}" -eq 0 ]; then
+    echo "  No relevant files changed in this commit. Skipping."
     continue
   fi
 
-  matched_group_index=""
-  for i in "${!actual_file_groups[@]}"; do
-    group_files=(${actual_file_groups[$i]})
+  matched_group_index=0
+  for group_files in "${actual_file_groups[@]}"; do
     for file in "${current_files[@]}"; do
-      if [[ "$group_files" == *"$file"* ]]; then
-        matched_group_index=$i
+      if [[ "${group_files}" == *"$file"* ]]; then
         break 2
       fi
     done
+    ((matched_group_index++))
   done
 
   if [ -n "$matched_group_index" ]; then
@@ -58,21 +58,20 @@ for commit in $commits; do
     actual_file_groups[$matched_group_index]+=" ${current_files[*]}"
   else
     echo "  Creating new group for files: ${current_files[*]}"
-    actual_file_groups+=("$(IFS=' '; echo "${current_files[*]}")")
+    actual_file_groups+=("${current_files[*]}")
   fi
 done
 
 echo "Found ${#actual_file_groups[@]} groups of files to process."
 
-for i in "${!actual_file_groups[@]}"; do
-  group_files=(${actual_file_groups[$i]})
-  echo "Processing group $i: ${group_files[*]}"
+for group_files in "${actual_file_groups[@]}"; do
+  echo "Processing group $i: ${group_files}"
 
   tmp_id="group_$i"
 
   actual_files=()
 
-  for file in "${group_files[@]}"; do
+  for file in "${group_files}"; do
     mkdir -p "$(dirname "$before_tmp/$file")"
     mkdir -p "$(dirname "$after_tmp/$file")"
     mkdir -p "$map_file_tmp_dir"
