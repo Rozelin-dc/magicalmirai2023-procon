@@ -41,20 +41,21 @@ for commit in $commits; do
 
   matched_group_index=0
   for group_files in "${actual_file_groups[@]}"; do
+    ((matched_group_index++))
     for file in "${current_files[@]}"; do
       if [[ "${group_files}" == *"$file"* ]]; then
+        ((matched_group_index--))
         break 2
       fi
     done
-    ((matched_group_index++))
   done
 
-  if [ -n "$matched_group_index" ]; then
-    echo "  Adding files to existing group $matched_group_index"
-    actual_file_groups[$matched_group_index]+=" ${current_files[*]}"
-  else
+  if [ "$matched_group_index" -ge "${#actual_file_groups[@]}" ]; then
     echo "  Creating new group for files: ${current_files[*]}"
     actual_file_groups+=("${current_files[*]}")
+  else
+    echo "  Adding files to existing group $matched_group_index"
+    actual_file_groups[$matched_group_index]+=" ${current_files[*]}"
   fi
 done
 
@@ -65,7 +66,7 @@ for group_files in "${actual_file_groups[@]}"; do
 
   tmp_id="group_$i"
 
-  actual_files=()
+  actual_files="["
 
   for file in "${group_files}"; do
     mkdir -p "$(dirname "$before_tmp/$file")"
@@ -81,8 +82,10 @@ for group_files in "${actual_file_groups[@]}"; do
     cat "$before_tmp/$file" >> "$before_tmp/$tmp_id.tsx"
     cat "$after_tmp/$file" >> "$after_tmp/$tmp_id.tsx"
 
-    actual_files+=("$file")
+    actual_files+="$file",
   done
+
+  actual_files="${actual_files%,}]"
 
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
