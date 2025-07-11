@@ -16,7 +16,8 @@ const argv = await yargs(process.argv.slice(2))
   })
   .option('multiFiles', {
     demandOption: true,
-    array: true,
+    string: true,
+    coerce: (arg) => arg.split(',')
   })
   .option('projectRootDir', {
     demandOption: true,

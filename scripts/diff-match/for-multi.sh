@@ -67,7 +67,7 @@ for group_files in "${actual_file_groups[@]}"; do
 
   tmp_id="group_$i"
 
-  actual_files="["
+  actual_files=""
 
   for file in $group_files; do
     mkdir -p "$(dirname "$before_tmp/$file")"
@@ -86,7 +86,7 @@ for group_files in "${actual_file_groups[@]}"; do
     actual_files+="$file",
   done
 
-  actual_files="${actual_files%,}]"
+  actual_files="${actual_files%,}"
 
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
