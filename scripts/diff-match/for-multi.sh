@@ -6,7 +6,7 @@ head_branch="$2"
 project_root_dir=$(pwd)
 target_dir="src/"
 map_file_dir="id-map-data"
-target_file_pattern="^.+\.((t|j)sx|svg|component\.js)$"
+target_file_pattern="\.((t|j)sx|svg|component\.js)$"
 
 before_tmp="/tmp/diff-before"
 after_tmp="/tmp/diff-after"
@@ -26,22 +26,18 @@ for commit in $commits; do
   echo "Commit: $commit"
 
   # Find co-changed files in the target directory
-  files=$(git show --pretty="" --name-only "$commit" |
-    jq -R -s -c 'split("\n") | map(select(. != "")) | map(select(startswith("'"$target_dir"'")))')
-
-  echo "  Files changed in $target_dir: $files"
-
-  current_files=()
-  for file in $files; do
-    if [[ $file =~ $target_file_pattern ]]; then
-      current_files+=("$file")
-    fi
-  done
+  readarray -t current_files < <(
+    git show --pretty="" --name-only "$commit" |
+      grep "^$target_dir" |
+      grep -E "$target_file_pattern" || true
+  )
 
   if [ "${#current_files[@]}" -eq 0 ]; then
     echo "  No relevant files changed in this commit. Skipping."
     continue
   fi
+
+  echo "  Filtered files: ${current_files[*]}"
 
   matched_group_index=0
   for group_files in "${actual_file_groups[@]}"; do
