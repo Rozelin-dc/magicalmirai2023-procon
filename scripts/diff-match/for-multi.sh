@@ -78,6 +78,11 @@ for group_files in "${actual_file_groups[@]}"; do
     git show base_branch:"$file" > "$before_tmp/$file"
     git show head_branch:"$file" > "$after_tmp/$file"
 
+    if cmp -s "$before_tmp/$file" "$after_tmp/$file"; then
+      echo "    Skipping unchanged file: $file"
+      continue
+    fi
+
     printf '\n' >> "$before_tmp/$tmp_id.tsx"
     printf '\n' >> "$after_tmp/$tmp_id.tsx"
 
@@ -86,6 +91,12 @@ for group_files in "${actual_file_groups[@]}"; do
 
     actual_files+="$file",
   done
+
+  if [ -z "$actual_files" ]; then
+    echo "  No files to process in group $idx. Skipping."
+    idx=$((idx + 1))
+    continue
+  fi
 
   actual_files="${actual_files%,}"
 
