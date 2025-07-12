@@ -96,3 +96,6 @@ for group_files in "${actual_file_groups[@]}"; do
 
   ((i++))
 done
+
+echo "All groups processed successfully."
+exit 0
