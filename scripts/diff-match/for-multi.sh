@@ -65,11 +65,11 @@ done
 
 echo "Found ${#actual_file_groups[@]} groups of files to process."
 
-i=0
+idx=0
 for group_files in "${actual_file_groups[@]}"; do
-  echo "Processing group $i: ${group_files}"
+  echo "Processing group $idx: ${group_files}"
 
-  tmp_id="group_$i"
+  tmp_id="group_$idx"
 
   actual_files=""
 
@@ -96,9 +96,9 @@ for group_files in "${actual_file_groups[@]}"; do
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
   node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
 
-  echo "Finish processing group $i with files: $actual_files"
+  echo "Finish processing group $idx with files: $actual_files"
 
-  ((i++))
+  ((idx++))
 done
 
 echo "All groups processed successfully."
