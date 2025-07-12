@@ -64,13 +64,15 @@ echo "Found ${#actual_file_groups[@]} groups of files to process."
 
 idx=0
 for group_files in "${actual_file_groups[@]}"; do
-  echo "Processing group $idx: ${group_files}"
+  unique_files=$(echo "$group_files" | tr ' ' '\n' | sort -u)
+
+  echo "Processing group $idx: ${unique_files}"
 
   tmp_id="group_$idx"
 
   actual_files=""
 
-  for file in $group_files; do
+  for file in $unique_files; do
     mkdir -p "$(dirname "$before_tmp/$file")"
     mkdir -p "$(dirname "$after_tmp/$file")"
     mkdir -p "$map_file_tmp_dir"
