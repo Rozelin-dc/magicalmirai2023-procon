@@ -45,10 +45,10 @@ for commit in $commits; do
 
   matched_group_index=0
   for group_files in "${actual_file_groups[@]}"; do
-    ((matched_group_index++))
+    matched_group_index=$((matched_group_index + 1))
     for file in "${current_files[@]}"; do
       if [[ "${group_files}" == *"$file"* ]]; then
-        ((matched_group_index--))
+        matched_group_index=$((matched_group_index - 1))
         break 2
       fi
     done
@@ -98,7 +98,7 @@ for group_files in "${actual_file_groups[@]}"; do
 
   echo "Finish processing group $idx with files: $actual_files"
 
-  ((idx++))
+  idx=$((idx + 1))
 done
 
 echo "All groups processed successfully."
