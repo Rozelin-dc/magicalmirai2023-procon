@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 trap 'echo "Script exited with code $? at line $LINENO"; exit 1' ERR
 
 base_branch="$1"
@@ -33,8 +32,6 @@ for commit in $commits; do
       grep "^$target_dir" |
       grep -E "$target_file_pattern" || true
   )
-  readarray_exit_code=$?
-  echo "Readarray exit code: $readarray_exit_code"
 
   if [ "${#current_files[@]}" -eq 0 ]; then
     echo "  No relevant files changed in this commit. Skipping."
