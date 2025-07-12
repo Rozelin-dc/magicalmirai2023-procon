@@ -101,9 +101,6 @@ const normalizePos = (type, pos) => {
     centerFile.startPos > pos ||
     centerFile.startPos + centerFile.len < pos
   ) {
-    console.log(`Searching for position ${pos} in ${type} map...`)
-    console.log('Current center: ', centerFile)
-
     if (centerFile.startPos > pos) {
       center = Math.floor(center / 2)
     } else {
@@ -114,8 +111,6 @@ const normalizePos = (type, pos) => {
     }
     centerFile = posMap[center]
   }
-
-  console.log(`Found position ${pos} in ${type} map:`, centerFile)
 
   return {
     fileName: centerFile.fileName,
