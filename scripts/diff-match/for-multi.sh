@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 trap 'echo "Script exited with code $? at line $LINENO"' EXIT
 
 base_branch="$1"
