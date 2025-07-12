@@ -10,7 +10,7 @@ export default function SongSelect({
 }: Props) {
   return (
     <div className='song-select-container'>
-      <div className='button-container'>
+      <div className='caption-container'>
         <div className='caption'>
           {
             '※ローマ字表記の方式は右側の設定ボタンから変更できます(デフォルトはヘボン式です)。ただし、どの方式の場合でも長音の処理はしていません。また、読みと書きが異なる文字は、書き準拠の表記です。例えば、「歌を歌おう」は「UTAWO UTAOU」になります。'

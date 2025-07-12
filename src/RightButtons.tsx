@@ -60,7 +60,7 @@ export default function RightButtons({
 
   return (
     <>
-      <div className='caption-container'>
+      <div className='button-container'>
         {isSongSelectPage && (
           <>
             <button onClick={toIndividualScorePage} className='icon-button'>
