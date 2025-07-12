@@ -1,6 +1,6 @@
 {
   "testName": "get caption container",
   "edges": [
-    "{\"id\":\"0b04f815-8afe-4edd-af2d-78f8b394159c\",\"eventId\":0,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"findElement\",\"codeLine\":\"0\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":6,\"eventType\":0,\"arguments\":[\"BY:css selector:.caption\"]}"
+    "{\"id\":\"ecfea579-99ed-4e44-8e29-638e6374b79c\",\"eventId\":0,\"sourceVertexId\":0,\"targetVertexId\":0,\"method\":\"findElement\",\"codeLine\":\"0\",\"absoluteXpath\":\"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]\",\"elementId\":5,\"eventType\":0,\"arguments\":[\"BY:css selector:.caption-container\"]}"
   ]
 }
