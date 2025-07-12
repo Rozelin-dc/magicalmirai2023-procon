@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 set -x
-trap 'echo "Script exited with code $? at line $LINENO"' EXIT
+trap 'echo "Script exited with code $? at line $LINENO"; exit 1' ERR
 
 base_branch="$1"
 head_branch="$2"
