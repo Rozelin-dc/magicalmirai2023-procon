@@ -47,7 +47,7 @@ const afterTmpDir = argv.afterTmpDir
 const rawXml = await readFile(fileName)
 
 console.log(`Processing file: ${fileName}`)
-// console.log('file content:', rawXml)
+console.log('file content:\n', rawXml)
 
 /** @type {DiffXml} */
 const xml = new XMLParser({
