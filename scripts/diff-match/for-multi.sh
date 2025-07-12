@@ -33,6 +33,8 @@ for commit in $commits; do
       grep "^$target_dir" |
       grep -E "$target_file_pattern" || true
   )
+  readarray_exit_code=$?
+  echo "Readarray exit code: $readarray_exit_code"
 
   if [ "${#current_files[@]}" -eq 0 ]; then
     echo "  No relevant files changed in this commit. Skipping."
@@ -92,14 +94,7 @@ for group_files in "${actual_file_groups[@]}"; do
 
   # Do diff matching
   docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$tmp_id.tsx right/$tmp_id.tsx > "$map_file_tmp_dir/$tmp_id.diff.xml"
-
-  docker_exit_code=$?
-  echo "docker exited with code $docker_exit_code"
-
   node ./scripts/diff-match/for-multi.mjs --file $map_file_tmp_dir/$tmp_id.diff.xml --multiFiles $actual_files --projectRootDir $project_root_dir --idMapDir $map_file_dir --beforeTmpDir $before_tmp --afterTmpDir $after_tmp
-
-  node_exit_code=$?
-  echo "node exited with code $node_exit_code"
 
   echo "Finish processing group $i with files: $actual_files"
 
