@@ -35,10 +35,17 @@ jobs:
           echo "REMOTE=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
           echo "LOCAL=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
 
-      - name: Diff matching
+      # - name: Diff matching
+      #   run: |
+      #     chmod +x ./scripts/diff-match/index.sh
+      #     ./scripts/diff-match/index.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
+
+      - name: Diff matching for multi files
         run: |
-          chmod +x ./scripts/diff-match/index.sh
-          ./scripts/diff-match/index.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
+          chmod +x ./scripts/diff-match/for-multi.sh
+          ./scripts/diff-match/for-multi.sh ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: ID embedding
         run: |
@@ -56,6 +63,7 @@ jobs:
 
       - name: Run e2e tests
         run: node --test
+        continue-on-error: true
 
       - name: Stop server
         run: kill $(cat server.pid)

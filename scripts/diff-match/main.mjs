@@ -1,26 +1,11 @@
 /// <reference path="../util/type.mjs" />
+/// <reference path="./type.mjs" />
 
+import crypto from 'crypto'
 import { XMLParser } from 'fast-xml-parser'
 import yargs from 'yargs'
 import { RECORD_ACTION_PROP_NAMES } from '../util/constant.mjs'
 import { readFile, writeFile } from '../util/file.mjs'
-
-/**
- * @typedef {object} DiffXml
- * @property {string} context
- * @property {DiffNode} root
- */
-
-/**
- * @typedef {object} DiffNode
- * @property {DiffNode | DiffNode[]} [tree]
- * @property {string} '@_type'
- * @property {string} [@_label]
- * @property {string} '@_pos'
- * @property {string} '@_length'
- * @property {string} [@_other_pos]
- * @property {string} [@_other_length]
- */
 
 const argv = await yargs(process.argv.slice(2))
   .option('file', {
@@ -34,7 +19,7 @@ const fileName = argv.file
 const rawXml = await readFile(`${fileName}.diff.xml`)
 
 console.log(`Processing file: ${fileName}.diff.xml`)
-console.log('file content:', rawXml)
+// console.log('file content:', rawXml)
 
 /** @type {DiffXml} */
 const xml = new XMLParser({
@@ -93,6 +78,12 @@ const runXml = (xml, parent) => {
     case 'JSXOpeningElement': {
       if (!xml['@_other_pos']) {
         // Added node.
+        // Generate ID for the Attribute.
+        const afterPos = parseInt(xml['@_pos'])
+        newIdMap[afterPos] = {
+          position: afterPos,
+          id: crypto.randomUUID(),
+        }
         break
       }
 

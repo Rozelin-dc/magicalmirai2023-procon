@@ -19,17 +19,17 @@ diff_match() {
 
     echo "Processing file: $file_path, map file: $map_file_path"
 
-    left_tmp="/tmp/diff-left"
-    right_tmp="/tmp/diff-right"
+    before_tmp="/tmp/diff-before"
+    after_tmp="/tmp/diff-after"
 
-    mkdir -p "$(dirname "$left_tmp/$file_path")"
-    mkdir -p "$(dirname "$right_tmp/$file_path")"
+    mkdir -p "$(dirname "$before_tmp/$file_path")"
+    mkdir -p "$(dirname "$after_tmp/$file_path")"
 
-    git show base_branch:"$file" > "$left_tmp/$file_path"
-    git show head_branch:"$file" > "$right_tmp/$file_path"
+    git show base_branch:"$file" > "$before_tmp/$file_path"
+    git show head_branch:"$file" > "$after_tmp/$file_path"
 
     # If $file is TSX, JSX, or SVG file, do diff match.
-    docker run --rm -v "$left_tmp:/diff/left" -v "$right_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path > "$map_file_path.diff.xml"
+    docker run --rm -v "$after_tmp:/diff/left" -v "$before_tmp:/diff/right" -p 4567:4567 rozelin/gumtree:latest axmldiff left/$file_path right/$file_path > "$map_file_path.diff.xml"
 
     node ./scripts/diff-match/main.mjs --file $map_file_path
   fi

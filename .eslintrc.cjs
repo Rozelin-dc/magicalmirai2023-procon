@@ -37,4 +37,7 @@ module.exports = {
       typescript: true,
     },
   },
+  files: [
+    'src/**'
+  ]
 }
