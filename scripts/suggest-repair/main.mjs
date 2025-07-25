@@ -54,6 +54,37 @@ let findElementIndex = {}
 /** @type {Record<string, CodeData[]>} */
 let results = {}
 
+/**
+ * @template K
+ * @template V
+ * @param {Record<K, V[]>} record
+ * @param {K} key
+ * @param {V} value
+ * @return {void}
+ */
+function addRecordArray(record, key, value) {
+  if (!record[key]) {
+    record[key] = []
+  }
+  record[key].push(value)
+}
+
+/**
+ * @template K
+ * @template V
+ * @param {Record<K, V>} record
+ * @param {V} value
+ * @return {K | null}
+ */
+function getRecordKey(record, value) {
+  for (const key in record) {
+    if (record[key] === value) {
+      return key
+    }
+  }
+  return null
+}
+
 traverse(ast, {
   enter(path) {
     // トップレベル describe ブロックの検出
@@ -74,10 +105,7 @@ traverse(ast, {
       const loc = path.node.loc.start
       const describeKey = currentDescribe
       const order = findElementIndex[describeKey]++
-      if (!results[describeKey]) {
-        results[describeKey] = []
-      }
-      results[describeKey].push({
+      addRecordArray(results, describeKey, {
         order,
         line: loc.line,
         // code: code.split('\n')[loc.line - 1].trim(),
@@ -119,7 +147,7 @@ for (const testName in results) {
 
     switch (code.method) {
       case 'findElement': {
-        let selectorType = code.ast.arguments[0].callee.property.name
+        const selectorType = code.ast.arguments[0].callee.property.name
         switch (selectorType) {
           case 'xpath': {
             suggestedRepairs.push(
@@ -127,16 +155,82 @@ for (const testName in results) {
             )
             break
           }
+          case 'css':
           case 'className': {
-            const newClassName = res.attributes['class'] ?? ''
-            if (newClassName === '') {
-              console.warn(
-                `Cannot fix className for "${code.method}" in "${testName}" at line ${code.line}: no className provided in new attributes.`
-              )
-              continue
+            const selectors = `${selectorType === 'className' ? '.' : ''}${
+              code.ast.arguments[0].arguments[0].value
+            }`.split(' ')
+            /** @type {Record<string, string>} */
+            const selectorAttributes = {}
+            for (const selector of selectors) {
+              if (selector.startsWith('.')) {
+                // class
+                selectorAttributes['class'] = selector.slice(1)
+              } else if (selector.startsWith('#')) {
+                // id
+                selectorAttributes['id'] = selector.slice(1)
+              } else if (selector.match(/^[a-z]+$/g)) {
+                // tag name
+                selectorAttributes['tag'] = selector
+              } else if (selector.match(/^\[(.+)=(.+)\]$/g)) {
+                // attribute
+                const [key, value] = selector.slice(1, -1).split('=')
+                selectorAttributes[key] = value
+              } else {
+                console.warn(
+                  `Unsupported selector format: "${selector}" in "${code.method}" at line ${code.line}`
+                )
+                continue
+              }
             }
+
+            let newSelector = []
+            for (const attrName in selectorAttributes) {
+              const attrValue = selectorAttributes[attrName]
+              const newValue = getRecordKey(res.attributes, attrValue)
+              if (!newValue) {
+                continue
+              }
+              if (attrName === 'class') {
+                newSelector.push(`.${newValue}`)
+              } else if (attrName === 'id') {
+                newSelector.push(`#${newValue}`)
+              } else if (attrName === 'tag') {
+                newSelector.push(newValue)
+              } else {
+                newSelector.push(`[${attrName}="${newValue}"]`)
+              }
+            }
+
+            if (newSelector.length === 0) {
+              for (const attrName in selectorAttributes) {
+                const newValue = res.attributes[attrName]
+                if (!newValue) {
+                  continue
+                }
+                if (attrName === 'class') {
+                  newSelector.push(`.${newValue}`)
+                } else if (attrName === 'id') {
+                  newSelector.push(`#${newValue}`)
+                } else if (attrName === 'tag') {
+                  newSelector.push(newValue)
+                } else {
+                  newSelector.push(`[${attrName}="${newValue}"]`)
+                }
+              }
+            }
+
+            if (newSelector.length === 0) {
+              console.warn(
+                `No valid selectors found for "${code.method}" in "${testName}" at line ${code.line}`
+              )
+              break
+            }
+
             suggestedRepairs.push(
-              `Fixing for "${code.method}" in "${testName}" at line ${code.line}: "By.className('${newClassName}')"`
+              `Fixing for "${code.method}" in "${testName}" at line ${
+                code.line
+              }: "By.css('${newSelector.join(' ')}')"`
             )
             break
           }
@@ -144,10 +238,8 @@ for (const testName in results) {
             console.warn(
               `Unsupported selector type: "${selectorType}" in "${code.method}" at line ${code.line}`
             )
-            continue
           }
         }
-
         break
       }
       default: {
@@ -157,8 +249,8 @@ for (const testName in results) {
   }
 
   console.log(
-    `Suggested Repairs for file "${argv.testFile}":\n  ${suggestedRepairs.join(
-      '\n  '
-    )}`
+    `### Suggested Repairs for file "${
+      argv.testFile
+    }"\n- ${suggestedRepairs.join('\n- ')}`
   )
 }
