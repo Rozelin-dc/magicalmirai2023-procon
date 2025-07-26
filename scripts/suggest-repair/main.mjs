@@ -264,13 +264,6 @@ for (const testName in results) {
               }
             }
 
-            if (newSelector.length === 0) {
-              console.warn(
-                `No valid selectors found for "${code.method}" at line ${code.line}`
-              )
-              break
-            }
-
             let suggestedRepair = `- Fixing for "${code.method}" at line ${code.line}\n`
             suggestedRepair += `  1. ${
               newSelector[0].length > 0
@@ -295,6 +288,28 @@ for (const testName in results) {
             )
           }
         }
+        break
+      }
+      case 'click':
+      case 'sendKeys':
+      case 'getText': {
+        /** @type {string[]} */
+        const selectors = []
+        for (const attrName in res.attributes) {
+          const attrValue = res.attributes[attrName]
+          if (
+            attrName === TEST_ID_ATTRIBUTE_NAME ||
+            attrName === `${TEST_ID_ATTRIBUTE_NAME}-for-action-${code.method}`
+          ) {
+            continue
+          }
+          selectors.push(getAttributeSelector(attrName, attrValue))
+        }
+        suggestedRepairs.push(
+          `- Fixing for "${code.method}" at line ${code.line}\n  - By.xpath('${
+            res.fixedXpath
+          }'), ${selectors.map((sel) => `By.css('${sel}')`).join(', ')}`
+        )
         break
       }
       default: {
