@@ -174,11 +174,21 @@ for (const testName in results) {
             )
             break
           }
+          case 'id':
+          case 'tagName':
+          case 'name':
           case 'css':
           case 'className': {
-            const selectors = `${selectorType === 'className' ? '.' : ''}${
-              code.ast.arguments[0].arguments[0].value
-            }`.split(' ')
+            const selectors =
+              selectorType === 'name'
+                ? `[name="${code.ast.arguments[0].arguments[0].value}"]`
+                : `${
+                    selectorType === 'className'
+                      ? '.'
+                      : selectorType === 'id'
+                      ? '#'
+                      : ''
+                  }${code.ast.arguments[0].arguments[0].value}`.split(' ')
             /** @type {Record<string, string>} */
             const selectorAttributes = {}
             for (const selector of selectors) {
