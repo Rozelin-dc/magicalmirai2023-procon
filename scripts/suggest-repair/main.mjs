@@ -184,7 +184,7 @@ for (const testName in results) {
         switch (selectorType) {
           case 'xpath': {
             suggestedRepairs.push(
-              `Fixing for "${code.method}" at line ${code.line}: "By.xpath('${res.fixedXpath}')"`
+              `Fixing for \`${code.method}\` at line ${code.line}: \`By.xpath('${res.fixedXpath}')\``
             )
             break
           }
@@ -221,7 +221,7 @@ for (const testName in results) {
                 selectorAttributes[key] = value
               } else {
                 console.warn(
-                  `Unsupported selector format: "${selector}" in "${code.method}" at line ${code.line}`
+                  `Unsupported selector format: \`${selector}\` in \`${code.method}\` at line ${code.line}`
                 )
                 continue
               }
@@ -269,20 +269,22 @@ for (const testName in results) {
               }
             }
 
-            let suggestedRepair = `- Fixing for "${code.method}" at line ${code.line}\n`
+            let suggestedRepair = `- Fixing for \`${code.method}\` at line ${code.line}\n`
             suggestedRepair += `  1. ${
               newSelector[0].length > 0
-                ? `By.css('${newSelector[0].join(' ')}')`
+                ? `\`By.css('${newSelector[0].join(' ')}')\``
                 : 'No valid selector'
             }\n`
             suggestedRepair += `  2. ${
               newSelector[1].length > 0
-                ? `By.css('${newSelector[1].join(' ')}')`
+                ? `\`By.css('${newSelector[1].join(' ')}')\``
                 : 'No valid selector'
             }\n`
-            suggestedRepair += `  3. By.xpath('${
+            suggestedRepair += `  3. \`By.xpath('${
               res.fixedXpath
-            }'), ${newSelector[2].map((sel) => `By.css('${sel}')`).join(', ')}`
+            }')\`, ${newSelector[2]
+              .map((sel) => `\`By.css('${sel}')\``)
+              .join(', ')}`
 
             suggestedRepairs.push(suggestedRepair)
             break
@@ -311,9 +313,11 @@ for (const testName in results) {
           selectors.push(getAttributeSelector(attrName, attrValue))
         }
         suggestedRepairs.push(
-          `- Fixing for "${code.method}" at line ${code.line}\n  - By.xpath('${
-            res.fixedXpath
-          }'), ${selectors.map((sel) => `By.css('${sel}')`).join(', ')}`
+          `- Fixing for \`${code.method}\` at line ${
+            code.line
+          }\n  - \`By.xpath('${res.fixedXpath}')\`, ${selectors
+            .map((sel) => `\`By.css('${sel}')\``)
+            .join(', ')}`
         )
         break
       }
