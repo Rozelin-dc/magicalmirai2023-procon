@@ -3,7 +3,7 @@ import _traverse from '@babel/traverse'
 import yargs from 'yargs'
 
 import { getAst } from '../util/get-ast.mjs'
-import { readFile } from '../util/file.mjs'
+import { readFile, writeFile } from '../util/file.mjs'
 import { TEST_ID_ATTRIBUTE_NAME } from '../util/constant.mjs'
 
 /** @type {typeof _traverse} */
@@ -36,6 +36,10 @@ const COLLECT_FUNCTIONS = new Set([
 
 const argv = await yargs(process.argv.slice(2))
   .options({
+    projectRootDir: {
+      demandOption: true,
+      string: true,
+    },
     testFile: {
       demandOption: true,
       string: true,
@@ -142,6 +146,7 @@ traverse(ast, {
   },
 })
 
+let comment = ''
 for (const testName in results) {
   const fixedResults = await readFile(
     path.join(argv.resultFileDir, `${testName}.json`),
@@ -318,9 +323,9 @@ for (const testName in results) {
     }
   }
 
-  console.log(
-    `### Suggested Repairs for test "${testName}" in "${
-      argv.testFile
-    }"\n${suggestedRepairs.join('\n')}`
-  )
+  comment += `### Suggested Repairs for test "${testName}" in "${
+    argv.testFile
+  }"\n${suggestedRepairs.join('\n')}\n`
 }
+
+await writeFile(path.join(argv.projectRootDir, 'comment.txt'), comment, true)
