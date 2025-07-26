@@ -323,9 +323,10 @@ for (const testName in results) {
     }
   }
 
-  comment += `### Suggested Repairs for test "${testName}" in "${
+  comment += `### Suggested repairs for test "${testName}" in "${path.relative(
+    argv.projectRootDir,
     argv.testFile
-  }"\n${suggestedRepairs.join('\n')}\n`
+  )}"\n${suggestedRepairs.join('\n')}\n`
 }
 
 await writeFile(path.join(argv.projectRootDir, 'comment.txt'), comment, true)
