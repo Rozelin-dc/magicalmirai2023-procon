@@ -165,12 +165,21 @@ for (const testName in results) {
     }
 
     switch (code.method) {
+      case 'wait': {
+        const waitType = code.ast.arguments[0].callee.property.name
+        if (waitType !== 'elementLocated') {
+          break
+        }
+      }
       case 'findElement': {
-        const selectorType = code.ast.arguments[0].callee.property.name
+        const selectorType =
+          code.method === 'findElement'
+            ? code.ast.arguments[0].callee.property.name
+            : code.ast.arguments[0].arguments[0].callee.property.name
         switch (selectorType) {
           case 'xpath': {
             suggestedRepairs.push(
-              `Fixing for "${code.method}" in "${testName}" at line ${code.line}: "By.xpath('${res.fixedXpath}')"`
+              `Fixing for "${code.method}" at line ${code.line}: "By.xpath('${res.fixedXpath}')"`
             )
             break
           }
@@ -257,12 +266,12 @@ for (const testName in results) {
 
             if (newSelector.length === 0) {
               console.warn(
-                `No valid selectors found for "${code.method}" in "${testName}" at line ${code.line}`
+                `No valid selectors found for "${code.method}" at line ${code.line}`
               )
               break
             }
 
-            let suggestedRepair = `- Fixing for "${code.method}" in "${testName}" at line ${code.line}\n`
+            let suggestedRepair = `- Fixing for "${code.method}" at line ${code.line}\n`
             suggestedRepair += `  1. ${
               newSelector[0].length > 0
                 ? `By.css('${newSelector[0].join(' ')}')`
@@ -273,11 +282,9 @@ for (const testName in results) {
                 ? `By.css('${newSelector[1].join(' ')}')`
                 : 'No valid selector'
             }\n`
-            suggestedRepair += `  3. ${
-              newSelector[2].length > 0
-                ? newSelector[2].map((sel) => `By.css('${sel}')`).join(', ')
-                : 'No valid selector'
-            }`
+            suggestedRepair += `  3. By.xpath('${
+              res.fixedXpath
+            }'), ${newSelector[2].map((sel) => `By.css('${sel}')`).join(', ')}`
 
             suggestedRepairs.push(suggestedRepair)
             break
@@ -297,8 +304,8 @@ for (const testName in results) {
   }
 
   console.log(
-    `### Suggested Repairs for file "${argv.testFile}"\n${suggestedRepairs.join(
-      '\n'
-    )}`
+    `### Suggested Repairs for test "${testName}" in "${
+      argv.testFile
+    }"\n${suggestedRepairs.join('\n')}`
   )
 }
