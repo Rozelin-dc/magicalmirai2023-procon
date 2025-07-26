@@ -4,6 +4,7 @@ import yargs from 'yargs'
 
 import { getAst } from '../util/get-ast.mjs'
 import { readFile } from '../util/file.mjs'
+import { TEST_ID_ATTRIBUTE_NAME } from '../util/constant.mjs'
 
 /** @type {typeof _traverse} */
 const traverse = _traverse.default
@@ -83,6 +84,24 @@ function getRecordKey(record, value) {
     }
   }
   return null
+}
+
+/**
+ * @param {string} attrName
+ * @param {string} attrValue
+ * @return {string}
+ */
+function getAttributeSelector(attrName, attrValue) {
+  switch (attrName) {
+    case 'class':
+      return `.${attrValue}`
+    case 'id':
+      return `#${attrValue}`
+    case 'tag':
+      return attrValue
+    default:
+      return `[${attrName}="${attrValue}"]`
+  }
 }
 
 traverse(ast, {
@@ -184,39 +203,45 @@ for (const testName in results) {
               }
             }
 
-            let newSelector = []
+            /** @type {[string[], string[], string[]]} */
+            let newSelector = [[], [], []]
+            /** @type {Set<string>} */
+            const usedAttrNames = new Set()
             for (const attrName in selectorAttributes) {
               const attrValue = selectorAttributes[attrName]
-              const newValue = getRecordKey(res.attributes, attrValue)
-              if (!newValue) {
-                continue
+              const newAttrName = getRecordKey(res.attributes, attrValue)
+              const newAttrValue = res.attributes[attrName]
+              if (newAttrName) {
+                newSelector[0].push(
+                  getAttributeSelector(newAttrName, attrValue)
+                )
+                usedAttrNames.add(newAttrName)
               }
-              if (attrName === 'class') {
-                newSelector.push(`.${newValue}`)
-              } else if (attrName === 'id') {
-                newSelector.push(`#${newValue}`)
-              } else if (attrName === 'tag') {
-                newSelector.push(newValue)
-              } else {
-                newSelector.push(`[${attrName}="${newValue}"]`)
+              if (newAttrValue) {
+                newSelector[1].push(
+                  getAttributeSelector(attrName, newAttrValue)
+                )
+                usedAttrNames.add(attrName)
               }
             }
 
-            if (newSelector.length === 0) {
-              for (const attrName in selectorAttributes) {
-                const newValue = res.attributes[attrName]
-                if (!newValue) {
-                  continue
-                }
-                if (attrName === 'class') {
-                  newSelector.push(`.${newValue}`)
-                } else if (attrName === 'id') {
-                  newSelector.push(`#${newValue}`)
-                } else if (attrName === 'tag') {
-                  newSelector.push(newValue)
-                } else {
-                  newSelector.push(`[${attrName}="${newValue}"]`)
-                }
+            for (const attrName in res.attributes) {
+              if (
+                attrName === TEST_ID_ATTRIBUTE_NAME ||
+                usedAttrNames.has(attrName)
+              ) {
+                continue
+              }
+
+              const newValue = res.attributes[attrName]
+              if (attrName === 'class') {
+                newSelector[2].push([`.${newValue}`])
+              } else if (attrName === 'id') {
+                newSelector[2].push([`#${newValue}`])
+              } else if (attrName === 'tag') {
+                newSelector[2].push([newValue])
+              } else {
+                newSelector[2].push([`[${attrName}="${newValue}"]`])
               }
             }
 
@@ -227,11 +252,24 @@ for (const testName in results) {
               break
             }
 
-            suggestedRepairs.push(
-              `Fixing for "${code.method}" in "${testName}" at line ${
-                code.line
-              }: "By.css('${newSelector.join(' ')}')"`
-            )
+            let suggestedRepair = `- Fixing for "${code.method}" in "${testName}" at line ${code.line}\n`
+            suggestedRepair += `  1. ${
+              newSelector[0].length > 0
+                ? `By.css('${newSelector[0].join(' ')}')`
+                : 'No valid selector'
+            }\n`
+            suggestedRepair += `  2. ${
+              newSelector[1].length > 0
+                ? `By.css('${newSelector[1].join(' ')}')`
+                : 'No valid selector'
+            }\n`
+            suggestedRepair += `  3. ${
+              newSelector[2].length > 0
+                ? newSelector[2].map((sel) => `By.css('${sel}')`).join(', ')
+                : 'No valid selector'
+            }`
+
+            suggestedRepairs.push(suggestedRepair)
             break
           }
           default: {
@@ -249,8 +287,8 @@ for (const testName in results) {
   }
 
   console.log(
-    `### Suggested Repairs for file "${
-      argv.testFile
-    }"\n- ${suggestedRepairs.join('\n- ')}`
+    `### Suggested Repairs for file "${argv.testFile}"\n${suggestedRepairs.join(
+      '\n'
+    )}`
   )
 }
