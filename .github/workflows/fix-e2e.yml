@@ -71,22 +71,8 @@ jobs:
       # comment on PR with results
       - name: List and display file contents
         run: |
-          DIR="result"
-          OUTPUT="## Result of test fix\n\n"
-          FOUND_FILES=0
-
-          while IFS= read -r -d '' FILE; do
-            FOUND_FILES=1
-            echo "Processing $FILE"
-            CONTENT=$(cat "$FILE")
-            OUTPUT+="### Contents of \`$(basename "$FILE")\`\n\n\`\`\`\n$CONTENT\n\`\`\`\n\n"
-          done < <(find "$DIR" -maxdepth 1 -type f -print0)
-
-          if [ "$FOUND_FILES" -eq 0 ]; then
-            OUTPUT="No test fix required"
-          fi
-
-          echo -e "$OUTPUT" > comment.txt
+          chmod +x ./scripts/suggest-repair/index.sh
+          ./scripts/suggest-repair/index.sh
 
       - name: Comment on PR
         run: gh pr comment ${{ github.event.number }} --body-file comment.txt

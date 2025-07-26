@@ -4,14 +4,18 @@ import path from 'path'
 /**
  * @param {string} filePath
  * @param {string} content
+ * @param {boolean} [append=false]
  * @return {void}
  */
-export function writeFile(filePath, content) {
+export function writeFile(filePath, content, append = false) {
   const dir = path.dirname(filePath)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
-  fs.writeFileSync(filePath, content, 'utf-8')
+  fs.writeFileSync(filePath, content, {
+    encoding: 'utf-8',
+    flag: append ? 'a' : 'w',
+  })
 }
 
 /**
